@@ -10,11 +10,30 @@ constexpr TGAColor yellow = {0, 200, 255, 255};
 /// Bresenham's line algorithm.
 void draw_line(int ax, int ay, int bx, int by, TGAImage &framebuffer, TGAColor colour)
 {
-    for (float t = 0.; t < 1.; t += 0.02) // 0.02 already gives a continue line. Using a greater value could produce a discontinue line.
+    // Is the line more vertical than horizontal?
+    bool steep = std::abs(ax - bx) < std::abs(ay - by);
+    if (steep)
+    { // If that's the case, the image is transposed.
+        std::swap(ax, ay);
+        std::swap(bx, by);
+    }
+
+    // Due to x increasing in the below loop, and it starting
+    // at ax, it cannot draw right-to-left lines.
+    if (ax > bx)
+    { // Make it left-to-right.
+        std::swap(ax, bx);
+        std::swap(ay, by);
+    }
+
+    for (int x = ax; x <= bx; x++)
     {
-        int x = t * (bx - ax) + ax;
-        int y = t * (by - ay) + ay;
-        framebuffer.set(x, y, colour);
+        float t = (x - ax) / static_cast<float>(bx - ax);
+        int y = std::round(t * (by - ay) + ay);
+        if (steep) // If the image was transposed, it's de-transposed.
+            framebuffer.set(y, x, colour);
+        else
+            framebuffer.set(x, y, colour);
     }
 }
 
