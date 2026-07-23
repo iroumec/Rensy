@@ -4,8 +4,8 @@ This is just a basic renderer made using
 
 ## Information used
 
-https://github.com/ssloy/tinyrenderer
+<https://github.com/ssloy/tinyrenderer>
 
-https://haqr.eu/
+<https://haqr.eu/>
 
 ## Credits

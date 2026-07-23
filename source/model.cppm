@@ -3,11 +3,11 @@ module;
 #include <vector>
 #include <string>
 
+export module model;
+
 import geometry;
 
-export module Model;
-
-class Model
+export class Model
 {
     std::vector<vec3> verts = {};    // Array of vertices
     std::vector<int> facet_vrt = {}; // Per-triangle index in the above array
