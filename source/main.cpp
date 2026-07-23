@@ -1,5 +1,6 @@
 #include <cmath>
-#include "tgaimage.h"
+
+import tgaimage;
 
 constexpr TGAColor white = {255, 255, 255, 255}; // attention, BGRA order
 constexpr TGAColor green = {0, 255, 0, 255};
