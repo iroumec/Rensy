@@ -43,6 +43,13 @@ void Drawer::drawLine(vec2 a, vec2 b, const TGAColour &colour)
     }
 }
 
+void Drawer::drawTriangle(vec2 a, vec2 b, vec2 c, const TGAColour &colour)
+{
+    this->drawLine(a, b, colour);
+    this->drawLine(b, c, colour);
+    this->drawLine(c, a, colour);
+}
+
 void Drawer::drawModel(const Model &model, const TGAColour &lineColour, const TGAColour &vertexColour)
 {
     // Iterates through all triangles and draw them.
@@ -51,9 +58,7 @@ void Drawer::drawModel(const Model &model, const TGAColour &lineColour, const TG
         vec2 a = projectVector(model.getVertex(i, 0));
         vec2 b = projectVector(model.getVertex(i, 1));
         vec2 c = projectVector(model.getVertex(i, 2));
-        this->drawLine(a, b, lineColour);
-        this->drawLine(b, c, lineColour);
-        this->drawLine(c, a, lineColour);
+        this->drawTriangle(a, b, c, lineColour);
     }
 
     // The vertices are highlighted.
