@@ -12,8 +12,8 @@ constexpr TGAColour red = {0, 0, 255, 255};
 constexpr TGAColour blue = {255, 128, 64, 255};
 constexpr TGAColour yellow = {0, 200, 255, 255};
 
-constexpr unsigned width = 64;
-constexpr unsigned height = 64;
+constexpr unsigned width = 800;
+constexpr unsigned height = 800;
 constexpr std::string outputFileName = "framebuffer.tga";
 
 int main(int argc, char **argv)
@@ -29,22 +29,7 @@ int main(int argc, char **argv)
     Model model{argv[1]};
     Drawer drawer{height, width};
 
-    // Points.
-    vec2 a{7, 3};
-    vec2 b{12, 37};
-    vec2 c{62, 53};
-
-    // Lines between the points.
-    drawer.drawLine(a, b, red);
-    drawer.drawLine(a, c, green);
-    drawer.drawLine(c, b, blue);
-
-    // We set a colour to the points previously defined.
-    // It's important that this is made after the lines.
-    // In other case, the points colour will be overlaped by the line colour.
-    drawer.drawPoint(a, white);
-    drawer.drawPoint(b, white);
-    drawer.drawPoint(c, white);
+    drawer.drawModel(model, red, white);
 
     drawer.renderTGAImage(outputFileName);
     return 0;
