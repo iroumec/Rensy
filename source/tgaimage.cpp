@@ -71,7 +71,7 @@ bool TGAImage::load_rle_data(std::ifstream &in)
     size_t pixelcount = w * h;
     size_t currentpixel = 0;
     size_t currentbyte = 0;
-    TGAColor colorbuffer;
+    TGAColour colorbuffer;
     do
     {
         std::uint8_t chunkheader = 0;
@@ -210,18 +210,18 @@ bool TGAImage::unload_rle_data(std::ofstream &out) const
     return true;
 }
 
-TGAColor TGAImage::get(const int x, const int y) const
+TGAColour TGAImage::get(const int x, const int y) const
 {
     if (!data.size() || x < 0 || y < 0 || x >= w || y >= h)
         return {};
-    TGAColor ret = {0, 0, 0, 0, bpp};
+    TGAColour ret = {0, 0, 0, 0, bpp};
     const std::uint8_t *p = data.data() + (x + y * w) * bpp;
     for (int i = bpp; i--; ret.bgra[i] = p[i])
         ;
     return ret;
 }
 
-void TGAImage::set(int x, int y, const TGAColor &c)
+void TGAImage::set(int x, int y, const TGAColour &c)
 {
     if (!data.size() || x < 0 || y < 0 || x >= w || y >= h)
         return;

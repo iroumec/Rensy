@@ -27,15 +27,35 @@ Model::Model(const std::string filename)
         {
             vec3 v;
             lineStream >> v.x >> v.y >> v.z;
-            verts.push_back(v);
+            this->vertices.push_back(v);
         }
         else if (dataType == "f")
         {
             int idx;
             while (lineStream >> idx)
-                facet_vrt.push_back(idx);
+                this->faces.push_back(idx);
         }
     }
 
-    std::cout << "Loaded " << verts.size() << " vertices\n";
+    std::cout << "Loaded " << this->vertices.size() << " vertices\n";
+}
+
+int Model::getNumberOfVertices() const
+{
+    return this->vertices.size();
+}
+
+int Model::getNumberOfFaces() const
+{
+    return this->faces.size() / 3;
+}
+
+vec3 Model::getVertex(const unsigned vertexNumber) const
+{
+    return this->vertices[vertexNumber];
+}
+
+vec3 Model::getVertex(const unsigned faceNumber, const unsigned vertexNumber) const
+{
+    return this->vertices[this->faces[faceNumber * 3 + vertexNumber]];
 }

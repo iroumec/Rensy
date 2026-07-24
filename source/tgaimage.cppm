@@ -24,7 +24,7 @@ export struct TGAHeader
 };
 #pragma pack(pop)
 
-export struct TGAColor
+export struct TGAColour
 {
     std::uint8_t bgra[4] = {0, 0, 0, 0};
     std::uint8_t bytespp = 4;
@@ -45,8 +45,8 @@ export struct TGAImage
     bool write_tga_file(const std::string filename, const bool vflip = true, const bool rle = true) const;
     void flip_horizontally();
     void flip_vertically();
-    TGAColor get(const int x, const int y) const;
-    void set(const int x, const int y, const TGAColor &c);
+    TGAColour get(const int x, const int y) const;
+    void set(const int x, const int y, const TGAColour &c);
     int width() const;
     int height() const;
 
