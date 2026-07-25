@@ -56,6 +56,16 @@ export class RandomColourGenerator : public ColourGenerator
     mutable std::uniform_int_distribution<int> distribution{0, 255};
 
 public:
+    RandomColourGenerator()
+        : generator{std::random_device{}()}
+    {
+    }
+
+    RandomColourGenerator(unsigned seed)
+        : generator{seed}
+    {
+    }
+
     Colour getColour() const override
     {
         return Colour{

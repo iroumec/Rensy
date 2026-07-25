@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     FrameBuffer buffer{width, height};
     BoundingBoxRasterizer rasterizer;
 
-    RandomColourGenerator colourGenerator;
+    RandomColourGenerator colourGenerator{randomSeed};
 
     rasterizer.draw(model, buffer, colourGenerator);
 

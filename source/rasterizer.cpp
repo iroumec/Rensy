@@ -18,9 +18,9 @@ void Rasterizer::draw(const Model &model, FrameBuffer &framebuffer, const Colour
     // Iterates through all triangles and draw them.
     for (unsigned i = 0; i < model.getNumberOfFaces(); i++)
     {
-        vec3 a = projectVector(model.getVertex(i, 0), framebuffer.width, framebuffer.height);
-        vec3 b = projectVector(model.getVertex(i, 1), framebuffer.width, framebuffer.height);
-        vec3 c = projectVector(model.getVertex(i, 2), framebuffer.width, framebuffer.height);
+        vec3 a = projectVector(model.getVertex(i, 0), framebuffer.getWidth(), framebuffer.getHeight());
+        vec3 b = projectVector(model.getVertex(i, 1), framebuffer.getWidth(), framebuffer.getHeight());
+        vec3 c = projectVector(model.getVertex(i, 2), framebuffer.getWidth(), framebuffer.getHeight());
         this->draw(a, b, c, framebuffer, colourGenerator());
     }
 }
