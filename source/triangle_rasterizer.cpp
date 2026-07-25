@@ -96,7 +96,6 @@ void ScanlineTriangleRasterizer::draw(vec2 a, vec2 b, vec2 c, TGAImage &framebuf
 
 void BoundingBoxTriangleRasterizer::draw(vec2 a, vec2 b, vec2 c, TGAImage &framebuffer, const TGAColour &colour)
 {
-    /*
     BoundingBox bbox = BoundingBox(a, b, c);
 
     for (double y = bbox.minY; y <= bbox.maxY; y++)
@@ -108,5 +107,5 @@ void BoundingBoxTriangleRasterizer::draw(vec2 a, vec2 b, vec2 c, TGAImage &frame
                 continue; // Outside the triangle.
             framebuffer.set(x, y, colour);
         }
-    }*/
+    }
 }

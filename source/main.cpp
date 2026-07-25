@@ -5,6 +5,8 @@ import model;
 import drawer;
 import tgaimage;
 import geometry;
+import model_rasterizer;
+import triangle_rasterizer;
 // import configuration;
 
 constexpr unsigned width = 800;
@@ -33,10 +35,10 @@ int main(int argc, char **argv)
     }
 
     Model model{argv[1]};
-    Drawer drawer{height, width};
+    ModelRasterizer<WireframeTriangleRasterizer> rasterizer{height, width};
 
-    drawer.drawModel(model, red, white);
+    rasterizer.draw(model, red, white);
 
-    drawer.renderTGAImage(outputFileName);
+    rasterizer.renderTGAImage(outputFileName);
     return 0;
 }
