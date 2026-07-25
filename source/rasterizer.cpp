@@ -113,11 +113,11 @@ void BoundingBoxRasterizer::draw(vec3 a, vec3 b, vec3 c, FrameBuffer &framebuffe
 {
     BoundingBox bbox = BoundingBox(a, b, c);
 
-    for (double y = bbox.minY; y <= bbox.maxY; y++)
+    for (unsigned y = bbox.minY; y <= bbox.maxY; y++)
     {
-        for (double x = bbox.minX; x <= bbox.maxX; x++)
+        for (unsigned x = bbox.minX; x <= bbox.maxX; x++)
         {
-            BarycentricCoordinate coordinates = getBarycentricCoordinates(a, b, c, vec2{x, y});
+            BarycentricCoordinate coordinates = getBarycentricCoordinates(a, b, c, vec2{(double)x, (double)y});
             if (coordinates.alpha < 0 || coordinates.beta < 0 || coordinates.gamma < 0)
                 continue; // Outside the triangle.
             unsigned char z = static_cast<unsigned char>(coordinates.alpha * a.z + coordinates.beta * b.z + coordinates.gamma * c.z);
