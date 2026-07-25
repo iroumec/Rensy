@@ -14,7 +14,7 @@ public:
     const double maxX;
     const double maxY;
 
-    BoundingBox(vec2 a, vec2 b, vec2 c)
+    BoundingBox(vec3 a, vec3 b, vec3 c)
         : minX{std::min(std::min(a.x, b.x), c.x)},
           minY{std::min(std::min(a.y, b.y), c.y)},
           maxX{std::max(std::max(a.x, b.x), c.x)},

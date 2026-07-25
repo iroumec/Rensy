@@ -36,26 +36,6 @@ std::ostream &operator<<(std::ostream &out, const vec<n> &v)
     return out;
 }
 
-// 2. Estructura dedicada para 3D (Estructura propia en lugar de especialización)
-export struct vec3
-{
-    double x = 0;
-    double y = 0;
-    double z = 0;
-
-    double &operator[](const int i)
-    {
-        assert(i >= 0 && i < 3);
-        return i ? (i == 1 ? y : z) : x;
-    }
-
-    double operator[](const int i) const
-    {
-        assert(i >= 0 && i < 3);
-        return i ? (i == 1 ? y : z) : x;
-    }
-};
-
 export struct vec2
 {
     double x = 0;
@@ -74,6 +54,44 @@ export struct vec2
     }
 };
 
+export struct vec3
+{
+    double x = 0;
+    double y = 0;
+    double z = 0;
+
+    vec3() = default;
+
+    vec3(double x, double y, double z)
+        : x{x}, y{y}, z{z}
+    {
+    }
+
+    vec3(const vec2 &vector2D)
+        : x{vector2D.x}, y{vector2D.y}, z{0}
+    {
+    }
+
+    double &operator[](const int i)
+    {
+        assert(i >= 0 && i < 3);
+        return i ? (i == 1 ? y : z) : x;
+    }
+
+    double operator[](const int i) const
+    {
+        assert(i >= 0 && i < 3);
+        return i ? (i == 1 ? y : z) : x;
+    }
+};
+
+export struct BarycentricCoordinate
+{
+    double alpha = 0;
+    double beta = 0;
+    double gamma = 0;
+};
+
 export inline std::ostream &operator<<(std::ostream &out, const vec3 &v)
 {
     return out << v.x << ' ' << v.y << ' ' << v.z << ' ';
@@ -84,7 +102,7 @@ export inline std::ostream &operator<<(std::ostream &out, const vec2 &v)
     return out << v.x << ' ' << v.y << ' ';
 }
 
-export std::array<vec2, 3> orderByAscendingAxisY(vec2 a, vec2 b, vec2 c)
+export std::array<vec3, 3> orderByAscendingAxisY(vec3 a, vec3 b, vec3 c)
 {
     if (a.y > b.y)
         std::swap(a, b);
@@ -102,7 +120,7 @@ export inline float clamp(float value, float min, float max)
 }
 
 // Given an Y value, returns an X value.
-export inline float interpolateX(vec2 a, vec2 b, float y)
+export inline float interpolateX(vec3 a, vec3 b, float y)
 {
     float t = (y - a.y) / static_cast<float>(b.y - a.y);
     t = clamp(t, 0.0, 1.0);       // So it doesn't go out of the range.
@@ -110,24 +128,24 @@ export inline float interpolateX(vec2 a, vec2 b, float y)
 }
 
 // Given an X value, returns an Y value.
-export inline float interpolateY(vec2 a, vec2 b, float x)
+export inline float interpolateY(vec3 a, vec3 b, float x)
 {
     float t = (x - a.x) / static_cast<float>(b.x - a.x);
     t = clamp(t, 0.0, 1.0);
     return t * (b.y - a.y) + a.y; // Some triangles look better rounding, while others look worse. THERE IS NO CORRECT ROUNDING.
 }
 
-export inline double getSignedTriangleArea(vec2 a, vec2 b, vec2 c)
+export inline double getSignedTriangleArea(vec3 a, vec3 b, vec3 c)
 {
     // See documentation/drawings/boundingBoxRasterization.excalidraw.
     return .5 * ((b.y - a.y) * (b.x + a.x) + (c.y - b.y) * (c.x + b.x) + (a.y - c.y) * (a.x + c.x));
 }
 
-export inline vec3 getBarycentricCoordinates(vec2 a, vec2 b, vec2 c, vec2 point)
+export inline BarycentricCoordinate getBarycentricCoordinates(vec3 a, vec3 b, vec3 c, vec3 point)
 {
     double totalArea = getSignedTriangleArea(a, b, c);
     double alpha = getSignedTriangleArea(point, b, c) / totalArea;
     double beta = getSignedTriangleArea(point, c, a) / totalArea;
     double gamma = getSignedTriangleArea(point, a, b) / totalArea;
-    return vec3{alpha, beta, gamma};
+    return {alpha, beta, gamma};
 }

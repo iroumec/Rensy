@@ -3,26 +3,12 @@
 
 import model;
 import drawer;
+import colour;
 import tgaimage;
 import geometry;
+import configuration;
 import model_rasterizer;
-import triangle_rasterizer;
-// import configuration;
-
-constexpr unsigned width = 800;
-constexpr unsigned height = 800;
-constexpr std::string outputFileName = "framebuffer.tga";
-
-// BGRA.
-[[maybe_unused]] constexpr TGAColour white{{255, 255, 255, 255}};
-[[maybe_unused]] constexpr TGAColour green{{0, 255, 0, 255}};
-[[maybe_unused]] constexpr TGAColour red{{0, 0, 255, 255}};
-[[maybe_unused]] constexpr TGAColour blue{{255, 0, 0, 255}};
-[[maybe_unused]] constexpr TGAColour yellow{{0, 255, 255, 255}};
-[[maybe_unused]] constexpr TGAColour cyan{{255, 255, 0, 255}};
-[[maybe_unused]] constexpr TGAColour magenta{{255, 0, 255, 255}};
-[[maybe_unused]] constexpr TGAColour orange{{0, 165, 255, 255}};
-[[maybe_unused]] constexpr TGAColour purple{{128, 0, 128, 255}};
+import rasterizer;
 
 int main(int argc, char **argv)
 {
@@ -35,10 +21,12 @@ int main(int argc, char **argv)
     }
 
     Model model{argv[1]};
-    ModelRasterizer<WireframeTriangleRasterizer> rasterizer{height, width};
+    ModelRasterizer<BoundingBoxRasterizer> rasterizer{height, width};
+    RandomColourGenerator colourGenerator;
 
-    rasterizer.draw(model, red, white);
+    rasterizer.draw(model, colourGenerator);
 
-    rasterizer.renderTGAImage(outputFileName);
+    rasterizer.renderFrameBufferToTGAImage(outputFrameFileName);
+    rasterizer.renderZBufferToTGAImage(outputZBufferFileName);
     return 0;
 }

@@ -1,39 +1,23 @@
 module;
 
-// #include <random>
-// #include <cstdint>
+#include <random>
+#include <cstdint>
 
-export module colours;
+export module colour;
 
 import tgaimage;
 
 // BGRA.
-export constexpr TGAColour white = {255, 255, 255, 255};
-export constexpr TGAColour green = {0, 255, 0, 255};
-export constexpr TGAColour red = {0, 0, 255, 255};
-export constexpr TGAColour blue = {255, 0, 0, 255};
-export constexpr TGAColour yellow = {0, 255, 255, 255};
-export constexpr TGAColour cyan = {255, 255, 0, 255};
-export constexpr TGAColour magenta = {255, 0, 255, 255};
-export constexpr TGAColour orange = {0, 165, 255, 255};
-export constexpr TGAColour purple = {128, 0, 128, 255};
-
-// COMMENTED BECAUSE OF ICE.
-
-/*
-
-// BGRA.
 export struct Colour
 {
-    uint8_t b;
-    uint8_t g;
-    uint8_t r;
-    uint8_t a;
+    std::uint8_t r;
+    std::uint8_t g;
+    std::uint8_t b;
+    std::uint8_t a;
 
     operator TGAColour() const
     {
-        return TGAColour{
-            b, g, r, a};
+        return TGAColour{{b, g, r, a}};
     }
 };
 
@@ -68,8 +52,8 @@ public:
 
 export class RandomColourGenerator : public ColourGenerator
 {
-    std::mt19937 generator{std::random_device{}()};
-    std::uniform_int_distribution<int> distribution{0, 255};
+    mutable std::mt19937 generator{std::random_device{}()};
+    mutable std::uniform_int_distribution<int> distribution{0, 255};
 
 public:
     Colour getColour() const override
@@ -92,5 +76,3 @@ export constexpr Colour cyan = {255, 255, 0, 255};
 export constexpr Colour magenta = {255, 0, 255, 255};
 export constexpr Colour orange = {0, 165, 255, 255};
 export constexpr Colour purple = {128, 0, 128, 255};
-
-*/

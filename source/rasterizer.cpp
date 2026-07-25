@@ -3,21 +3,23 @@ module;
 #include <cmath>
 #include <iostream>
 
-module triangle_rasterizer;
+module rasterizer;
 
 import bbox;
+import buffer;
+import colour;
 import geometry;
 
 constexpr bool DEBUG = false;
 
-void VertexTriangleRasterizer::draw(vec2 a, vec2 b, vec2 c, TGAImage &framebuffer, const TGAColour &colour)
+void VertexRasterizer::draw(vec3 a, vec3 b, vec3 c, FrameBuffer &framebuffer, const Colour &colour)
 {
-    framebuffer.set(a.x, a.y, colour);
-    framebuffer.set(b.x, b.y, colour);
-    framebuffer.set(c.x, c.y, colour);
+    framebuffer.setColour(a.x, a.y, colour);
+    framebuffer.setColour(b.x, b.y, colour);
+    framebuffer.setColour(c.x, c.y, colour);
 }
 
-void WireframeTriangleRasterizer::drawLine(vec2 a, vec2 b, TGAImage &framebuffer, const TGAColour &colour)
+void WireframeRasterizer::drawLine(vec3 a, vec3 b, FrameBuffer &framebuffer, const Colour &colour)
 {
     /// Bresenham's line algorithm (variant with barycentric coordinates).
     // Is the line more vertical than horizontal?
@@ -40,27 +42,27 @@ void WireframeTriangleRasterizer::drawLine(vec2 a, vec2 b, TGAImage &framebuffer
     {
         int y = interpolateY(a, b, x);
         if (steep) // If the image was transposed, it's de-transposed.
-            framebuffer.set(y, x, colour);
+            framebuffer.setColour(y, x, colour);
         else
-            framebuffer.set(x, y, colour);
+            framebuffer.setColour(x, y, colour);
     }
 }
 
-void WireframeTriangleRasterizer::draw(vec2 a, vec2 b, vec2 c, TGAImage &framebuffer, const TGAColour &colour)
+void WireframeRasterizer::draw(vec3 a, vec3 b, vec3 c, FrameBuffer &framebuffer, const Colour &colour)
 {
     this->drawLine(a, b, framebuffer, colour);
     this->drawLine(a, c, framebuffer, colour);
     this->drawLine(b, c, framebuffer, colour);
 }
 
-void ScanlineTriangleRasterizer::draw(vec2 a, vec2 b, vec2 c, TGAImage &framebuffer, const TGAColour &colour)
+void ScanlineRasterizer::draw(vec3 a, vec3 b, vec3 c, FrameBuffer &framebuffer, const Colour &colour)
 {
     // Vertices ordering.
     auto orderedVertices = orderByAscendingAxisY(a, b, c);
 
-    vec2 top = orderedVertices[2];
-    vec2 middle = orderedVertices[1];
-    vec2 bottom = orderedVertices[0];
+    vec3 top = orderedVertices[2];
+    vec3 middle = orderedVertices[1];
+    vec3 bottom = orderedVertices[0];
 
     if (DEBUG)
     {
@@ -90,11 +92,11 @@ void ScanlineTriangleRasterizer::draw(vec2 a, vec2 b, vec2 c, TGAImage &framebuf
 
         // The segment is painted.
         for (unsigned x = leftX; x <= rightX; x++)
-            framebuffer.set(x, y, colour);
+            framebuffer.setColour(x, y, colour);
     }
 }
 
-void BoundingBoxTriangleRasterizer::draw(vec2 a, vec2 b, vec2 c, TGAImage &framebuffer, const TGAColour &colour)
+void BoundingBoxRasterizer::draw(vec3 a, vec3 b, vec3 c, FrameBuffer &framebuffer, const Colour &colour)
 {
     BoundingBox bbox = BoundingBox(a, b, c);
 
@@ -102,10 +104,14 @@ void BoundingBoxTriangleRasterizer::draw(vec2 a, vec2 b, vec2 c, TGAImage &frame
     {
         for (double x = bbox.minX; x <= bbox.maxX; x++)
         {
-            vec3 barycentricCoordinates = getBarycentricCoordinates(a, b, c, vec2{x, y});
-            if (barycentricCoordinates.x < 0 || barycentricCoordinates.y < 0 || barycentricCoordinates.z < 0)
+            BarycentricCoordinate coordinates = getBarycentricCoordinates(a, b, c, vec2{x, y});
+            if (coordinates.alpha < 0 || coordinates.beta < 0 || coordinates.gamma < 0)
                 continue; // Outside the triangle.
-            framebuffer.set(x, y, colour);
+            double z = coordinates.alpha * a.z + coordinates.beta * b.z + coordinates.gamma * c.z;
+            if (framebuffer.isCurrentDepthLower(x, y, z))
+                continue;
+            framebuffer.setColour(x, y, colour);
+            framebuffer.setDepth(x, y, z);
         }
     }
 }
