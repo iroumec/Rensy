@@ -214,7 +214,7 @@ TGAColour TGAImage::get(const int x, const int y) const
 {
     if (!data.size() || x < 0 || y < 0 || x >= w || y >= h)
         return {};
-    TGAColour ret = {0, 0, 0, 0, bpp};
+    TGAColour ret{{0, 0, 0, 0}, bpp};
     const std::uint8_t *p = data.data() + (x + y * w) * bpp;
     for (int i = bpp; i--; ret.bgra[i] = p[i])
         ;

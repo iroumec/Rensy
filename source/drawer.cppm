@@ -1,8 +1,7 @@
 module;
 
-#include <string>
 #include <memory>
-#include <utility>
+#include <string>
 
 export module drawer;
 
@@ -16,7 +15,7 @@ export class Drawer
     const unsigned height;
     const unsigned width;
     TGAImage framebuffer;
-    const std::unique_ptr<TriangleRasterizer> triangleRasterizer;
+    std::unique_ptr<TriangleRasterizer> triangleRasterizer;
 
 public:
     Drawer(unsigned height, unsigned width)

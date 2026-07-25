@@ -6,6 +6,7 @@ module;
 
 module drawer;
 
+import model;
 import tgaimage;
 import geometry;
 
@@ -102,7 +103,7 @@ void Drawer::drawModel(const Model &model, const TGAColour &lineColour, const TG
         vec2 a = projectVector(model.getVertex(i, 0));
         vec2 b = projectVector(model.getVertex(i, 1));
         vec2 c = projectVector(model.getVertex(i, 2));
-        this->drawTriangle(a, b, c, lineColour);
+        this->triangleRasterizer->draw(a, b, c, this->framebuffer, lineColour);
     }
 
     // The vertices are highlighted.

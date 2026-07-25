@@ -17,7 +17,7 @@ git-uncache: ## "Descachea" los archivos.
 	@git rm -r --cached .
 
 compile:
-	@cmake -B build -G Ninja
+	@cmake -B build -G Ninja -DCMAKE_CXX_COMPILER=clang++
 	@cmake --build build -j
 
 run: compile

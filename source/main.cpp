@@ -1,11 +1,26 @@
 #include <iostream>
+#include <string>
 
 import model;
 import drawer;
-import colours;
 import tgaimage;
 import geometry;
-import configuration;
+// import configuration;
+
+constexpr unsigned width = 800;
+constexpr unsigned height = 800;
+constexpr std::string outputFileName = "framebuffer.tga";
+
+// BGRA.
+[[maybe_unused]] constexpr TGAColour white{{255, 255, 255, 255}};
+[[maybe_unused]] constexpr TGAColour green{{0, 255, 0, 255}};
+[[maybe_unused]] constexpr TGAColour red{{0, 0, 255, 255}};
+[[maybe_unused]] constexpr TGAColour blue{{255, 0, 0, 255}};
+[[maybe_unused]] constexpr TGAColour yellow{{0, 255, 255, 255}};
+[[maybe_unused]] constexpr TGAColour cyan{{255, 255, 0, 255}};
+[[maybe_unused]] constexpr TGAColour magenta{{255, 0, 255, 255}};
+[[maybe_unused]] constexpr TGAColour orange{{0, 165, 255, 255}};
+[[maybe_unused]] constexpr TGAColour purple{{128, 0, 128, 255}};
 
 int main(int argc, char **argv)
 {

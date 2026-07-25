@@ -96,13 +96,13 @@ export std::array<vec2, 3> orderByAscendingAxisY(vec2 a, vec2 b, vec2 c)
     return {a, b, c};
 }
 
-export float clamp(float value, float min, float max)
+export inline float clamp(float value, float min, float max)
 {
     return std::min(std::max(value, min), max);
 }
 
 // Given an Y value, returns an X value.
-export float interpolateX(vec2 a, vec2 b, float y)
+export inline float interpolateX(vec2 a, vec2 b, float y)
 {
     float t = (y - a.y) / static_cast<float>(b.y - a.y);
     t = clamp(t, 0.0, 1.0);       // So it doesn't go out of the range.
@@ -110,20 +110,20 @@ export float interpolateX(vec2 a, vec2 b, float y)
 }
 
 // Given an X value, returns an Y value.
-export float interpolateY(vec2 a, vec2 b, float x)
+export inline float interpolateY(vec2 a, vec2 b, float x)
 {
     float t = (x - a.x) / static_cast<float>(b.x - a.x);
     t = clamp(t, 0.0, 1.0);
     return t * (b.y - a.y) + a.y; // Some triangles look better rounding, while others look worse. THERE IS NO CORRECT ROUNDING.
 }
 
-export double getSignedTriangleArea(vec2 a, vec2 b, vec2 c)
+export inline double getSignedTriangleArea(vec2 a, vec2 b, vec2 c)
 {
     // See documentation/drawings/boundingBoxRasterization.excalidraw.
     return .5 * ((b.y - a.y) * (b.x + a.x) + (c.y - b.y) * (c.x + b.x) + (a.y - c.y) * (a.x + c.x));
 }
 
-export vec3 getBarycentricCoordinates(vec2 a, vec2 b, vec2 c, vec2 point)
+export inline vec3 getBarycentricCoordinates(vec2 a, vec2 b, vec2 c, vec2 point)
 {
     double totalArea = getSignedTriangleArea(a, b, c);
     double alpha = getSignedTriangleArea(point, b, c) / totalArea;
