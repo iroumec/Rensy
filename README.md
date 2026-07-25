@@ -8,4 +8,6 @@ This is just a basic renderer made using
 
 <https://haqr.eu/>
 
+Fundamentals-of-Computer-Graphics-Fourth-Edition
+
 ## Credits

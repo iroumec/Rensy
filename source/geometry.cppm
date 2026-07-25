@@ -73,8 +73,12 @@ export struct vec2
     }
 };
 
-// Operador de impresión para vec3
 export inline std::ostream &operator<<(std::ostream &out, const vec3 &v)
 {
     return out << v.x << ' ' << v.y << ' ' << v.z << ' ';
+}
+
+export inline std::ostream &operator<<(std::ostream &out, const vec2 &v)
+{
+    return out << v.x << ' ' << v.y << ' ';
 }
