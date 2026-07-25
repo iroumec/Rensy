@@ -2,13 +2,12 @@
 #include <string>
 
 import model;
-import drawer;
 import colour;
+import buffer;
 import tgaimage;
 import geometry;
-import configuration;
-import model_rasterizer;
 import rasterizer;
+import configuration;
 
 int main(int argc, char **argv)
 {
@@ -21,12 +20,14 @@ int main(int argc, char **argv)
     }
 
     Model model{argv[1]};
-    ModelRasterizer<BoundingBoxRasterizer> rasterizer{height, width};
+    FrameBuffer buffer{width, height};
+    BoundingBoxRasterizer rasterizer;
+
     RandomColourGenerator colourGenerator;
 
-    rasterizer.draw(model, colourGenerator);
+    rasterizer.draw(model, buffer, colourGenerator);
 
-    rasterizer.renderFrameBufferToTGAImage(outputFrameFileName);
-    rasterizer.renderZBufferToTGAImage(outputZBufferFileName);
+    buffer.renderColourBuffer(outputFrameFileName);
+    buffer.renderDepthBuffer(outputZBufferFileName);
     return 0;
 }

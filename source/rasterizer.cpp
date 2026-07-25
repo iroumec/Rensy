@@ -6,11 +6,24 @@ module;
 module rasterizer;
 
 import bbox;
+import model;
 import buffer;
 import colour;
 import geometry;
 
 constexpr bool DEBUG = false;
+
+void Rasterizer::draw(const Model &model, FrameBuffer &framebuffer, const ColourGenerator &colourGenerator)
+{
+    // Iterates through all triangles and draw them.
+    for (unsigned i = 0; i < model.getNumberOfFaces(); i++)
+    {
+        vec3 a = projectVector(model.getVertex(i, 0), framebuffer.width, framebuffer.height);
+        vec3 b = projectVector(model.getVertex(i, 1), framebuffer.width, framebuffer.height);
+        vec3 c = projectVector(model.getVertex(i, 2), framebuffer.width, framebuffer.height);
+        this->draw(a, b, c, framebuffer, colourGenerator());
+    }
+}
 
 void VertexRasterizer::draw(vec3 a, vec3 b, vec3 c, FrameBuffer &framebuffer, const Colour &colour)
 {
@@ -107,7 +120,7 @@ void BoundingBoxRasterizer::draw(vec3 a, vec3 b, vec3 c, FrameBuffer &framebuffe
             BarycentricCoordinate coordinates = getBarycentricCoordinates(a, b, c, vec2{x, y});
             if (coordinates.alpha < 0 || coordinates.beta < 0 || coordinates.gamma < 0)
                 continue; // Outside the triangle.
-            double z = coordinates.alpha * a.z + coordinates.beta * b.z + coordinates.gamma * c.z;
+            unsigned char z = static_cast<unsigned char>(coordinates.alpha * a.z + coordinates.beta * b.z + coordinates.gamma * c.z);
             if (framebuffer.isCurrentDepthLower(x, y, z))
                 continue;
             framebuffer.setColour(x, y, colour);

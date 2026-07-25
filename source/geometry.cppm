@@ -149,3 +149,17 @@ export inline BarycentricCoordinate getBarycentricCoordinates(vec3 a, vec3 b, ve
     double gamma = getSignedTriangleArea(point, a, b) / totalArea;
     return {alpha, beta, gamma};
 }
+
+// Viewport transform.
+export inline vec3 projectVector(vec3 vector, unsigned width, unsigned height)
+{
+    // First, ortographics projection -> Z axis is discard.
+    // Second, since the input models are scaled to have fir in the [-1.1]^3 world coordinates,
+    // the vector is scaled to span the entire screen.
+    vec3 out;
+    out.x = (vector.x + 1.) * width / 2;
+    out.y = (vector.y + 1.) * height / 2;
+    out.z = (vector.z + 1.) * 255. / 2; // Here we save the colours.
+
+    return out;
+}
