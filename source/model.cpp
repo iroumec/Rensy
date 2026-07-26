@@ -10,10 +10,11 @@ module;
 module model;
 
 import vector;
+import rotation;
 
 constexpr bool debug = false;
 
-Model::Model(const std::string &filename)
+Model::Model(const std::string &filename, const Rotation &rotation = Rotation{0.0, 0.0, 0.0})
 {
     std::ifstream ist{filename};
     if (!ist)
@@ -32,8 +33,8 @@ Model::Model(const std::string &filename)
         if (dataType == "v") // Vertices.
         {
             Vector3D v;
-            lineStream >> v.x >> v.y >> v.z;
-            this->vertices.push_back(v);
+            lineStream >> v;
+            this->vertices.push_back(rotation.apply(v));
         }
         else if (dataType == "f") // Faces / Triangles.
         {

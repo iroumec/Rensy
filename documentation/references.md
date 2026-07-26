@@ -8,5 +8,6 @@ Here's a list of references used to create and optimize this renderer:
 4. <https://en.wikipedia.org/wiki/Embarrassingly_parallel#:~:text=In%20parallel%20computing%2C%20an%20embarrassingly,a%20number%20of%20parallel%20tasks>
 5. Fundamentals-of-Computer-Graphics-Fourth-Edition
 6. <https://en.wikipedia.org/wiki/Shoelace_formula>
+7. <https://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions>
 
 They are not ordered by any criteria. The numbers just server to a referencing purpose.
