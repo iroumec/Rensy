@@ -15,14 +15,14 @@ import barycentric;
 
 constexpr bool DEBUG = false;
 
-void Rasterizer::draw(const Model &model, FrameBuffer &framebuffer, const ColourGenerator &colourGenerator)
+void Rasterizer::draw(const Model &model, FrameBuffer &framebuffer, const ColourGenerator &colourGenerator, const Rotation &rotation = Rotation{0.0, 0.0, 0.0})
 {
     // Iterates through all triangles and draw them.
     for (unsigned i = 0; i < model.getNumberOfFaces(); i++)
     {
-        Vector3D a = projectVector(model.getVertex(i, 0), framebuffer.getWidth(), framebuffer.getHeight());
-        Vector3D b = projectVector(model.getVertex(i, 1), framebuffer.getWidth(), framebuffer.getHeight());
-        Vector3D c = projectVector(model.getVertex(i, 2), framebuffer.getWidth(), framebuffer.getHeight());
+        Vector3D a = projectVector(rotation.apply(model.getVertex(i, 0)), framebuffer.getWidth(), framebuffer.getHeight());
+        Vector3D b = projectVector(rotation.apply(model.getVertex(i, 1)), framebuffer.getWidth(), framebuffer.getHeight());
+        Vector3D c = projectVector(rotation.apply(model.getVertex(i, 2)), framebuffer.getWidth(), framebuffer.getHeight());
         this->draw(a, b, c, framebuffer, colourGenerator());
     }
 }

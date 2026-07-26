@@ -1,20 +1,19 @@
 module;
 
 #include <string>
+#include <cassert>
 #include <fstream>
+#include <sstream>
 #include <iostream>
 #include <stdexcept>
-#include <sstream>
-#include <cassert>
 
 module model;
 
 import vector;
-import rotation;
 
 constexpr bool debug = false;
 
-Model::Model(const std::string &filename, const Rotation &rotation = Rotation{0.0, 0.0, 0.0})
+Model::Model(const std::string &filename)
 {
     std::ifstream ist{filename};
     if (!ist)
@@ -34,7 +33,7 @@ Model::Model(const std::string &filename, const Rotation &rotation = Rotation{0.
         {
             Vector3D v;
             lineStream >> v;
-            this->vertices.push_back(rotation.apply(v));
+            this->vertices.push_back(v);
         }
         else if (dataType == "f") // Faces / Triangles.
         {

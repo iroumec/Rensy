@@ -6,6 +6,7 @@ import model;
 import buffer;
 import colour;
 import vector;
+import rotation;
 
 export class Rasterizer
 {
@@ -14,7 +15,7 @@ public:
 
     virtual void draw(Vector3D a, Vector3D b, Vector3D c, FrameBuffer &framebuffer, const Colour &colour) = 0;
 
-    void draw(const Model &model, FrameBuffer &framebuffer, const ColourGenerator &colourGenerator);
+    void draw(const Model &model, FrameBuffer &framebuffer, const ColourGenerator &colourGenerator, const Rotation &rotation);
 };
 
 export class VertexRasterizer : public Rasterizer
