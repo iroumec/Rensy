@@ -42,11 +42,9 @@ set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 # porque algunas de las variables de arriba deben fijarse antes de project().
 project(crasty LANGUAGES CXX)
 
-# Requerimos C++20 (necesario para módulos) de forma estricta, sin
-# extensiones propietarias del compilador (gnu++20 en vez de c++20).
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_EXTENSIONS OFF) # No compiler extensions.
 
 # ------------------------------------------------------------------------------
 # Chequeo de versión mínima de compilador.

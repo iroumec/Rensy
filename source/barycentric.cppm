@@ -11,13 +11,13 @@ export struct BarycentricCoordinate
     double gamma = 0;
 };
 
-inline double getSignedTriangleArea(const Vector2D &a, const Vector2D &b, const Vector2D &c)
+inline constexpr double getSignedTriangleArea(const Vector2D &a, const Vector2D &b, const Vector2D &c)
 {
     // See documentation/drawings/boundingBoxRasterization.excalidraw.
     return .5 * ((b.y - a.y) * (b.x + a.x) + (c.y - b.y) * (c.x + b.x) + (a.y - c.y) * (a.x + c.x));
 }
 
-export inline BarycentricCoordinate getBarycentricCoordinates(
+export inline constexpr BarycentricCoordinate getBarycentricCoordinates(
     const Vector2D &a, const Vector2D &b, const Vector2D &c, const Vector2D &point)
 {
     double totalArea = getSignedTriangleArea(a, b, c);

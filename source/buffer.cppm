@@ -46,7 +46,7 @@ public:
         this->depthBuffer.write_tga_file(path);
     }
 
-    unsigned getWidth() const { return this->width; }
+    constexpr unsigned getWidth() const { return this->width; }
 
-    unsigned getHeight() const { return this->height; }
+    constexpr unsigned getHeight() const { return this->height; }
 };
