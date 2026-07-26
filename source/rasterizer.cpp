@@ -9,7 +9,9 @@ import bbox;
 import model;
 import buffer;
 import colour;
+import vector;
 import geometry;
+import barycentric;
 
 constexpr bool DEBUG = false;
 
@@ -18,21 +20,21 @@ void Rasterizer::draw(const Model &model, FrameBuffer &framebuffer, const Colour
     // Iterates through all triangles and draw them.
     for (unsigned i = 0; i < model.getNumberOfFaces(); i++)
     {
-        vec3 a = projectVector(model.getVertex(i, 0), framebuffer.getWidth(), framebuffer.getHeight());
-        vec3 b = projectVector(model.getVertex(i, 1), framebuffer.getWidth(), framebuffer.getHeight());
-        vec3 c = projectVector(model.getVertex(i, 2), framebuffer.getWidth(), framebuffer.getHeight());
+        Vector3D a = projectVector(model.getVertex(i, 0), framebuffer.getWidth(), framebuffer.getHeight());
+        Vector3D b = projectVector(model.getVertex(i, 1), framebuffer.getWidth(), framebuffer.getHeight());
+        Vector3D c = projectVector(model.getVertex(i, 2), framebuffer.getWidth(), framebuffer.getHeight());
         this->draw(a, b, c, framebuffer, colourGenerator());
     }
 }
 
-void VertexRasterizer::draw(vec3 a, vec3 b, vec3 c, FrameBuffer &framebuffer, const Colour &colour)
+void VertexRasterizer::draw(Vector3D a, Vector3D b, Vector3D c, FrameBuffer &framebuffer, const Colour &colour)
 {
     framebuffer.setColour(a.x, a.y, colour);
     framebuffer.setColour(b.x, b.y, colour);
     framebuffer.setColour(c.x, c.y, colour);
 }
 
-void WireframeRasterizer::drawLine(vec3 a, vec3 b, FrameBuffer &framebuffer, const Colour &colour)
+void WireframeRasterizer::drawLine(Vector3D a, Vector3D b, FrameBuffer &framebuffer, const Colour &colour)
 {
     /// Bresenham's line algorithm (variant with barycentric coordinates).
     // Is the line more vertical than horizontal?
@@ -61,21 +63,21 @@ void WireframeRasterizer::drawLine(vec3 a, vec3 b, FrameBuffer &framebuffer, con
     }
 }
 
-void WireframeRasterizer::draw(vec3 a, vec3 b, vec3 c, FrameBuffer &framebuffer, const Colour &colour)
+void WireframeRasterizer::draw(Vector3D a, Vector3D b, Vector3D c, FrameBuffer &framebuffer, const Colour &colour)
 {
     this->drawLine(a, b, framebuffer, colour);
     this->drawLine(a, c, framebuffer, colour);
     this->drawLine(b, c, framebuffer, colour);
 }
 
-void ScanlineRasterizer::draw(vec3 a, vec3 b, vec3 c, FrameBuffer &framebuffer, const Colour &colour)
+void ScanlineRasterizer::draw(Vector3D a, Vector3D b, Vector3D c, FrameBuffer &framebuffer, const Colour &colour)
 {
     // Vertices ordering.
     auto orderedVertices = orderByAscendingAxisY(a, b, c);
 
-    vec3 top = orderedVertices[2];
-    vec3 middle = orderedVertices[1];
-    vec3 bottom = orderedVertices[0];
+    Vector3D top = orderedVertices[2];
+    Vector3D middle = orderedVertices[1];
+    Vector3D bottom = orderedVertices[0];
 
     if (DEBUG)
     {
@@ -109,7 +111,7 @@ void ScanlineRasterizer::draw(vec3 a, vec3 b, vec3 c, FrameBuffer &framebuffer, 
     }
 }
 
-void BoundingBoxRasterizer::draw(vec3 a, vec3 b, vec3 c, FrameBuffer &framebuffer, const Colour &colour)
+void BoundingBoxRasterizer::draw(Vector3D a, Vector3D b, Vector3D c, FrameBuffer &framebuffer, const Colour &colour)
 {
     BoundingBox bbox = BoundingBox(a, b, c);
 
@@ -117,7 +119,7 @@ void BoundingBoxRasterizer::draw(vec3 a, vec3 b, vec3 c, FrameBuffer &framebuffe
     {
         for (unsigned x = bbox.minX; x <= bbox.maxX; x++)
         {
-            BarycentricCoordinate coordinates = getBarycentricCoordinates(a, b, c, vec2{(double)x, (double)y});
+            BarycentricCoordinate coordinates = getBarycentricCoordinates(a, b, c, Vector2D{(double)x, (double)y});
             if (coordinates.alpha < 0 || coordinates.beta < 0 || coordinates.gamma < 0)
                 continue; // Outside the triangle.
             unsigned char z = static_cast<unsigned char>(coordinates.alpha * a.z + coordinates.beta * b.z + coordinates.gamma * c.z);

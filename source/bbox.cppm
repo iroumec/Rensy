@@ -4,7 +4,7 @@ module;
 
 export module bbox;
 
-import geometry;
+import vector;
 
 export class BoundingBox
 {
@@ -14,11 +14,9 @@ public:
     const double maxX;
     const double maxY;
 
-    BoundingBox(vec3 a, vec3 b, vec3 c)
+    BoundingBox(Vector2D a, Vector2D b, Vector2D c)
         : minX{std::min(std::min(a.x, b.x), c.x)},
           minY{std::min(std::min(a.y, b.y), c.y)},
           maxX{std::max(std::max(a.x, b.x), c.x)},
-          maxY{std::max(std::max(a.y, b.y), c.y)}
-    {
-    }
+          maxY{std::max(std::max(a.y, b.y), c.y)} {}
 };

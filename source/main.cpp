@@ -5,7 +5,6 @@ import model;
 import colour;
 import buffer;
 import tgaimage;
-import geometry;
 import rasterizer;
 import configuration;
 

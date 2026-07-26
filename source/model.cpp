@@ -9,7 +9,7 @@ module;
 
 module model;
 
-import geometry;
+import vector;
 
 constexpr bool debug = false;
 
@@ -31,7 +31,7 @@ Model::Model(const std::string &filename)
 
         if (dataType == "v") // Vertices.
         {
-            vec3 v;
+            Vector3D v;
             lineStream >> v.x >> v.y >> v.z;
             this->vertices.push_back(v);
         }
@@ -72,12 +72,12 @@ unsigned Model::getNumberOfFaces() const
     return this->faces.size() / 3;
 }
 
-vec3 Model::getVertex(const unsigned vertexNumber) const
+Vector3D Model::getVertex(const unsigned vertexNumber) const
 {
     return this->vertices[vertexNumber];
 }
 
-vec3 Model::getVertex(const unsigned faceNumber, const unsigned vertexNumber) const
+Vector3D Model::getVertex(const unsigned faceNumber, const unsigned vertexNumber) const
 {
     assert(faceNumber < this->getNumberOfFaces() && vertexNumber <= 2);
 
