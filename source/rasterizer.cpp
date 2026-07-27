@@ -128,8 +128,8 @@ void BoundingBoxRasterizer::draw(Vector3D a, Vector3D b, Vector3D c, FrameBuffer
             BarycentricCoordinate coordinates = getBarycentricCoordinates(a, b, c, Vector2D{(double)x, (double)y});
             if (coordinates.alpha < 0 || coordinates.beta < 0 || coordinates.gamma < 0)
                 continue; // Outside the triangle.
-            unsigned char z = static_cast<unsigned char>(coordinates.alpha * a.z() + coordinates.beta * b.z() + coordinates.gamma * c.z());
-            if (framebuffer.isCurrentDepthLower(x, y, z))
+            double z = coordinates.alpha * a.z() + coordinates.beta * b.z() + coordinates.gamma * c.z();
+            if (framebuffer.isStoredDepthLower(x, y, z))
                 continue;
             framebuffer.setColour(x, y, colour);
             framebuffer.setDepth(x, y, z);

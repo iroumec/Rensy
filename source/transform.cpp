@@ -97,12 +97,15 @@ MVPTransform::MVPTransform(
 {
 }
 
+// First, ortographics projection -> Z axis is discard.
+// Second, since the input models are scaled to have fir in the [-1.1]^3 world coordinates,
+// the vector is scaled to span the entire screen.
 ViewportTransform::ViewportTransform(unsigned nx, unsigned ny)
     : Transform(
           Matrix<double, 4, 4>{
-              {nx / 2.0, 0, 0, nx / 2.0},
-              {0, ny / 2.0, 0, ny / 2.0},
-              {0, 0, 255.0 / 2.0, 255.0 / 2.0}, // Colour configuration should not be included here.
+              {nx / 2.0, 0, 0, (nx - 1) / 2.0},
+              {0, ny / 2.0, 0, (ny - 1) / 2.0},
+              {0, 0, 1, 0},
               {0, 0, 0, 1}})
 {
 }

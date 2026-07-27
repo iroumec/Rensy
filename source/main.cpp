@@ -21,9 +21,9 @@ int main(int argc, char **argv)
     Model model{argv[1]};
     FrameBuffer buffer{WIDTH, HEIGHT};
     // VertexRasterizer rasterizer;
-    WireframeRasterizer rasterizer;
+    // WireframeRasterizer rasterizer;
     // ScanlineRasterizer rasterizer;
-    // BoundingBoxRasterizer rasterizer;
+    BoundingBoxRasterizer rasterizer;
 
     rasterizer.draw(model, buffer, COLOUR_GENERATOR, ROTATION);
 

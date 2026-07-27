@@ -1,9 +1,6 @@
 // Viewport transform.
 export inline Vector3D projectVector(Vector3D vector, unsigned width, unsigned height)
 {
-    // First, ortographics projection -> Z axis is discard.
-    // Second, since the input models are scaled to have fir in the [-1.1]^3 world coordinates,
-    // the vector is scaled to span the entire screen.
 
     // First, the interval is moved from [-1, 1]^3 to [0, 2]^3 by adding 1 to each coordinate.
     // Second, the intervals are multiplied by width or height or max colour, the invervals are ([0, 2W], [0, 2H], [0, 510]).
