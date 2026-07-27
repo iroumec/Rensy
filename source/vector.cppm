@@ -73,41 +73,9 @@ public:
             this->x() * other.y() - this->y() * other.x());
     }
 
-    constexpr Vector3D rotateInX(double radians) const
-    {
-        Matrix<double, 3, 3> Rx =
-            {
-                {1, 0, 0},
-                {0, std::cos(radians), -std::sin(radians)},
-                {0, std::sin(radians), std::cos(radians)}};
-
-        return Vector3D(Rx * this->data);
-    }
-
-    constexpr Vector3D rotateInY(double radians) const
-    {
-        Matrix<double, 3, 3> Ry =
-            {
-                {std::cos(radians), 0, std::sin(radians)},
-                {0, 1, 0},
-                {-std::sin(radians), 0, std::cos(radians)}};
-
-        return Vector3D(Ry * this->data);
-    }
-
-    constexpr Vector3D rotateInZ(double radians) const
-    {
-        Matrix<double, 3, 3> Rz =
-            {
-                {std::cos(radians), -std::sin(radians), 0},
-                {std::sin(radians), std::cos(radians), 0},
-                {0, 0, 1},
-            };
-
-        return Vector3D(Rz * this->data);
-    }
-
     constexpr operator Vector2D() const;
+
+    constexpr operator Vector4D() const;
 
     friend std::istream &operator>>(std::istream &is, Vector3D &v)
     {
@@ -117,46 +85,60 @@ public:
 
     friend std::ostream &operator<<(std::ostream &out, const Vector3D &v)
     {
-        return out << v.x() << ' ' << v.y() << ' ' << v.z() << ' ';
+        return out << "[ " << v.x() << " | " << v.y() << " | " << v.z() << " ]";
     }
 };
 
 class Vector4D
 {
-public:
-    double x, y, z, w;
+    Matrix<double, 4, 1> data;
 
-    Vector4D(double x = 0.0, double y = 0.0, double z = 0.0, double w = 0.0) : x(x), y(y), z(z), w(w) {}
+public:
+    Vector4D(double x = 0.0, double y = 0.0, double z = 0.0, double w = 0.0) : data{x, y, z, w} {}
+    Vector4D(const Matrix<double, 4, 1> matrix) : data{matrix} {}
+
+    constexpr double x() const { return data[0, 0]; }
+    constexpr double y() const { return data[1, 0]; }
+    constexpr double z() const { return data[2, 0]; }
+    constexpr double w() const { return data[3, 0]; }
+    constexpr double &x() { return data[0, 0]; }
+    constexpr double &y() { return data[1, 0]; }
+    constexpr double &z() { return data[2, 0]; }
+    constexpr double &w() { return data[3, 0]; }
 
     constexpr Vector4D operator+(const Vector4D &other) const
     {
         return Vector4D(
-            this->x + other.x, this->y + other.y,
-            this->z + other.z, this->w + other.w);
+            this->x() + other.x(), this->y() + other.y(),
+            this->z() + other.z(), this->w() + other.w());
     }
 
     constexpr Vector4D operator-(const Vector4D &other) const
     {
         return Vector4D(
-            this->x - other.x, this->y - other.y,
-            this->z - other.z, this->w - other.w);
+            this->x() - other.x(), this->y() - other.y(),
+            this->z() - other.z(), this->w() - other.w());
     }
 
     constexpr double dotProduct(const Vector4D &other) const
     {
-        return this->x * other.x +
-               this->y * other.y +
-               this->z * other.z +
-               this->w * other.w;
+        return this->x() * other.x() +
+               this->y() * other.y() +
+               this->z() * other.z() +
+               this->w() * other.w();
     }
 
-    // Cross product is, strictly, defined only for 3 and 7 dimensions.
-};
+    constexpr operator Vector3D() const;
 
-std::ostream &operator<<(std::ostream &out, const Vector4D &v)
-{
-    return out << v.x << ' ' << v.y << ' ' << v.z << ' ' << v.w << ' ';
-}
+    constexpr explicit operator Matrix<double, 4, 1>() const;
+
+    // Cross product is, strictly, defined only for 3 and 7 dimensions.
+
+    friend std::ostream &operator<<(std::ostream &out, const Vector4D &v)
+    {
+        return out << "[ " << v.x() << " | " << v.y() << " | " << v.z() << " | " << v.w() << " ]";
+    }
+};
 
 export std::array<Vector3D, 3> orderByAscendingAxisY(Vector3D a, Vector3D b, Vector3D c)
 {
@@ -178,4 +160,19 @@ constexpr Vector2D::operator Vector3D() const
 constexpr Vector3D::operator Vector2D() const
 {
     return Vector2D{this->x(), this->y()};
+}
+
+constexpr Vector3D::operator Vector4D() const
+{
+    return Vector4D{this->x(), this->y(), this->z(), 1.};
+}
+
+constexpr Vector4D::operator Vector3D() const
+{
+    return Vector3D{this->x(), this->y(), this->z()};
+}
+
+constexpr Vector4D::operator Matrix<double, 4, 1>() const
+{
+    return this->data;
 }

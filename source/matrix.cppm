@@ -16,6 +16,19 @@ class Matrix
     std::array<T, Rows * Columns> data{};
 
 public:
+    static constexpr Matrix getIdentity()
+    {
+        static_assert(Rows == Columns,
+                      "Identity matrix requires a square matrix.");
+
+        Matrix identity{};
+
+        for (std::size_t i = 0; i < Rows; ++i)
+            identity[i, i] = T{1};
+
+        return identity;
+    }
+
     // Contructor passing a list.
     constexpr Matrix() {}
 

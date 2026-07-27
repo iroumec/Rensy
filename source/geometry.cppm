@@ -29,17 +29,3 @@ export inline float interpolateY(Vector3D a, Vector3D b, float x)
     t = clamp(t, 0.0, 1.0);
     return t * (b.y() - a.y()) + a.y(); // Some triangles look better rounding, while others look worse. THERE IS NO CORRECT ROUNDING.
 }
-
-// Viewport transform.
-export inline Vector3D projectVector(Vector3D vector, unsigned width, unsigned height)
-{
-    // First, ortographics projection -> Z axis is discard.
-    // Second, since the input models are scaled to have fir in the [-1.1]^3 world coordinates,
-    // the vector is scaled to span the entire screen.
-    Vector3D out;
-    out.x() = (vector.x() + 1.) * width / 2;
-    out.y() = (vector.y() + 1.) * height / 2;
-    out.z() = (vector.z() + 1.) * 255. / 2; // Here we save the colours.
-
-    return out;
-}

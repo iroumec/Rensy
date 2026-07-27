@@ -11,18 +11,25 @@ import buffer;
 import colour;
 import vector;
 import geometry;
+import transform;
 import barycentric;
 
 constexpr bool DEBUG = false;
 
-void Rasterizer::draw(const Model &model, FrameBuffer &framebuffer, const ColourGenerator &colourGenerator, const Rotation &rotation = Rotation{0.0, 0.0, 0.0})
+void Rasterizer::draw(const Model &model, FrameBuffer &framebuffer, const ColourGenerator &colourGenerator, const Rotation &rotation = Rotation{})
 {
+
+    TransformationTransform transform{
+        MVPTransform{ModelTransform{RotationTransform{rotation}}},
+        ViewportTransform(framebuffer.getWidth(), framebuffer.getHeight()),
+    };
+
     // Iterates through all triangles and draw them.
     for (unsigned i = 0; i < model.getNumberOfFaces(); i++)
     {
-        Vector3D a = projectVector(rotation.apply(model.getVertex(i, 0)), framebuffer.getWidth(), framebuffer.getHeight());
-        Vector3D b = projectVector(rotation.apply(model.getVertex(i, 1)), framebuffer.getWidth(), framebuffer.getHeight());
-        Vector3D c = projectVector(rotation.apply(model.getVertex(i, 2)), framebuffer.getWidth(), framebuffer.getHeight());
+        Vector3D a = transform.apply(model.getVertex(i, 0));
+        Vector3D b = transform.apply(model.getVertex(i, 1));
+        Vector3D c = transform.apply(model.getVertex(i, 2));
         this->draw(a, b, c, framebuffer, colourGenerator());
     }
 }

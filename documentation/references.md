@@ -9,5 +9,9 @@ Here's a list of references used to create and optimize this renderer:
 5. Fundamentals-of-Computer-Graphics-Fourth-Edition
 6. <https://en.wikipedia.org/wiki/Shoelace_formula>
 7. <https://en.wikipedia.org/wiki/Rotation_matrix#In_three_dimensions>
+8. <https://en.wikipedia.org/wiki/Homography_(computer_vision)>
+9. <https://en.wikipedia.org/wiki/Intercept_theorem>
+10. <https://en.wikipedia.org/wiki/Perspective_(graphical)>
+11. <https://es.wikipedia.org/wiki/Transformaci%C3%B3n_af%C3%ADn>
 
 They are not ordered by any criteria. The numbers just server to a referencing purpose.
