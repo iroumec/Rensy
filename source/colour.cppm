@@ -79,10 +79,10 @@ public:
 // BGRA.
 export constexpr Colour white = {255, 255, 255, 255};
 export constexpr Colour green = {0, 255, 0, 255};
-export constexpr Colour red = {0, 0, 255, 255};
-export constexpr Colour blue = {255, 0, 0, 255};
-export constexpr Colour yellow = {0, 255, 255, 255};
-export constexpr Colour cyan = {255, 255, 0, 255};
+export constexpr Colour blue = {0, 0, 255, 255};
+export constexpr Colour red = {255, 0, 0, 255};
+export constexpr Colour cyan = {0, 255, 255, 255};
+export constexpr Colour yellow = {255, 255, 0, 255};
 export constexpr Colour magenta = {255, 0, 255, 255};
-export constexpr Colour orange = {0, 165, 255, 255};
+export constexpr Colour orange = {255, 165, 0, 255};
 export constexpr Colour purple = {128, 0, 128, 255};

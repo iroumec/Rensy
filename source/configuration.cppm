@@ -5,11 +5,14 @@ module;
 export module configuration;
 
 import radian;
+import colour;
 import rotation;
 
 export constexpr unsigned WIDTH = 800;
 export constexpr unsigned HEIGHT = 800;
 export constexpr unsigned RANDOM_SEED = 42;
+// export const RandomColourGenerator COLOUR_GENERATOR{RANDOM_SEED};
+export const StaticColourGenerator COLOUR_GENERATOR{red};
 export constexpr Rotation ROTATION = Rotation{Radian{}, Radian::fromDegrees(30.0), Radian{}};
 export constexpr std::string outputZBufferFileName = "zbuffer.tga";
 export constexpr std::string outputFrameFileName = "framebuffer.tga";

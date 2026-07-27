@@ -9,7 +9,7 @@ import rotation;
 export class RotationTransform;
 export class ModelTransform;
 // export class ViewTransform;
-//  export class ProjectionTransform;
+export class ProjectionTransform;
 export class MVPTransform;
 export class ViewportTransform;
 
@@ -24,14 +24,6 @@ protected:
 public:
     const Matrix<double, 4, 4> &getMatrix() const;
     Vector4D apply(const Vector4D &vector) const;
-};
-
-export class TransformationTransform : public Transform
-{
-public:
-    TransformationTransform(
-        const MVPTransform &mvpTransform,
-        const ViewportTransform &viewportTransform);
 };
 
 export class ViewportTransform : public Transform
@@ -52,9 +44,11 @@ export class MVPTransform : public Transform
 public:
     MVPTransform(
         const ModelTransform &modelTransform
-        /*, const ViewTransform &viewTransform ,*/
-        /*const ProjectionTransform &projectionTransform*/);
+        /*, const ViewTransform &viewTransform */
+        /*,const ProjectionTransform &projectionTransform*/);
 };
+
+using ClipTransform = MVPTransform;
 
 export class ModelTransform : public Transform
 {
@@ -62,6 +56,14 @@ export class ModelTransform : public Transform
 
 public:
     ModelTransform(const RotationTransform &rotationTransform);
+};
+
+export class ProjectionTransform : public Transform
+{
+public:
+    // Distance to near plane.
+    // Distance to far plane.
+    ProjectionTransform(double near, double far);
 };
 
 export class RotationTransform : public Transform

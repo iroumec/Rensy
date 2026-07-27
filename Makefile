@@ -13,6 +13,8 @@ EQUALS = =
 # The top-level source directory on which CMake was run.
 CMAKE_SOURCE_DIR = /home/iroumec/Documents/Crasty/source
 
+OBJ_FILE ?= obj/diablo3_pose/diablo3_pose.obj
+
 git-uncache: ## "Descachea" los archivos.
 	@git rm -r --cached .
 
@@ -21,7 +23,10 @@ compile:
 	@cmake --build build -j
 
 run: compile
-	@./build/crasty obj/diablo3_pose/diablo3_pose.obj obj/floor.obj
+	@./build/crasty $(OBJ_FILE) obj/floor.obj
 
 timed-run: compile ## The program is executed using all optimizations (-O3) and then executed, measuring its runtime.
-	@time ./build/crasty obj/diablo3_pose/diablo3_pose.obj obj/floor.obj
+	@time ./build/crasty $(OBJ_FILE) obj/floor.obj
+
+see-imports:
+	@grep -R "^import " source/*.cppm

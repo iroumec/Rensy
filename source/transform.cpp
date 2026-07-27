@@ -79,15 +79,20 @@ ModelTransform::ModelTransform(const RotationTransform &rotationTransform)
 {
 }
 
+ProjectionTransform::ProjectionTransform(double near, double far)
+    : Transform(Matrix<double, 4, 4>{
+          {near, 0, 0, 0},
+          {0, near, 0, 0},
+          {0, 0, near + far, -far * near},
+          {0, 0, 0, 1}}) {}
+
 MVPTransform::MVPTransform(
-    const ModelTransform &modelTransform /*,
-    const ViewTransform &viewTransform */
-                                         /*,
-     const ProjectionTransform &projectionTransform*/
-    )
+    const ModelTransform &modelTransform
+    /*const ViewTransform &viewTransform */
+    /*, const ProjectionTransform &projectionTransform */)
     : Transform(
-          /*projectionTransform.getMatrix() **/
-          // viewTransform.getMatrix() *
+          // projectionTransform.getMatrix() *
+          //  viewTransform.getMatrix() *
           modelTransform.getMatrix())
 {
 }
@@ -99,12 +104,5 @@ ViewportTransform::ViewportTransform(unsigned nx, unsigned ny)
               {0, ny / 2.0, 0, ny / 2.0},
               {0, 0, 255.0 / 2.0, 255.0 / 2.0}, // Colour configuration should not be included here.
               {0, 0, 0, 1}})
-{
-}
-
-TransformationTransform::TransformationTransform(
-    const MVPTransform &mvpTransform,
-    const ViewportTransform &viewportTransform)
-    : Transform(viewportTransform.getMatrix() * mvpTransform.getMatrix())
 {
 }

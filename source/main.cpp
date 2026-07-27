@@ -21,13 +21,11 @@ int main(int argc, char **argv)
     Model model{argv[1]};
     FrameBuffer buffer{WIDTH, HEIGHT};
     // VertexRasterizer rasterizer;
-    // WireframeRasterizer rasterizer;
+    WireframeRasterizer rasterizer;
     // ScanlineRasterizer rasterizer;
-    BoundingBoxRasterizer rasterizer;
+    // BoundingBoxRasterizer rasterizer;
 
-    RandomColourGenerator colourGenerator{RANDOM_SEED};
-
-    rasterizer.draw(model, buffer, colourGenerator, ROTATION);
+    rasterizer.draw(model, buffer, COLOUR_GENERATOR, ROTATION);
 
     buffer.renderColourBuffer(outputFrameFileName);
     buffer.renderDepthBuffer(outputZBufferFileName);
