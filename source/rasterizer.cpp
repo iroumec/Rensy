@@ -44,7 +44,7 @@ void WireframeRasterizer::drawLine(Vector3D a, Vector3D b, FrameBuffer &framebuf
 {
     /// Bresenham's line algorithm (variant with barycentric coordinates).
     // Is the line more vertical than horizontal?
-    bool steep = std::abs(a.x() - b.x()) < std::abs(a.x() - b.y());
+    bool steep = std::abs(a.x() - b.x()) < std::abs(a.y() - b.y());
     if (steep)
     { // If that's the case, the image is transposed.
         std::swap(a.x(), a.y());
@@ -59,9 +59,9 @@ void WireframeRasterizer::drawLine(Vector3D a, Vector3D b, FrameBuffer &framebuf
         std::swap(a.y(), b.y());
     }
 
-    for (int x = a.x(); x <= b.x(); x++)
+    for (int x = a.x(); x <= b.x(); ++x)
     {
-        int y = interpolateY(a, b, x);
+        int y = round(interpolateY(a, b, x));
         if (steep) // If the image was transposed, it's de-transposed.
             framebuffer.setColour(y, x, colour);
         else
