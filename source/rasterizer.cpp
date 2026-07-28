@@ -131,14 +131,21 @@ void BoundingBoxRasterizer::draw(Vector3D a, Vector3D b, Vector3D c, FrameBuffer
             BarycentricCoordinate coordinates = getBarycentricCoordinates(a, b, c, Vector2D{(double)x, (double)y});
             if (!coordinates.isInsideTriangle())
                 continue; // Outside the triangle.
-            if (pattern != nullptr && !pattern->isValid(coordinates))
+            if (drawingPattern != nullptr && !drawingPattern->isValid(coordinates))
                 continue;
             double z = coordinates.alpha * a.z() + coordinates.beta * b.z() + coordinates.gamma * c.z();
             if (framebuffer.isStoredDepthLower(x, y, z))
                 continue;
             unsigned char zColour = static_cast<unsigned char>((z - min) / (max - min) * 255);
             // framebuffer.setColour(x, y, Colour{zColour, zColour, zColour, 255});
-            framebuffer.setColour(x, y, colour);
+            if (colourPattern == nullptr)
+            {
+                framebuffer.setColour(x, y, colour);
+            }
+            else
+            {
+                framebuffer.setColour(x, y, colourPattern->adjustColour(colour, coordinates));
+            }
             framebuffer.setDepth(x, y, z);
         }
     }

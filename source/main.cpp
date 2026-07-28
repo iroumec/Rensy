@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     // VertexRasterizer rasterizer;
     // WireframeRasterizer rasterizer;
     // ScanlineRasterizer rasterizer;
-    BoundingBoxRasterizer rasterizer{PATTERN};
+    BoundingBoxRasterizer rasterizer{DRAWING_PATTERN, COLOUR_PATTERN};
 
     rasterizer.draw(model, buffer, COLOUR_GENERATOR, ROTATION);
 

@@ -2,6 +2,7 @@ module;
 
 #include <random>
 #include <cstdint>
+#include <algorithm>
 
 export module colour;
 
@@ -14,6 +15,15 @@ export struct Colour
     std::uint8_t g;
     std::uint8_t b;
     std::uint8_t a;
+
+    Colour operator*(double adjust) const
+    {
+        return Colour{
+            static_cast<std::uint8_t>(std::clamp(r * adjust, 0.0, 255.0)),
+            static_cast<std::uint8_t>(std::clamp(g * adjust, 0.0, 255.0)),
+            static_cast<std::uint8_t>(std::clamp(b * adjust, 0.0, 255.0)),
+            a};
+    }
 
     operator TGAColour() const
     {

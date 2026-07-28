@@ -44,13 +44,20 @@ public:
 
 export class BoundingBoxRasterizer : public Rasterizer
 {
-    const Pattern *pattern = nullptr;
+    const DrawingPattern *drawingPattern = nullptr;
+    const ColourPattern *colourPattern = nullptr;
 
 public:
     BoundingBoxRasterizer() = default;
 
-    explicit BoundingBoxRasterizer(const Pattern *pattern)
-        : pattern(pattern) {}
+    explicit BoundingBoxRasterizer(const DrawingPattern *drawingPattern)
+        : drawingPattern(drawingPattern) {}
+
+    explicit BoundingBoxRasterizer(const ColourPattern *colourPattern)
+        : colourPattern(colourPattern) {}
+
+    explicit BoundingBoxRasterizer(const DrawingPattern *drawingPattern, const ColourPattern *colourPattern)
+        : drawingPattern(drawingPattern), colourPattern(colourPattern) {}
 
     using Rasterizer::draw;
     void draw(Vector3D a, Vector3D b, Vector3D c, FrameBuffer &framebuffer, const Colour &colour) override;
