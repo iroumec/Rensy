@@ -6,6 +6,7 @@ import model;
 import buffer;
 import colour;
 import vector;
+import pattern;
 import rotation;
 
 export class Rasterizer
@@ -43,7 +44,14 @@ public:
 
 export class BoundingBoxRasterizer : public Rasterizer
 {
+    const Pattern *pattern = nullptr;
+
 public:
+    BoundingBoxRasterizer() = default;
+
+    explicit BoundingBoxRasterizer(const Pattern *pattern)
+        : pattern(pattern) {}
+
     using Rasterizer::draw;
     void draw(Vector3D a, Vector3D b, Vector3D c, FrameBuffer &framebuffer, const Colour &colour) override;
 };

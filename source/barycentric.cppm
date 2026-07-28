@@ -1,5 +1,7 @@
 module;
 
+#include <ostream>
+
 export module barycentric;
 
 import vector;
@@ -9,6 +11,12 @@ export struct BarycentricCoordinate
     double alpha = 0;
     double beta = 0;
     double gamma = 0;
+
+    constexpr bool isInsideTriangle() const
+    {
+        // If any of the coordinates are zero, then the point is outside the triangle.
+        return alpha >= 0 && beta >= 0 && gamma >= 0;
+    }
 };
 
 inline constexpr double getSignedTriangleArea(const Vector2D &a, const Vector2D &b, const Vector2D &c)
@@ -20,9 +28,15 @@ inline constexpr double getSignedTriangleArea(const Vector2D &a, const Vector2D 
 export inline constexpr BarycentricCoordinate getBarycentricCoordinates(
     const Vector2D &a, const Vector2D &b, const Vector2D &c, const Vector2D &point)
 {
-    double totalArea = getSignedTriangleArea(a, b, c);
-    double alpha = getSignedTriangleArea(point, b, c) / totalArea;
-    double beta = getSignedTriangleArea(point, c, a) / totalArea;
-    double gamma = getSignedTriangleArea(point, a, b) / totalArea;
+
+    double inversedArea = 1. / getSignedTriangleArea(a, b, c); // Total area.
+    double alpha = getSignedTriangleArea(point, b, c) * inversedArea;
+    double beta = getSignedTriangleArea(point, c, a) * inversedArea;
+    double gamma = getSignedTriangleArea(point, a, b) * inversedArea;
     return {alpha, beta, gamma};
+}
+
+export std::ostream &operator<<(std::ostream &out, const BarycentricCoordinate &coordinates)
+{
+    return out << "[ " << coordinates.alpha << " | " << coordinates.beta << " | " << coordinates.gamma << " ]";
 }

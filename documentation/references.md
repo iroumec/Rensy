@@ -13,5 +13,6 @@ Here's a list of references used to create and optimize this renderer:
 9. <https://en.wikipedia.org/wiki/Intercept_theorem>
 10. <https://en.wikipedia.org/wiki/Perspective_(graphical)>
 11. <https://es.wikipedia.org/wiki/Transformaci%C3%B3n_af%C3%ADn>
+12. <https://www.geeksforgeeks.org/maths/area-of-triangle-using-determinants/>
 
 They are not ordered by any criteria. The numbers just server to a referencing purpose.

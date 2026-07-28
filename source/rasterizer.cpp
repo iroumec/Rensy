@@ -121,16 +121,23 @@ void BoundingBoxRasterizer::draw(Vector3D a, Vector3D b, Vector3D c, FrameBuffer
 {
     BoundingBox bbox = BoundingBox(a, b, c);
 
+    double min = std::min(a.z(), std::min(b.z(), c.z()));
+    double max = std::max(a.z(), std::max(b.z(), c.z()));
+
     for (unsigned y = bbox.minY; y <= bbox.maxY; y++)
     {
         for (unsigned x = bbox.minX; x <= bbox.maxX; x++)
         {
             BarycentricCoordinate coordinates = getBarycentricCoordinates(a, b, c, Vector2D{(double)x, (double)y});
-            if (coordinates.alpha < 0 || coordinates.beta < 0 || coordinates.gamma < 0)
+            if (!coordinates.isInsideTriangle())
                 continue; // Outside the triangle.
+            if (pattern != nullptr && !pattern->isValid(coordinates))
+                continue;
             double z = coordinates.alpha * a.z() + coordinates.beta * b.z() + coordinates.gamma * c.z();
             if (framebuffer.isStoredDepthLower(x, y, z))
                 continue;
+            unsigned char zColour = static_cast<unsigned char>((z - min) / (max - min) * 255);
+            // framebuffer.setColour(x, y, Colour{zColour, zColour, zColour, 255});
             framebuffer.setColour(x, y, colour);
             framebuffer.setDepth(x, y, z);
         }
