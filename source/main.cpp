@@ -18,6 +18,8 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    initializeConfiguration();
+
     Model model{argv[1]};
     FrameBuffer buffer{WIDTH, HEIGHT};
     // VertexRasterizer rasterizer;

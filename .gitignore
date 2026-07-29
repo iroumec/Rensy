@@ -67,5 +67,5 @@ vcpkg_installed/
 Testing/
 .cache/
 
-# TGA files.
-# *.tga
+# Outputs.
+output/
