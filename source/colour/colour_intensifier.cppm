@@ -2,22 +2,22 @@ module;
 
 #include <cmath>
 
-export module colour_pattern;
+export module colour_intensifier;
 
 import colour;
 import barycentric;
 
 // See documentation/drawings/colourPatterns.excalidraw.
-export class ColourPattern
+export class ColourIntensifier
 {
 
 public:
-    virtual ~ColourPattern() = default;
+    virtual ~ColourIntensifier() = default;
 
     virtual constexpr Colour adjustColour(const Colour &colour, const BarycentricCoordinate &coordinates) const = 0;
 };
 
-export class BorderColourPattern : public ColourPattern
+export class BorderColourIntensifier : public ColourIntensifier
 {
 
 public:
@@ -29,7 +29,7 @@ public:
     }
 };
 
-export class CenterColourPattern : public ColourPattern
+export class CenterColourIntensifier : public ColourIntensifier
 {
 
 public:

@@ -1,35 +1,14 @@
 module;
 
 #include <random>
+#include <vector>
+#include <memory>
 #include <cstdint>
 #include <algorithm>
 
-export module colour;
+export module colour_generator;
 
-import tgaimage;
-
-// BGRA.
-export struct Colour
-{
-    std::uint8_t r;
-    std::uint8_t g;
-    std::uint8_t b;
-    std::uint8_t a;
-
-    Colour operator*(double adjust) const
-    {
-        return Colour{
-            static_cast<std::uint8_t>(std::clamp(r * adjust, 0.0, 255.0)),
-            static_cast<std::uint8_t>(std::clamp(g * adjust, 0.0, 255.0)),
-            static_cast<std::uint8_t>(std::clamp(b * adjust, 0.0, 255.0)),
-            a};
-    }
-
-    operator TGAColour() const
-    {
-        return TGAColour{{b, g, r, a}};
-    }
-};
+import colour;
 
 export class ColourGenerator
 {
@@ -86,13 +65,30 @@ public:
     }
 };
 
-// BGRA.
-export constexpr Colour white = {255, 255, 255, 255};
-export constexpr Colour green = {0, 255, 0, 255};
-export constexpr Colour blue = {0, 0, 255, 255};
-export constexpr Colour red = {255, 0, 0, 255};
-export constexpr Colour cyan = {0, 255, 255, 255};
-export constexpr Colour yellow = {255, 255, 0, 255};
-export constexpr Colour magenta = {255, 0, 255, 255};
-export constexpr Colour orange = {255, 165, 0, 255};
-export constexpr Colour purple = {128, 0, 128, 255};
+export class CircularColourGenerator : public ColourGenerator
+{
+    std::vector<std::shared_ptr<ColourGenerator>> generators;
+    mutable std::size_t current = 0;
+
+public:
+    CircularColourGenerator(
+        std::initializer_list<std::shared_ptr<ColourGenerator>> generators)
+        : generators(generators) {}
+
+    void addGenerator(std::shared_ptr<ColourGenerator> generator)
+    {
+        generators.push_back(std::move(generator));
+    }
+
+    Colour getColour() const override
+    {
+        if (generators.empty())
+            throw std::runtime_error("No generators");
+
+        Colour colour = generators[current]->getColour();
+
+        current = (current + 1) % generators.size();
+
+        return colour;
+    }
+};

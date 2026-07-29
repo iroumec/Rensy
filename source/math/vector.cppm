@@ -1,8 +1,6 @@
 module;
 
-#include <array>
 #include <cmath>
-#include <utility>
 #include <iostream>
 
 export module vector;
@@ -139,18 +137,6 @@ public:
         return out << "[ " << v.x() << " | " << v.y() << " | " << v.z() << " | " << v.w() << " ]";
     }
 };
-
-export std::array<Vector3D, 3> orderByAscendingAxisY(Vector3D a, Vector3D b, Vector3D c)
-{
-    if (a.y() > b.y())
-        std::swap(a, b);
-    if (a.y() > c.y())
-        std::swap(a, c);
-    if (b.y() > c.y())
-        std::swap(b, c);
-
-    return {a, b, c};
-}
 
 constexpr Vector2D::operator Vector3D() const
 {

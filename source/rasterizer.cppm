@@ -4,17 +4,19 @@ export module rasterizer;
 
 import model;
 import buffer;
-import colour;
-import vector;
-import pattern;
+import vertex;
 import rotation;
+import drawing_pattern;
+import colour_generator;
+import colour_calculator;
+import colour_intensifier;
 
 export class Rasterizer
 {
 public:
     virtual ~Rasterizer() = default;
 
-    virtual void draw(Vector3D a, Vector3D b, Vector3D c, FrameBuffer &framebuffer, const Colour &colour) = 0;
+    virtual void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &framebuffer) = 0;
 
     void draw(const Model &model, FrameBuffer &framebuffer, const ColourGenerator &colourGenerator, const Rotation &rotation);
 };
@@ -23,42 +25,48 @@ export class VertexRasterizer : public Rasterizer
 {
 public:
     using Rasterizer::draw;
-    void draw(Vector3D a, Vector3D b, Vector3D c, FrameBuffer &framebuffer, const Colour &colour) override;
+    void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &framebuffer) override;
 };
 
 export class WireframeRasterizer : public Rasterizer
 {
-    void drawLine(Vector3D a, Vector3D b, FrameBuffer &framebuffer, const Colour &colour);
+    void drawLine(Vertex a, Vertex b, FrameBuffer &framebuffer);
 
 public:
     using Rasterizer::draw;
-    void draw(Vector3D a, Vector3D b, Vector3D c, FrameBuffer &framebuffer, const Colour &colour) override;
+    void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &framebuffer) override;
 };
 
 export class ScanlineRasterizer : public Rasterizer
 {
 public:
     using Rasterizer::draw;
-    void draw(Vector3D a, Vector3D b, Vector3D c, FrameBuffer &framebuffer, const Colour &colour) override;
+    void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &framebuffer) override;
 };
 
 export class BoundingBoxRasterizer : public Rasterizer
 {
+    const ColourCalculator &colourCalculator;
     const DrawingPattern *drawingPattern = nullptr;
-    const ColourPattern *colourPattern = nullptr;
+    const ColourIntensifier *colourIntensifier = nullptr;
 
 public:
-    BoundingBoxRasterizer() = default;
+    BoundingBoxRasterizer(
+        const ColourCalculator &colourCalculator,
+        const DrawingPattern *drawingPattern = nullptr,
+        const ColourIntensifier *colourIntensifier = nullptr)
+        : colourCalculator(colourCalculator),
+          drawingPattern(drawingPattern),
+          colourIntensifier(colourIntensifier) {}
 
-    explicit BoundingBoxRasterizer(const DrawingPattern *drawingPattern)
-        : drawingPattern(drawingPattern) {}
-
-    explicit BoundingBoxRasterizer(const ColourPattern *colourPattern)
-        : colourPattern(colourPattern) {}
-
-    explicit BoundingBoxRasterizer(const DrawingPattern *drawingPattern, const ColourPattern *colourPattern)
-        : drawingPattern(drawingPattern), colourPattern(colourPattern) {}
+    BoundingBoxRasterizer(
+        const ColourCalculator &colourCalculator,
+        const ColourIntensifier *colourIntensifier = nullptr,
+        const DrawingPattern *drawingPattern = nullptr)
+        : colourCalculator(colourCalculator),
+          drawingPattern(drawingPattern),
+          colourIntensifier(colourIntensifier) {}
 
     using Rasterizer::draw;
-    void draw(Vector3D a, Vector3D b, Vector3D c, FrameBuffer &framebuffer, const Colour &colour) override;
+    void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &framebuffer) override;
 };
