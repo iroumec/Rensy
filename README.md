@@ -1,17 +1,13 @@
 # Crasty
 
-This is just a basic renderer made using
+A basic OBJ model renderer.
 
-## Credits
+## Output
 
-Future ideas -> File.scene
+An image rendering.
 
-width 380
-height 140
+![Framebuffer rendering](resources/interesting_outputs/09.png)
 
-triangle 7 45 35 100 45 60 red
-triangle 120 35 90 5 45 110 white
-...
+And its respective depth buffer (z buffer) rendering.
 
-Scene scene("basic_triangles.scene");
-scene.render();
+![ZBuffer rendering](resources/interesting_outputs/10.png)

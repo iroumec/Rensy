@@ -30,3 +30,10 @@ timed-run: compile ## The program is executed using all optimizations (-O3) and 
 
 see-imports:
 	@grep -R "^import " source/*.cppm
+
+convert-tga-to-png: # Requires `sudo apt install imagemagick`.
+	@for d in resources/interesting_outputs outputs; do \
+		[ -d "$$d" ] || continue; \
+		find "$$d" -type f -name "*.tga" \
+			-exec sh -c 'for f; do magick "$$f" "$${f%.tga}.png"; done' _ {} +; \
+	done
