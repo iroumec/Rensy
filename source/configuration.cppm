@@ -12,6 +12,7 @@ export module configuration;
 
 import radian;
 import colour;
+import filter;
 import rotation;
 import drawing_pattern;
 import colour_generator;
@@ -91,3 +92,16 @@ export const CenterDrawingPattern CENTER_DRAWING_PATTERN{};
 // SELECT ONE:
 // export const Pattern *PATTERN = &BORDER_PATTERN;
 export const DrawingPattern *DRAWING_PATTERN = nullptr;
+
+// ============================================================================
+// FILTERS
+// ============================================================================
+
+// DO NOT CHANGE!
+export const FogFilter FOG_FILTER{Colour{0, 0, 0, 255}};
+export const BrightFilter BRIGHT_FILTER{Colour{237, 234, 222, 255}};
+
+// SELECT ONE:
+// export const Filter *FILTER = nullptr;
+export const Filter *FILTER = &FOG_FILTER;
+// export const Filter *FILTER = &BRIGHT_FILTER;

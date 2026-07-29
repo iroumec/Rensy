@@ -61,12 +61,32 @@ public:
         this->colourBuffer.set(x, y, colour);
     }
 
+    const Colour getColour(unsigned x, unsigned y) const
+    {
+        TGAColour tgaColour = this->colourBuffer.get(x, y);
+
+        return {tgaColour[2], tgaColour[1], tgaColour[0], tgaColour[3]};
+    }
+
     void setDepth(unsigned x, unsigned y, double depth)
     {
         std::size_t index = y * width + x;
         assert(index < width * height);
 
         this->depthBuffer.setDepth(index, depth);
+    }
+
+    double getDepth(unsigned x, unsigned y) const
+    {
+        std::size_t index = y * width + x;
+        assert(index < width * height);
+
+        return this->depthBuffer.getDepth(index);
+    }
+
+    std::tuple<double, double> getMinMaxDepth() const
+    {
+        return this->depthBuffer.getMinMaxElements();
     }
 
     bool isStoredDepthLower(unsigned x, unsigned y, double newDepth) const

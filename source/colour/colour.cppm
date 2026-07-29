@@ -38,6 +38,17 @@ export struct Colour
     //
     // --------------------------------------------------------------------- //
 
+    Colour blend(const Colour &colour, double intensity) const
+    {
+        intensity = std::clamp(intensity, 0.0, 1.0);
+
+        return Colour{
+            static_cast<uint8_t>(r * (1 - intensity) + colour.r * intensity),
+            static_cast<uint8_t>(g * (1 - intensity) + colour.g * intensity),
+            static_cast<uint8_t>(b * (1 - intensity) + colour.b * intensity),
+            a};
+    }
+
     Colour adjustTransparency(double multiplier) const
     {
         return Colour{

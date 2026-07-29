@@ -6,7 +6,7 @@ A basic OBJ model renderer.
 
 An image rendering.
 
-![Framebuffer rendering](resources/interesting_outputs/09.png)
+![Framebuffer rendering](resources/interesting_outputs/14.png)
 
 And its respective depth buffer (z buffer) rendering.
 

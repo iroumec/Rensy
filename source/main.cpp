@@ -29,6 +29,9 @@ int main(int argc, char **argv)
 
     rasterizer.draw(model, buffer, COLOUR_GENERATOR, ROTATION);
 
+    if (FILTER != nullptr)
+        FILTER->apply(buffer);
+
     buffer.renderColourBuffer(outputFrameFileName);
     buffer.renderDepthBuffer(outputZBufferFileName);
     return 0;
