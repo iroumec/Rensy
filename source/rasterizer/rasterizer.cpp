@@ -126,9 +126,6 @@ void BoundingBoxRasterizer::draw(Vertex a, Vertex b, Vertex c, FrameBuffer &fram
 {
     BoundingBox bbox = BoundingBox(a.getVector(), b.getVector(), c.getVector());
 
-    double min = std::min(a.z(), std::min(b.z(), c.z()));
-    double max = std::max(a.z(), std::max(b.z(), c.z()));
-
     for (unsigned y = bbox.minY; y <= bbox.maxY; y++)
     {
         for (unsigned x = bbox.minX; x <= bbox.maxX; x++)
@@ -141,11 +138,9 @@ void BoundingBoxRasterizer::draw(Vertex a, Vertex b, Vertex c, FrameBuffer &fram
             double z = coordinates.alpha * a.z() + coordinates.beta * b.z() + coordinates.gamma * c.z();
             if (framebuffer.isStoredDepthLower(x, y, z))
                 continue;
-            unsigned char zColour = static_cast<unsigned char>((z - min) / (max - min) * 255);
-            // framebuffer.setColour(x, y, Colour{zColour, zColour, zColour, 255});
             Colour colour = this->colourCalculator.calculateColour(a, b, c, coordinates);
             if (colourIntensifier != nullptr)
-                colour = colourIntensifier->adjustColour(colour, coordinates);
+                colour = colourIntensifier->adjustColour(colour, a, b, c, coordinates);
             framebuffer.setColour(x, y, colour);
             framebuffer.setDepth(x, y, z);
         }

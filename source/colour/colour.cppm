@@ -35,11 +35,24 @@ export struct Colour
     }
 
     // --------------------------------------------------------------------- //
+    //
+    // --------------------------------------------------------------------- //
+
+    Colour adjustTransparency(double multiplier) const
+    {
+        return Colour{
+            r, g, b,
+            static_cast<std::uint8_t>(std::clamp(a * multiplier, 0.0, 255.0))};
+    }
+
+    // --------------------------------------------------------------------- //
     // * OPERATOR
     // --------------------------------------------------------------------- //
 
     Colour operator*(double adjust) const
     {
+        // TODO: hacer clamp sobre adjust en lugar de sobre el color.
+
         return Colour{
             static_cast<std::uint8_t>(std::clamp(r * adjust, 0.0, 255.0)),
             static_cast<std::uint8_t>(std::clamp(g * adjust, 0.0, 255.0)),
