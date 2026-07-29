@@ -10,4 +10,4 @@ An image rendering.
 
 And its respective depth buffer (z buffer) rendering.
 
-![ZBuffer rendering](resources/interesting_outputs/10.png)
+![ZBuffer rendering](resources/interesting_outputs/11.png)

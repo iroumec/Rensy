@@ -88,6 +88,8 @@ public:
 
         auto [minDepth, maxDepth] = this->depthBuffer.getMinMaxElements();
 
+        minDepth -= 0.5; // So the things too distant aren't completely black.
+
         for (unsigned row = 0; row < this->height; row++)
             for (unsigned column = 0; column < this->width; column++)
                 imageBuffer.set(
