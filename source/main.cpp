@@ -35,7 +35,7 @@ int main(int argc, char **argv)
     Model model{argv[1]};
     FrameBuffer buffer{WIDTH, HEIGHT};
 
-    RASTERIZER.draw(model, buffer, COLOUR_GENERATOR, ROTATION);
+    RASTERIZER.draw(model, buffer, COLOUR_GENERATOR, getMVPTransform());
 
     if (FILTER != nullptr)
         FILTER->apply(buffer);

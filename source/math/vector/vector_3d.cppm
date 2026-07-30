@@ -40,9 +40,19 @@ public:
     constexpr double &y() { return data[1, 0]; }
     constexpr double &z() { return data[2, 0]; }
 
+    Vector3D operator-(const Vector3D &other) const;
+
+    Vector3D operator*(double value) const;
+
+    Vector3D operator/(double value) const;
+
     double dot(const Vector3D &other) const;
 
     Vector3D cross(const Vector3D &other) const;
+
+    double magnitude() const;
+
+    Vector3D normalize() const;
 
     operator Vector2D() const;
 

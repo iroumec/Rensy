@@ -15,6 +15,8 @@ CMAKE_SOURCE_DIR = /home/iroumec/Documents/Crasty/source
 
 FILES ?= resources/obj/diablo3_pose/diablo3_pose.obj resources/obj/floor.obj
 
+EXEC  ?= ./build/crasty
+
 git-uncache: ## "Descachea" los archivos.
 	@git rm -r --cached .
 
@@ -37,3 +39,10 @@ tga-to-png: # Requires `sudo apt install imagemagick`.
 		find "$$d" -type f -name "*.tga" \
 			-exec sh -c 'for f; do magick "$$f" "$${f%.tga}.png"; done' _ {} +; \
 	done
+
+debug:
+	gdb --batch \
+		-ex "run $(FILES)" \
+		-ex "bt" \
+		-ex "quit" \
+		$(EXEC)

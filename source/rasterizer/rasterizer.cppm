@@ -9,7 +9,7 @@ export module rasterizer;
 import model;
 import buffer;
 import vertex;
-import rotation;
+import transform;
 import drawing_pattern;
 import colour_generator;
 import colour_calculator;
@@ -34,7 +34,7 @@ public:
     void draw(const Model &model,
               FrameBuffer &buffer,
               const ColourGenerator &colourGenerator,
-              const Rotation &rotation = Rotation{}) const;
+              const MVPTransform &mvpTransform) const;
 };
 
 // ----------------------------------------------------------------------------

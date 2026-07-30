@@ -13,7 +13,9 @@ export module configuration;
 import radian;
 import colour;
 import filter;
+import vector;
 import rotation;
+import transform;
 import rasterizer;
 import drawing_pattern;
 import colour_generator;
@@ -23,9 +25,6 @@ import colour_intensifier;
 export constexpr unsigned WIDTH = 1080;
 export constexpr unsigned HEIGHT = 1080;
 export constexpr unsigned RANDOM_SEED = 42;
-
-export constexpr Rotation ROTATION =
-    Rotation{Radian{}, Radian::fromDegrees(30.0), Radian{}};
 
 // ============================================================================
 // OUTPUT
@@ -96,14 +95,36 @@ export const CenterDrawingPattern CENTER_DRAWING_PATTERN{};
 export const DrawingPattern *DRAWING_PATTERN = nullptr;
 
 // ============================================================================
+// MVP Transform
+// ============================================================================
+
+constexpr Rotation ROTATION =
+    Rotation{Radian{}, Radian::fromDegrees(30.0), Radian{}};
+
+const Vector3D EYE(-1, 0, 2);   // Camera position.
+const Vector3D CENTER(0, 0, 0); // Camera direction.
+const Vector3D UP(0, 1, 0);     // Camera up vector.
+
+export const MVPTransform &getMVPTransform()
+{
+    static const MVPTransform instance{
+        ModelTransform{
+            RotationTransform{ROTATION},
+        },
+        ViewTransform{EYE, CENTER, UP},
+        PerspectiveProjection{}};
+    return instance;
+}
+
+// ============================================================================
 // RASTERIZER
 // ============================================================================
 
 // DO NOT CHANGE!
-export const VertexRasterizer VERTEX_RASTERIZER{};
-export const WireframeRasterizer WIREFRAME_RASTERIZER{};
-export const ScanlineRasterizer SCANLINE_RASTERIZER{};
-export const BoundingBoxRasterizer BOUNDING_BOX_RASTERIZER{
+const VertexRasterizer VERTEX_RASTERIZER{};
+const WireframeRasterizer WIREFRAME_RASTERIZER{};
+const ScanlineRasterizer SCANLINE_RASTERIZER{};
+const BoundingBoxRasterizer BOUNDING_BOX_RASTERIZER{
     COLOUR_CALCULATOR, COLOUR_INTENSIFIER, DRAWING_PATTERN};
 
 // SELECT ONE:

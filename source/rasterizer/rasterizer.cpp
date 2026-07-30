@@ -18,6 +18,7 @@ import vector;
 import vertex;
 import matrix;
 import geometry;
+import clipping;
 import transform;
 import perspective;
 import barycentric;
@@ -40,35 +41,46 @@ void Rasterizer::draw(
     const Model &model,
     FrameBuffer &buffer,
     const ColourGenerator &colourGenerator,
-    const Rotation &rotation) const
+    const MVPTransform &mvpTransform) const
 {
 
-    MVPTransform mvpTransform{
-        ModelTransform{
-            RotationTransform{rotation},
-        },
-        PerspectiveProjection{}};
-
     ViewportTransform viewportTransform(buffer.getWidth(), buffer.getHeight());
-
-    // Lambda for applying the transformation.
-    auto applyTransformation =
-        [&mvpTransform, &viewportTransform](const Vector4D &vector)
-    {
-        return viewportTransform.apply(getNDC(mvpTransform.apply(vector)));
-    };
 
     // Iterates through all triangles and draw them.
     for (unsigned i = 0; i < model.getNumberOfFaces(); i++)
     {
-        Vector3D a = applyTransformation(Vector4D(model.getVertex(i, 0)));
-        Vector3D b = applyTransformation(Vector4D(model.getVertex(i, 1)));
-        Vector3D c = applyTransformation(Vector4D(model.getVertex(i, 2)));
-        this->draw(
-            {a, colourGenerator()},
-            {b, colourGenerator()},
-            {c, colourGenerator()},
-            buffer);
+        // Model coordinates.
+        Vector4D v0Local(model.getVertex(i, 0));
+        Vector4D v1Local(model.getVertex(i, 1));
+        Vector4D v2Local(model.getVertex(i, 2));
+
+        // Transformation to homogeneous clip space.
+        Vector4D v0Clip = mvpTransform.apply(v0Local);
+        Vector4D v1Clip = mvpTransform.apply(v1Local);
+        Vector4D v2Clip = mvpTransform.apply(v2Local);
+
+        std::cout << "v0Clip: " << v0Clip << std::endl;
+        std::cout << "v1Clip: " << v1Clip << std::endl;
+        std::cout << "v2Clip: " << v2Clip << std::endl;
+
+        // Clipping space validation.
+        if (/*insideClipVolume(v0Clip) &&
+            insideClipVolume(v1Clip) &&
+            insideClipVolume(v2Clip)*/
+            v0Clip.w() > 0.001 &&
+            v1Clip.w() > 0.001 && v2Clip.w() > 0.001)
+        {
+            // Screen space transformation (NDC -> Viewport).
+            Vector4D a = viewportTransform.apply(getNDC(v0Clip));
+            Vector4D b = viewportTransform.apply(getNDC(v1Clip));
+            Vector4D c = viewportTransform.apply(getNDC(v2Clip));
+
+            this->draw(
+                {a, colourGenerator()},
+                {b, colourGenerator()},
+                {c, colourGenerator()},
+                buffer);
+        }
     }
 }
 
@@ -186,9 +198,14 @@ void BoundingBoxRasterizer::
 {
     BoundingBox bbox = BoundingBox(a.getVector(), b.getVector(), c.getVector());
 
-    for (unsigned y = bbox.minY; y <= bbox.maxY; y++)
+    int minX = std::max(0, static_cast<int>(bbox.minX));
+    int maxX = std::min(static_cast<int>(buffer.getWidth() - 1), static_cast<int>(bbox.maxX));
+    int minY = std::max(0, static_cast<int>(bbox.minY));
+    int maxY = std::min(static_cast<int>(buffer.getHeight() - 1), static_cast<int>(bbox.maxY));
+
+    for (int y = minY; y <= maxY; y++)
     {
-        for (unsigned x = bbox.minX; x <= bbox.maxX; x++)
+        for (int x = minX; x <= maxX; x++)
         {
             // Barycentric coordinates obtention.
             BarycentricCoordinate coordinates = getBarycentricCoordinates(

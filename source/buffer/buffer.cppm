@@ -70,8 +70,10 @@ public:
 
     void setDepth(unsigned x, unsigned y, double depth)
     {
+        assert(x >= 0 && x < this->width);
+        assert(y >= 0 && y < this->height);
+
         std::size_t index = y * width + x;
-        assert(index < width * height);
 
         this->depthBuffer.setDepth(index, depth);
     }
@@ -91,6 +93,9 @@ public:
 
     bool isStoredDepthLower(unsigned x, unsigned y, double newDepth) const
     {
+        if (x >= width || y >= height) // Overflow control.
+            return false;
+
         std::size_t index = y * width + x;
         assert(index < width * height);
 
