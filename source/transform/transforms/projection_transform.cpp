@@ -37,6 +37,10 @@ PerspectiveProjection::PerspectiveProjection(
     : ProjectionTransform(
           makePerspectiveMatrix(fieldOfView, aspect, near, far)) {}
 
+PerspectiveProjection::PerspectiveProjection(double focalLength)
+    : ProjectionTransform(
+          makePerspectiveMatrix(focalLength)) {}
+
 // ----------------------------------------------------------------------------
 // Perspective Matrix
 // ----------------------------------------------------------------------------
@@ -52,6 +56,18 @@ Matrix<double, 4, 4> makePerspectiveMatrix(
         {0, 0, -(far + near) / (far - near),
          -(2 * far * near) / (far - near)},
         {0, 0, -1, 0}};
+}
+
+Matrix<double, 4, 4> makePerspectiveMatrix(
+    double focalLength)
+{
+    assert(focalLength > 0);
+
+    return {
+        {1, 0, 0, 0},
+        {0, 1, 0, 0},
+        {0, 0, 1, 0},
+        {0, 0, -1. / focalLength, 1}};
 }
 
 // ============================================================================

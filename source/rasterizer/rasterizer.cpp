@@ -59,9 +59,12 @@ void Rasterizer::draw(
         Vector4D v1Clip = mvpTransform.apply(v1Local);
         Vector4D v2Clip = mvpTransform.apply(v2Local);
 
-        std::cout << "v0Clip: " << v0Clip << std::endl;
-        std::cout << "v1Clip: " << v1Clip << std::endl;
-        std::cout << "v2Clip: " << v2Clip << std::endl;
+        if (DEBUF)
+        {
+            std::cout << "v0Clip: " << v0Clip << std::endl;
+            std::cout << "v1Clip: " << v1Clip << std::endl;
+            std::cout << "v2Clip: " << v2Clip << std::endl;
+        }
 
         // Clipping space validation.
         if (/*insideClipVolume(v0Clip) &&

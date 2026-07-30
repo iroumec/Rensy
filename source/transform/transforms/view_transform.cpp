@@ -44,7 +44,7 @@ Matrix<double, 4, 4> makeViewMatrix(
                                {0, 0, 1, -center.z()},
                                {0, 0, 0, 1}}};
 
-    // return Matrix<double, 4, 4>::getIdentity();
+    return Matrix<double, 4, 4>::getIdentity();
 
     return R * T;
 }
