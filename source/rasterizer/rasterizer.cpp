@@ -6,15 +6,16 @@ module;
 
 module rasterizer;
 
+import ndc;
 import bbox;
 import model;
 import buffer;
 import colour;
 import vector;
 import vertex;
+import matrix;
 import geometry;
 import transform;
-import perspective;
 import barycentric;
 
 constexpr bool DEBUG = false;
@@ -23,14 +24,18 @@ void Rasterizer::draw(const Model &model, FrameBuffer &framebuffer, const Colour
 {
 
     MVPTransform mvpTransform{ModelTransform{RotationTransform{rotation}} /*, ProjectionTransform{1, 10}*/};
+    PerspectiveTransform perspectiveTransform{};
+
+    Matrix<double, 4, 4> clipTransform = perspectiveTransform.getMatrix() * mvpTransform.getMatrix();
+
     ViewportTransform viewportTransform(framebuffer.getWidth(), framebuffer.getHeight());
 
     // Iterates through all triangles and draw them.
     for (unsigned i = 0; i < model.getNumberOfFaces(); i++)
     {
-        Vector3D a = viewportTransform.apply(constantPerspectiveDivide(mvpTransform.apply(model.getVertex(i, 0))));
-        Vector3D b = viewportTransform.apply(constantPerspectiveDivide(mvpTransform.apply(model.getVertex(i, 1))));
-        Vector3D c = viewportTransform.apply(constantPerspectiveDivide(mvpTransform.apply(model.getVertex(i, 2))));
+        Vector3D a = viewportTransform.apply(getNDC(clipTransform * Vector4D(model.getVertex(i, 0))));
+        Vector3D b = viewportTransform.apply(getNDC(clipTransform * Vector4D(model.getVertex(i, 1))));
+        Vector3D c = viewportTransform.apply(getNDC(clipTransform * Vector4D(model.getVertex(i, 2))));
         this->draw({a, colourGenerator()}, {b, colourGenerator()}, {c, colourGenerator()}, framebuffer);
     }
 }

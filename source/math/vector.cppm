@@ -126,9 +126,13 @@ public:
                this->w() * other.w();
     }
 
-    constexpr operator Vector3D() const;
+    friend Vector4D operator*(
+        const Matrix<double, 4, 4> &matrix, const Vector4D &vector)
+    {
+        return matrix * vector.data;
+    }
 
-    constexpr explicit operator Matrix<double, 4, 1>() const;
+    constexpr operator Vector3D() const;
 
     // Cross product is, strictly, defined only for 3 and 7 dimensions.
 
@@ -156,9 +160,4 @@ constexpr Vector3D::operator Vector4D() const
 constexpr Vector4D::operator Vector3D() const
 {
     return Vector3D{this->x(), this->y(), this->z()};
-}
-
-constexpr Vector4D::operator Matrix<double, 4, 1>() const
-{
-    return this->data;
 }

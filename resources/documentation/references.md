@@ -14,5 +14,6 @@ Here's a list of references used to create and optimize this renderer:
 10. <https://en.wikipedia.org/wiki/Perspective_(graphical)>
 11. <https://es.wikipedia.org/wiki/Transformaci%C3%B3n_af%C3%ADn>
 12. <https://www.geeksforgeeks.org/maths/area-of-triangle-using-determinants/>
+13. <https://registry.khronos.org/OpenGL-Refpages/gl2.1/xhtml/gluLookAt.xml>
 
 They are not ordered by any criteria. The numbers just server to a referencing purpose.

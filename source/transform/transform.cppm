@@ -73,3 +73,11 @@ export class RotationTransform : public Transform
 public:
     RotationTransform(const Rotation &rotation);
 };
+
+export class PerspectiveTransform : public Transform
+{
+    // Creates a perspective matrix.
+
+public:
+    PerspectiveTransform(double focalLength = 3.);
+};

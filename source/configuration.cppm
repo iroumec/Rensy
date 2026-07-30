@@ -90,7 +90,8 @@ export const BorderDrawingPattern BORDER_DRAWING_PATTERN{};
 export const CenterDrawingPattern CENTER_DRAWING_PATTERN{};
 
 // SELECT ONE:
-// export const Pattern *PATTERN = &BORDER_PATTERN;
+// export const DrawingPattern *DRAWING_PATTERN = &BORDER_DRAWING_PATTERN;
+// export const DrawingPattern *DRAWING_PATTERN = &CENTER_DRAWING_PATTERN;
 export const DrawingPattern *DRAWING_PATTERN = nullptr;
 
 // ============================================================================

@@ -1,6 +1,7 @@
 module;
 
 #include <cmath>
+#include <cassert>
 
 module transform;
 
@@ -54,6 +55,17 @@ namespace
 
         return result;
     }
+
+    Matrix<double, 4, 4> makePerspectiveMatrix(double focalLength)
+    {
+        assert(focalLength > 0);
+
+        return {
+            {1, 0, 0, 0},
+            {0, 1, 0, 0},
+            {0, 0, 1, 0},
+            {0, 0, -1. / focalLength, 1}};
+    }
 }
 
 Transform::Transform(const Matrix<double, 4, 4> &matrix)
@@ -66,18 +78,17 @@ const Matrix<double, 4, 4> &Transform::getMatrix() const
 
 Vector4D Transform::apply(const Vector4D &vector) const
 {
-    return Vector4D(this->matrix * static_cast<Matrix<double, 4, 1>>(vector));
+    return Vector4D(this->matrix * vector);
 }
+
+PerspectiveTransform::PerspectiveTransform(double focalLength)
+    : Transform(makePerspectiveMatrix(focalLength)) {}
 
 RotationTransform::RotationTransform(const Rotation &rotation)
-    : Transform(makeRotationMatrix(rotation))
-{
-}
+    : Transform(makeRotationMatrix(rotation)) {}
 
 ModelTransform::ModelTransform(const RotationTransform &rotationTransform)
-    : Transform(rotationTransform.getMatrix())
-{
-}
+    : Transform(rotationTransform.getMatrix()) {}
 
 ProjectionTransform::ProjectionTransform(double near, double far)
     : Transform(Matrix<double, 4, 4>{
