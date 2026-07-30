@@ -14,6 +14,7 @@ import radian;
 import colour;
 import filter;
 import rotation;
+import rasterizer;
 import drawing_pattern;
 import colour_generator;
 import colour_calculator;
@@ -93,6 +94,23 @@ export const CenterDrawingPattern CENTER_DRAWING_PATTERN{};
 // export const DrawingPattern *DRAWING_PATTERN = &BORDER_DRAWING_PATTERN;
 // export const DrawingPattern *DRAWING_PATTERN = &CENTER_DRAWING_PATTERN;
 export const DrawingPattern *DRAWING_PATTERN = nullptr;
+
+// ============================================================================
+// RASTERIZER
+// ============================================================================
+
+// DO NOT CHANGE!
+export const VertexRasterizer VERTEX_RASTERIZER{};
+export const WireframeRasterizer WIREFRAME_RASTERIZER{};
+export const ScanlineRasterizer SCANLINE_RASTERIZER{};
+export const BoundingBoxRasterizer BOUNDING_BOX_RASTERIZER{
+    COLOUR_CALCULATOR, COLOUR_INTENSIFIER, DRAWING_PATTERN};
+
+// SELECT ONE:
+// export const Rasterizer &RASTERIZER = VERTEX_RASTERIZER;
+// export const Rasterizer &RASTERIZER = WIREFRAME_RASTERIZER;
+// export const Rasterizer &RASTERIZER = SCANLINE_RASTERIZER;
+export const Rasterizer &RASTERIZER = BOUNDING_BOX_RASTERIZER;
 
 // ============================================================================
 // FILTERS

@@ -29,12 +29,12 @@ public:
     virtual ~Rasterizer() = default;
 
     virtual void draw(
-        Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) = 0;
+        Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const = 0;
 
     void draw(const Model &model,
               FrameBuffer &buffer,
               const ColourGenerator &colourGenerator,
-              const Rotation &rotation = Rotation{});
+              const Rotation &rotation = Rotation{}) const;
 };
 
 // ----------------------------------------------------------------------------
@@ -45,7 +45,8 @@ export class VertexRasterizer : public Rasterizer
 {
 public:
     using Rasterizer::draw;
-    void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) override;
+    void draw(
+        Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const override;
 };
 
 // ----------------------------------------------------------------------------
@@ -54,11 +55,12 @@ public:
 
 export class WireframeRasterizer : public Rasterizer
 {
-    void drawLine(Vertex a, Vertex b, FrameBuffer &buffer);
+    void drawLine(Vertex a, Vertex b, FrameBuffer &buffer) const;
 
 public:
     using Rasterizer::draw;
-    void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) override;
+    void draw(
+        Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const override;
 };
 
 // ----------------------------------------------------------------------------
@@ -69,7 +71,8 @@ export class ScanlineRasterizer : public Rasterizer
 {
 public:
     using Rasterizer::draw;
-    void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) override;
+    void draw(
+        Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const override;
 };
 
 // ----------------------------------------------------------------------------
@@ -100,7 +103,8 @@ public:
           colourIntensifier(colourIntensifier) {}
 
     using Rasterizer::draw;
-    void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) override;
+    void draw(
+        Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const override;
 };
 
 // ============================================================================

@@ -1,5 +1,13 @@
+// ============================================================================
+// Includes
+// ============================================================================
+
 #include <iostream>
 #include <string>
+
+// ============================================================================
+// Imports
+// ============================================================================
 
 import model;
 import colour;
@@ -7,6 +15,10 @@ import buffer;
 import tgaimage;
 import rasterizer;
 import configuration;
+
+// ============================================================================
+// Functions
+// ============================================================================
 
 int main(int argc, char **argv)
 {
@@ -22,12 +34,8 @@ int main(int argc, char **argv)
 
     Model model{argv[1]};
     FrameBuffer buffer{WIDTH, HEIGHT};
-    // VertexRasterizer rasterizer;
-    // WireframeRasterizer rasterizer;
-    // ScanlineRasterizer rasterizer;
-    BoundingBoxRasterizer rasterizer{COLOUR_CALCULATOR, COLOUR_INTENSIFIER, DRAWING_PATTERN};
 
-    rasterizer.draw(model, buffer, COLOUR_GENERATOR, ROTATION);
+    RASTERIZER.draw(model, buffer, COLOUR_GENERATOR, ROTATION);
 
     if (FILTER != nullptr)
         FILTER->apply(buffer);
@@ -36,3 +44,7 @@ int main(int argc, char **argv)
     buffer.renderDepthBuffer(outputZBufferFileName);
     return 0;
 }
+
+// ============================================================================
+// EOF
+// ============================================================================

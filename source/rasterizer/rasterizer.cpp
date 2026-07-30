@@ -40,7 +40,7 @@ void Rasterizer::draw(
     const Model &model,
     FrameBuffer &buffer,
     const ColourGenerator &colourGenerator,
-    const Rotation &rotation)
+    const Rotation &rotation) const
 {
 
     MVPTransform mvpTransform{
@@ -77,7 +77,7 @@ void Rasterizer::draw(
 // ----------------------------------------------------------------------------
 
 void VertexRasterizer::
-    draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer)
+    draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const
 {
     buffer.setColour(a.x(), a.y(), a.getColour());
     buffer.setColour(b.x(), b.y(), b.getColour());
@@ -89,7 +89,7 @@ void VertexRasterizer::
 // ----------------------------------------------------------------------------
 
 void WireframeRasterizer::
-    drawLine(Vertex a, Vertex b, FrameBuffer &buffer)
+    drawLine(Vertex a, Vertex b, FrameBuffer &buffer) const
 {
     /// Bresenham's line algorithm (variant with barycentric coordinates).
     // Is the line more vertical than horizontal?
@@ -121,7 +121,7 @@ void WireframeRasterizer::
 }
 
 void WireframeRasterizer::
-    draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer)
+    draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const
 {
     // This order is important for circular colour generators.
     this->drawLine(a, b, buffer);
@@ -134,7 +134,7 @@ void WireframeRasterizer::
 // ----------------------------------------------------------------------------
 
 void ScanlineRasterizer::
-    draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer)
+    draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const
 {
     // Vertices ordering.
     auto orderedVertices = orderByAscendingAxisY(a, b, c);
@@ -182,7 +182,7 @@ void ScanlineRasterizer::
 // ----------------------------------------------------------------------------
 
 void BoundingBoxRasterizer::
-    draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer)
+    draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const
 {
     BoundingBox bbox = BoundingBox(a.getVector(), b.getVector(), c.getVector());
 
