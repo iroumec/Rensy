@@ -89,15 +89,47 @@ find_package(OpenMP COMPONENTS CXX)
 # para evitar ambigüedades si este CMakeLists.txt llegara a incluirse desde
 # otro proyecto o se invocara desde un directorio distinto.
 # ------------------------------------------------------------------------------
-file(GLOB_RECURSE MODULE_FILES CONFIGURE_DEPENDS
+#file(GLOB_RECURSE MODULE_FILES CONFIGURE_DEPENDS
+#    "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cppm")
+#file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS
+#    "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp")
+
+# 1. Buscamos todos los .cppm (siempre son interfaces/módulos)
+file(GLOB_RECURSE CPPM_FILES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cppm")
-file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS
+
+# 2. Buscamos todos los .cpp
+file(GLOB_RECURSE CPP_FILES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp")
 
 # list(SORT ...) asegura un orden determinístico entre distintos sistemas
 # operativos/filesystems, ya que file(GLOB) no garantiza orden estable.
-list(SORT MODULE_FILES)
-list(SORT SOURCE_FILES)
+#list(SORT MODULE_FILES)
+#list(SORT SOURCE_FILES)
+list(SORT CPPM_FILES)
+list(SORT CPP_FILES)
+
+# 3. Clasificamos los .cpp en dos listas:
+# - CPP_MODULE_FILES: los que tienen "module nombre..." al principio.
+# - REGULAR_CPP_FILES: los normales (main.cpp, tgaimage.cpp, etc.).
+set(CPP_MODULE_FILES "")
+set(REGULAR_CPP_FILES "")
+
+#En C++20 hay tres tipos de archivos de módulos, y CMake los trata diferente:
+# - Interfaces (export module A;): Generan un archivo precompilado que otros leen. Van en CXX_MODULES.
+# - Particiones (module A:B;): Generan una partición que el módulo primario lee. Van en CXX_MODULES.
+# - Unidades de Implementación (module A;): Como tu rasterizer.cpp o model.cpp. No exportan nada ni proveen dependencias para otros archivos, solo contienen el código ejecutable de las funciones. Para CMake, son archivos .cpp comunes y corrientes.
+foreach(cpp_file ${CPP_FILES})
+    # Buscamos 'module' seguido de Nombre:Particion (ej: 'module vector:vector_2d;')
+    # Ignora 'module rasterizer;' porque no tiene los dos puntos (:)
+    file(STRINGS "${cpp_file}" module_line REGEX "^[ \t]*module[ \t]+[a-zA-Z0-9_]+:[a-zA-Z0-9_]+;" LIMIT_COUNT 1)
+
+    if(module_line)
+        list(APPEND CPP_MODULE_FILES "${cpp_file}")
+    else()
+        list(APPEND REGULAR_CPP_FILES "${cpp_file}")
+    endif()
+endforeach()
 
 # ------------------------------------------------------------------------------
 # Diagnóstico: si en algún momento el build falla con "No SOURCES given to
@@ -105,10 +137,12 @@ list(SORT SOURCE_FILES)
 # el glob no encontró nada (carpeta "source/" vacía, mal ubicada, o mal
 # nombrada).
 # ------------------------------------------------------------------------------
-message(STATUS "Archivos .cpp encontrados: ${SOURCE_FILES}")
-message(STATUS "Archivos .cppm encontrados: ${MODULE_FILES}")
+#message(STATUS "Archivos .cpp encontrados: ${SOURCE_FILES}")
+#message(STATUS "Archivos .cppm encontrados: ${MODULE_FILES}")
+message(STATUS "Archivos .cpp encontrados: ${CPP_FILES}")
+message(STATUS "Archivos .cppm encontrados: ${CPPM_FILES}")
 
-if(NOT SOURCE_FILES AND NOT MODULE_FILES)
+if(NOT CPP_FILES AND NOT CPPM_FILES)
     message(FATAL_ERROR
         "No se encontró ningún archivo .cpp ni .cppm en "
         "'${CMAKE_CURRENT_SOURCE_DIR}/source/'. Verificá que la carpeta "
@@ -125,7 +159,7 @@ target_sources(${PROJECT_NAME}
     # (unidades "module X;" sin export), y cualquier .cpp que no sea una
     # interfaz de módulo.
     PRIVATE
-        ${SOURCE_FILES}
+        ${REGULAR_CPP_FILES}
 
     # Archivos .cppm: interfaces de módulo (contienen "export module X;").
     # Se usa PRIVATE (no PUBLIC) porque "crasty" es un ejecutable final:
@@ -133,7 +167,8 @@ target_sources(${PROJECT_NAME}
     PRIVATE
         FILE_SET CXX_MODULES
         FILES
-            ${MODULE_FILES}
+            ${CPPM_FILES}
+            ${CPP_MODULE_FILES}
 )
 
 # Linkea OpenMP solo si find_package lo encontró. El operador $<BOOL:...>

@@ -4,7 +4,19 @@ module;
 
 export module drawing_pattern;
 
+// ============================================================================
+// Imports
+// ============================================================================
+
 import barycentric;
+
+// ============================================================================
+// Declarations
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// Drawing Pattern (Base Class)
+// ----------------------------------------------------------------------------
 
 export class DrawingPattern
 {
@@ -12,8 +24,13 @@ export class DrawingPattern
 public:
     virtual ~DrawingPattern() = default;
 
-    virtual constexpr bool isValid(const BarycentricCoordinate &coordinates) const = 0;
+    virtual constexpr bool isValid(
+        const BarycentricCoordinate &coordinates) const = 0;
 };
+
+// ----------------------------------------------------------------------------
+// Border Drawing Pattern
+// ----------------------------------------------------------------------------
 
 export class BorderDrawingPattern : public DrawingPattern
 {
@@ -22,7 +39,8 @@ export class BorderDrawingPattern : public DrawingPattern
 public:
     BorderDrawingPattern(double epsilon = 4e-2) : epsilon(epsilon) {}
 
-    constexpr bool isValid(const BarycentricCoordinate &coordinates) const override
+    constexpr bool isValid(
+        const BarycentricCoordinate &coordinates) const override
     {
 
         return std::abs(coordinates.alpha) < epsilon ||
@@ -30,6 +48,10 @@ public:
                std::abs(coordinates.gamma) < epsilon;
     }
 };
+
+// ----------------------------------------------------------------------------
+// Center Drawing Pattern
+// ----------------------------------------------------------------------------
 
 export class CenterDrawingPattern : public DrawingPattern
 {
@@ -39,7 +61,8 @@ export class CenterDrawingPattern : public DrawingPattern
 public:
     CenterDrawingPattern(double epsilon = 1e-1) : epsilon(epsilon) {}
 
-    constexpr bool isValid(const BarycentricCoordinate &coordinates) const override
+    constexpr bool isValid(
+        const BarycentricCoordinate &coordinates) const override
     {
 
         return std::abs(coordinates.alpha) > epsilon &&
@@ -47,3 +70,7 @@ public:
                std::abs(coordinates.gamma) > epsilon;
     }
 };
+
+// ============================================================================
+// EOF
+// ============================================================================

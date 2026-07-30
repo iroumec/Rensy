@@ -6,7 +6,10 @@ module;
 
 module rasterizer;
 
-import ndc;
+// ============================================================================
+// Imports
+// ============================================================================
+
 import bbox;
 import model;
 import buffer;
@@ -16,38 +19,77 @@ import vertex;
 import matrix;
 import geometry;
 import transform;
+import perspective;
 import barycentric;
+
+// ============================================================================
+// Constants
+// ============================================================================
 
 constexpr bool DEBUG = false;
 
-void Rasterizer::draw(const Model &model, FrameBuffer &framebuffer, const ColourGenerator &colourGenerator, const Rotation &rotation = Rotation{})
+// ============================================================================
+// Implementations
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// Rasterizer (Base Class)
+// ----------------------------------------------------------------------------
+
+void Rasterizer::draw(
+    const Model &model,
+    FrameBuffer &buffer,
+    const ColourGenerator &colourGenerator,
+    const Rotation &rotation)
 {
 
-    MVPTransform mvpTransform{ModelTransform{RotationTransform{rotation}} /*, ProjectionTransform{1, 10}*/};
-    PerspectiveTransform perspectiveTransform{};
+    MVPTransform mvpTransform{
+        ModelTransform{
+            RotationTransform{rotation},
+        },
+        PerspectiveProjection{}};
 
-    Matrix<double, 4, 4> clipTransform = perspectiveTransform.getMatrix() * mvpTransform.getMatrix();
+    ViewportTransform viewportTransform(buffer.getWidth(), buffer.getHeight());
 
-    ViewportTransform viewportTransform(framebuffer.getWidth(), framebuffer.getHeight());
+    // Lambda for applying the transformation.
+    auto applyTransformation =
+        [&mvpTransform, &viewportTransform](const Vector4D &vector)
+    {
+        return viewportTransform.apply(getNDC(mvpTransform.apply(vector)));
+    };
 
     // Iterates through all triangles and draw them.
     for (unsigned i = 0; i < model.getNumberOfFaces(); i++)
     {
-        Vector3D a = viewportTransform.apply(getNDC(clipTransform * Vector4D(model.getVertex(i, 0))));
-        Vector3D b = viewportTransform.apply(getNDC(clipTransform * Vector4D(model.getVertex(i, 1))));
-        Vector3D c = viewportTransform.apply(getNDC(clipTransform * Vector4D(model.getVertex(i, 2))));
-        this->draw({a, colourGenerator()}, {b, colourGenerator()}, {c, colourGenerator()}, framebuffer);
+        Vector3D a = applyTransformation(Vector4D(model.getVertex(i, 0)));
+        Vector3D b = applyTransformation(Vector4D(model.getVertex(i, 1)));
+        Vector3D c = applyTransformation(Vector4D(model.getVertex(i, 2)));
+        this->draw(
+            {a, colourGenerator()},
+            {b, colourGenerator()},
+            {c, colourGenerator()},
+            buffer);
     }
 }
 
-void VertexRasterizer::draw(Vertex a, Vertex b, Vertex c, FrameBuffer &framebuffer)
+// ----------------------------------------------------------------------------
+// Vertex Rasterizer
+// ----------------------------------------------------------------------------
+
+void VertexRasterizer::
+    draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer)
 {
-    framebuffer.setColour(a.x(), a.y(), a.getColour());
-    framebuffer.setColour(b.x(), b.y(), b.getColour());
-    framebuffer.setColour(c.x(), c.y(), c.getColour());
+    buffer.setColour(a.x(), a.y(), a.getColour());
+    buffer.setColour(b.x(), b.y(), b.getColour());
+    buffer.setColour(c.x(), c.y(), c.getColour());
 }
 
-void WireframeRasterizer::drawLine(Vertex a, Vertex b, FrameBuffer &framebuffer)
+// ----------------------------------------------------------------------------
+// Wireframe Rasterizer
+// ----------------------------------------------------------------------------
+
+void WireframeRasterizer::
+    drawLine(Vertex a, Vertex b, FrameBuffer &buffer)
 {
     /// Bresenham's line algorithm (variant with barycentric coordinates).
     // Is the line more vertical than horizontal?
@@ -69,22 +111,30 @@ void WireframeRasterizer::drawLine(Vertex a, Vertex b, FrameBuffer &framebuffer)
     for (int x = a.x(); x <= b.x(); ++x)
     {
         int y = round(interpolateY(a.getVector(), b.getVector(), x));
-        if (steep)                                      // If the image was transposed, it's de-transposed.
-            framebuffer.setColour(y, x, a.getColour()); // TODO: Change the colour generation.
+
+        // If the image was transposed (steep), it's de-transposed.
+        if (steep)
+            buffer.setColour(y, x, a.getColour()); // TODO: Change the colour generation.
         else
-            framebuffer.setColour(x, y, a.getColour()); // TODO: Change the oclpur generation.
+            buffer.setColour(x, y, a.getColour()); // TODO: Change the oclpur generation.
     }
 }
 
-void WireframeRasterizer::draw(Vertex a, Vertex b, Vertex c, FrameBuffer &framebuffer)
+void WireframeRasterizer::
+    draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer)
 {
     // This order is important for circular colour generators.
-    this->drawLine(a, b, framebuffer);
-    this->drawLine(c, a, framebuffer);
-    this->drawLine(b, c, framebuffer);
+    this->drawLine(a, b, buffer);
+    this->drawLine(c, a, buffer);
+    this->drawLine(b, c, buffer);
 }
 
-void ScanlineRasterizer::draw(Vertex a, Vertex b, Vertex c, FrameBuffer &framebuffer)
+// ----------------------------------------------------------------------------
+// Scanline Rasterizer
+// ----------------------------------------------------------------------------
+
+void ScanlineRasterizer::
+    draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer)
 {
     // Vertices ordering.
     auto orderedVertices = orderByAscendingAxisY(a, b, c);
@@ -123,11 +173,16 @@ void ScanlineRasterizer::draw(Vertex a, Vertex b, Vertex c, FrameBuffer &framebu
 
         // The segment is painted.
         for (unsigned x = leftX; x <= rightX; x++)
-            framebuffer.setColour(x, y, top.getColour()); // TODO: Fix this.
+            buffer.setColour(x, y, top.getColour()); // TODO: Fix this.
     }
 }
 
-void BoundingBoxRasterizer::draw(Vertex a, Vertex b, Vertex c, FrameBuffer &framebuffer)
+// ----------------------------------------------------------------------------
+// Bounding Box Rasterizer
+// ----------------------------------------------------------------------------
+
+void BoundingBoxRasterizer::
+    draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer)
 {
     BoundingBox bbox = BoundingBox(a.getVector(), b.getVector(), c.getVector());
 
@@ -135,19 +190,40 @@ void BoundingBoxRasterizer::draw(Vertex a, Vertex b, Vertex c, FrameBuffer &fram
     {
         for (unsigned x = bbox.minX; x <= bbox.maxX; x++)
         {
-            BarycentricCoordinate coordinates = getBarycentricCoordinates(a.getVector(), b.getVector(), c.getVector(), Vector2D{(double)x, (double)y});
+            // Barycentric coordinates obtention.
+            BarycentricCoordinate coordinates = getBarycentricCoordinates(
+                a.getVector(), b.getVector(), c.getVector(),
+                Vector2D{(double)x, (double)y});
+
+            // If the point is not inside the triangle, it is discarded.
             if (!coordinates.isInsideTriangle())
-                continue; // Outside the triangle.
+                continue;
+
+            // If the point isn't valid in the drawing pattern, it's discarded.
             if (drawingPattern != nullptr && !drawingPattern->isValid(coordinates))
                 continue;
-            double z = coordinates.alpha * a.z() + coordinates.beta * b.z() + coordinates.gamma * c.z();
-            if (framebuffer.isStoredDepthLower(x, y, z))
+
+            // Depth calculation.
+            double z =
+                coordinates.alpha * a.z() +
+                coordinates.beta * b.z() +
+                coordinates.gamma * c.z();
+
+            // If the new depth is higher than the stored one, continue.
+            if (buffer.isStoredDepthLower(x, y, z))
                 continue;
+
+            // Colour calculation and adjusting.
             Colour colour = this->colourCalculator.calculateColour(a, b, c, coordinates);
             if (colourIntensifier != nullptr)
                 colour = colourIntensifier->adjustColour(colour, a, b, c, coordinates);
-            framebuffer.setColour(x, y, colour);
-            framebuffer.setDepth(x, y, z);
+
+            buffer.setColour(x, y, colour);
+            buffer.setDepth(x, y, z);
         }
     }
 }
+
+// ============================================================================
+// EOF
+// ============================================================================

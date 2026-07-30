@@ -1,23 +1,17 @@
 module;
 
-export module rotation;
+#include <cmath>
+#include <iostream>
+
+export module vector;
 
 // ============================================================================
-// Imports
+// Submodules
 // ============================================================================
 
-import radian;
-
-// ============================================================================
-// Declarations
-// ============================================================================
-
-export struct Rotation
-{
-    Radian x{};
-    Radian y{};
-    Radian z{};
-};
+export import :vector_2d;
+export import :vector_3d;
+export import :vector_4d;
 
 // ============================================================================
 // EOF

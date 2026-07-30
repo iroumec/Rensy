@@ -1,30 +1,37 @@
 module;
 
-#include <vector>
-#include <string>
+#include <ostream>
 
-export module model;
+export module vector:vector_2d;
 
 // ============================================================================
-// Imports
+// Forward Declarations
 // ============================================================================
 
-import vector;
+class Vector3D;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export class Model
+export class Vector2D
 {
-    std::vector<Vector3D> vertices = {}; // Array of vertices
-    std::vector<int> faces = {};         // Per-triangle index in the above array
 public:
-    Model(const std::string &filename);
-    unsigned getNumberOfVertices() const;
-    unsigned getNumberOfFaces() const;
-    Vector3D getVertex(const unsigned vertexNumber) const;
-    Vector3D getVertex(const unsigned faceNumber, const unsigned nthvert) const;
+    double x, y;
+
+    Vector2D(double x = 0.0, double y = 0.0) : x(x), y(y) {}
+
+    Vector2D operator+(const Vector2D &other) const;
+
+    Vector2D operator-(const Vector2D &other) const;
+
+    double dotProduct(const Vector2D &other) const;
+
+    // Cross product is, strictly, not defined for 2D vectors.
+
+    operator Vector3D() const;
+
+    friend std::ostream &operator<<(std::ostream &out, const Vector2D &v);
 };
 
 // ============================================================================

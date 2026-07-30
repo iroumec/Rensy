@@ -9,9 +9,21 @@ module;
 
 module model;
 
+// ============================================================================
+// Imports
+// ============================================================================
+
 import vector;
 
-constexpr bool debug = false;
+// ============================================================================
+// Constants
+// ============================================================================
+
+constexpr bool DEBUG = false;
+
+// ============================================================================
+// Implementations
+// ============================================================================
 
 Model::Model(const std::string &filename)
 {
@@ -22,7 +34,7 @@ Model::Model(const std::string &filename)
     std::string line;
     while (std::getline(ist, line)) // All the line is consumed.
     {
-        if (debug)
+        if (DEBUG)
             std::cout << "Line: " << line << '\n';
 
         std::istringstream lineStream(line);
@@ -39,26 +51,32 @@ Model::Model(const std::string &filename)
         {
             std::string token;
 
-            while (lineStream >> token) // Each token can have a form n, n/n, n//n, n/n/n. Where n is a number.
+            // Each token can have a form n, n/n, n//n, n/n/n.
+            // Where n is a number.
+            // At the moemnt, just the first n is of interest.
+            while (lineStream >> token)
             {
-                if (debug)
+                if (DEBUG)
                     std::cout << "Token: " << token << '\n';
 
-                std::istringstream tokenStream(token); // So we are able to read from it.
+                // Token stream creation so we are able to read from it.
+                std::istringstream tokenStream(token);
 
                 // Only the first number in each token is of interest.
                 int idx;
                 tokenStream >> idx; // It stops when finding a "/" or the end.
 
-                if (debug)
+                if (DEBUG)
                     std::cout << idx << std::endl;
 
-                this->faces.push_back(idx - 1); // The vertices in .obj starts at 1, but the array starts at 0. So we have to decrease one.
+                // The vertices in .obj starts at 1, but the array starts at 0.
+                // So we have to decrease one.
+                this->faces.push_back(idx - 1);
             }
         }
     }
 
-    if (debug)
+    if (DEBUG)
         std::cout << "Loaded " << this->vertices.size() << " vertices\n";
 }
 
@@ -89,3 +107,7 @@ Vector3D Model::getVertex(const unsigned faceNumber, const unsigned vertexNumber
     // in [0, 2] gives us the vertex.
     return this->vertices[this->faces[faceNumber * 3 + vertexNumber]];
 }
+
+// ============================================================================
+// EOF
+// ============================================================================

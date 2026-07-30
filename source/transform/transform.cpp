@@ -68,6 +68,14 @@ namespace
     }
 }
 
+// ============================================================================
+// Implementations
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// Transform (Base Class)
+// ----------------------------------------------------------------------------
+
 Transform::Transform(const Matrix<double, 4, 4> &matrix)
     : matrix(matrix) {}
 
@@ -81,35 +89,11 @@ Vector4D Transform::apply(const Vector4D &vector) const
     return Vector4D(this->matrix * vector);
 }
 
-PerspectiveTransform::PerspectiveTransform(double focalLength)
-    : Transform(makePerspectiveMatrix(focalLength)) {}
+// ----------------------------------------------------------------------------
+// Viewport Transform
+// ----------------------------------------------------------------------------
 
-RotationTransform::RotationTransform(const Rotation &rotation)
-    : Transform(makeRotationMatrix(rotation)) {}
-
-ModelTransform::ModelTransform(const RotationTransform &rotationTransform)
-    : Transform(rotationTransform.getMatrix()) {}
-
-ProjectionTransform::ProjectionTransform(double near, double far)
-    : Transform(Matrix<double, 4, 4>{
-          {near, 0, 0, 0},
-          {0, near, 0, 0},
-          {0, 0, near + far, -far * near},
-          {0, 0, 0, 1}}) {}
-
-MVPTransform::MVPTransform(
-    const ModelTransform &modelTransform
-    /*const ViewTransform &viewTransform */
-    /*, const ProjectionTransform &projectionTransform */)
-    : Transform(
-          // projectionTransform.getMatrix() *
-          //  viewTransform.getMatrix() *
-          modelTransform.getMatrix())
-{
-}
-
-// First, ortographics projection -> Z axis is discard.
-// Second, since the input models are scaled to have fir in the [-1.1]^3 world coordinates,
+// Since the input models are scaled to have fir in the [-1.1]^3 world coordinates,
 // the vector is scaled to span the entire screen.
 ViewportTransform::ViewportTransform(unsigned nx, unsigned ny)
     : Transform(
@@ -117,6 +101,60 @@ ViewportTransform::ViewportTransform(unsigned nx, unsigned ny)
               {nx / 2.0, 0, 0, (nx - 1) / 2.0},
               {0, ny / 2.0, 0, (ny - 1) / 2.0},
               {0, 0, 1, 0},
-              {0, 0, 0, 1}})
+              {0, 0, 0, 1}}) {}
+
+// ----------------------------------------------------------------------------
+// MVP Transform
+// ----------------------------------------------------------------------------
+
+MVPTransform::MVPTransform(
+    const ModelTransform &modelTransform,
+    /*const ViewTransform &viewTransform */
+    const ProjectionTransform &projectionTransform)
+    : Transform(
+          projectionTransform.getMatrix() *
+          //  viewTransform.getMatrix() *
+          modelTransform.getMatrix())
 {
 }
+
+// ----------------------------------------------------------------------------
+// Projection Transform
+// ----------------------------------------------------------------------------
+
+ProjectionTransform::ProjectionTransform(const Matrix<double, 4, 4> &matrix)
+    : Transform(matrix) {}
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Ortographic Projection
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// Perspective Projection
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+PerspectiveProjection::PerspectiveProjection(double focalLength)
+    : ProjectionTransform(makePerspectiveMatrix(focalLength)) {}
+
+/*
+ProjectionTransform::ProjectionTransform(double near, double far)
+    : Transform(Matrix<double, 4, 4>{
+          {near, 0, 0, 0},
+          {0, near, 0, 0},
+          {0, 0, near + far, -far * near},
+          {0, 0, 0, 1}}) {}
+*/
+
+// ----------------------------------------------------------------------------
+// Model Transform
+// ----------------------------------------------------------------------------
+
+ModelTransform::ModelTransform(const RotationTransform &rotationTransform)
+    : Transform(rotationTransform.getMatrix()) {}
+
+// ----------------------------------------------------------------------------
+// Rotation Transform
+// ----------------------------------------------------------------------------
+
+RotationTransform::RotationTransform(const Rotation &rotation)
+    : Transform(makeRotationMatrix(rotation)) {}

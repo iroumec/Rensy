@@ -2,6 +2,10 @@ module;
 
 export module rasterizer;
 
+// ============================================================================
+// Imports
+// ============================================================================
+
 import model;
 import buffer;
 import vertex;
@@ -11,38 +15,66 @@ import colour_generator;
 import colour_calculator;
 import colour_intensifier;
 
+// ============================================================================
+// Declarations
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// Rasterizer (Base Class)
+// ----------------------------------------------------------------------------
+
 export class Rasterizer
 {
 public:
     virtual ~Rasterizer() = default;
 
-    virtual void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &framebuffer) = 0;
+    virtual void draw(
+        Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) = 0;
 
-    void draw(const Model &model, FrameBuffer &framebuffer, const ColourGenerator &colourGenerator, const Rotation &rotation);
+    void draw(const Model &model,
+              FrameBuffer &buffer,
+              const ColourGenerator &colourGenerator,
+              const Rotation &rotation = Rotation{});
 };
+
+// ----------------------------------------------------------------------------
+// Vertex Rasterizer
+// ----------------------------------------------------------------------------
 
 export class VertexRasterizer : public Rasterizer
 {
 public:
     using Rasterizer::draw;
-    void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &framebuffer) override;
+    void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) override;
 };
+
+// ----------------------------------------------------------------------------
+// Wireframe Rasterizer
+// ----------------------------------------------------------------------------
 
 export class WireframeRasterizer : public Rasterizer
 {
-    void drawLine(Vertex a, Vertex b, FrameBuffer &framebuffer);
+    void drawLine(Vertex a, Vertex b, FrameBuffer &buffer);
 
 public:
     using Rasterizer::draw;
-    void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &framebuffer) override;
+    void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) override;
 };
+
+// ----------------------------------------------------------------------------
+// Scanline Rasterizer
+// ----------------------------------------------------------------------------
 
 export class ScanlineRasterizer : public Rasterizer
 {
 public:
     using Rasterizer::draw;
-    void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &framebuffer) override;
+    void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) override;
 };
+
+// ----------------------------------------------------------------------------
+// Bounding Box Rasterizer
+// ----------------------------------------------------------------------------
 
 export class BoundingBoxRasterizer : public Rasterizer
 {
@@ -68,5 +100,9 @@ public:
           colourIntensifier(colourIntensifier) {}
 
     using Rasterizer::draw;
-    void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &framebuffer) override;
+    void draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) override;
 };
+
+// ============================================================================
+// EOF
+// ============================================================================
