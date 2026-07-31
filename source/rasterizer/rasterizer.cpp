@@ -23,6 +23,10 @@ import transform;
 import perspective;
 import barycentric;
 
+// Delete then.
+import rotation;
+import radian;
+
 // ============================================================================
 // Constants
 // ============================================================================
@@ -54,12 +58,19 @@ void Rasterizer::draw(
         Vector4D v1Local(model.getVertex(i, 1));
         Vector4D v2Local(model.getVertex(i, 2));
 
+        if (DEBUG)
+        {
+            std::cout << "v0Local: " << v0Local << std::endl;
+            std::cout << "v1Local: " << v1Local << std::endl;
+            std::cout << "v2Local: " << v2Local << std::endl;
+        }
+
         // Transformation to homogeneous clip space.
         Vector4D v0Clip = mvpTransform.apply(v0Local);
         Vector4D v1Clip = mvpTransform.apply(v1Local);
         Vector4D v2Clip = mvpTransform.apply(v2Local);
 
-        if (DEBUF)
+        if (DEBUG)
         {
             std::cout << "v0Clip: " << v0Clip << std::endl;
             std::cout << "v1Clip: " << v1Clip << std::endl;
@@ -67,16 +78,24 @@ void Rasterizer::draw(
         }
 
         // Clipping space validation.
-        if (/*insideClipVolume(v0Clip) &&
+        if (true /*insideClipVolume(v0Clip) &&
             insideClipVolume(v1Clip) &&
             insideClipVolume(v2Clip)*/
-            v0Clip.w() > 0.001 &&
-            v1Clip.w() > 0.001 && v2Clip.w() > 0.001)
+                 /* v0Clip.w() > 0.001 &&
+             v1Clip.w() > 0.001 && v2Clip.w() > 0.001 */
+        )
         {
             // Screen space transformation (NDC -> Viewport).
             Vector4D a = viewportTransform.apply(getNDC(v0Clip));
             Vector4D b = viewportTransform.apply(getNDC(v1Clip));
             Vector4D c = viewportTransform.apply(getNDC(v2Clip));
+
+            if (DEBUG)
+            {
+                std::cout << "a: " << a << std::endl;
+                std::cout << "b: " << b << std::endl;
+                std::cout << "c: " << c << std::endl;
+            }
 
             this->draw(
                 {a, colourGenerator()},
@@ -205,6 +224,15 @@ void BoundingBoxRasterizer::
     int maxX = std::min(static_cast<int>(buffer.getWidth() - 1), static_cast<int>(bbox.maxX));
     int minY = std::max(0, static_cast<int>(bbox.minY));
     int maxY = std::min(static_cast<int>(buffer.getHeight() - 1), static_cast<int>(bbox.maxY));
+
+    if (DEBUG)
+    {
+        std::cout << "Bunding Box: " << std::endl;
+        std::cout << "minX: " << minX << std::endl;
+        std::cout << "maxX: " << maxX << std::endl;
+        std::cout << "minY: " << minY << std::endl;
+        std::cout << "maxY: " << maxY << std::endl;
+    }
 
     for (int y = minY; y <= maxY; y++)
     {

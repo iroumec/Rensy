@@ -101,9 +101,9 @@ export const DrawingPattern *DRAWING_PATTERN = nullptr;
 constexpr Rotation ROTATION =
     Rotation{Radian{}, Radian::fromDegrees(30.0), Radian{}};
 
-const Vector3D EYE(-1, 0, 2);   // Camera position.
-const Vector3D CENTER(0, 0, 0); // Camera direction.
-const Vector3D UP(0, 1, 0);     // Camera up vector.
+const Vector3D EYE(0, 0, 3);  // Camera position.
+const Vector3D GAZE(0, 0, 0); // Camera direction.
+const Vector3D UP(0, 1, 0);   // Camera up vector.
 
 export const MVPTransform &getMVPTransform()
 {
@@ -111,7 +111,7 @@ export const MVPTransform &getMVPTransform()
         ModelTransform{
             RotationTransform{ROTATION},
         },
-        ViewTransform{EYE, CENTER, UP},
+        ViewTransform{EYE, GAZE, UP},
         PerspectiveProjection{}};
     return instance;
 }

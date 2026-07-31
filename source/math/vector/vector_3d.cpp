@@ -60,7 +60,7 @@ double Vector3D::magnitude() const
 
 Vector3D Vector3D::normalize() const
 {
-    return (*this) * this->magnitude();
+    return (*this) / this->magnitude();
 }
 
 Vector3D::operator Vector2D() const

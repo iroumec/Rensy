@@ -22,7 +22,7 @@ export class ViewTransform : public Transform
 {
 public:
     ViewTransform(
-        const Vector3D &eye, const Vector3D &center, const Vector3D &up);
+        const Vector3D &eye, const Vector3D &gaze, const Vector3D &up);
 };
 
 // ----------------------------------------------------------------------------
@@ -30,7 +30,7 @@ public:
 // ----------------------------------------------------------------------------
 
 Matrix<double, 4, 4> makeViewMatrix(
-    const Vector3D &eye, const Vector3D &center, const Vector3D &up);
+    const Vector3D &eye, const Vector3D &gaze, const Vector3D &up);
 
 // ============================================================================
 // EOF
