@@ -33,7 +33,7 @@ int main(int argc, char **argv)
     initializeConfiguration();
 
     Model model{argv[1]};
-    FrameBuffer buffer{WIDTH, HEIGHT};
+    FrameBuffer buffer{WIDTH, HEIGHT, BACKGROUND_COLOUR};
 
     RASTERIZER.draw(model, buffer, COLOUR_GENERATOR, getMVPTransform());
 

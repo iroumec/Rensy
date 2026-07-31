@@ -17,10 +17,10 @@ import vector;
 import rotation;
 import transform;
 import rasterizer;
+import intensifier;
 import drawing_pattern;
 import colour_generator;
 import colour_calculator;
-import colour_intensifier;
 
 export constexpr unsigned WIDTH = 1080;
 export constexpr unsigned HEIGHT = 1080;
@@ -41,16 +41,56 @@ export const std::filesystem::path outputFrameFileName =
     outputDirectory / "framebuffer.tga";
 
 // ============================================================================
+// MVP Transform
+// ============================================================================
+
+constexpr Rotation ROTATION =
+    Rotation{Radian{}, Radian::fromDegrees(30.0), Radian{}};
+
+const Vector3D EYE(0, 0, 1);  // Camera position.
+const Vector3D GAZE(0, 0, 0); // Camera direction.
+const Vector3D UP(0, 1, 0);   // Camera up vector.
+
+export const MVPTransform &getMVPTransform()
+{
+    static const MVPTransform instance{
+        ModelTransform{
+            RotationTransform{ROTATION},
+        },
+        ViewTransform{EYE, GAZE, UP},
+        PerspectiveProjection{}};
+    return instance;
+}
+
+// ============================================================================
+// COLOURS
+// ============================================================================
+
+export const Colour BACKGROUND_COLOUR = black;
+const Colour FOG_COLOUR = BACKGROUND_COLOUR;
+const Colour STATIC_COLOUR = darkGray;
+
+// ============================================================================
+// PHONG MODEL
+// ============================================================================
+
+const Vector3D LIGHT_POSITION(2, 2, 4);
+const Colour AMBIENT_COLOUR = darkGray;
+
+// ============================================================================
 // COLOUR GENERATOR
 // ============================================================================
 
-// SELECT ONE:
-// export const RandomColourGenerator COLOUR_GENERATOR{RANDOM_SEED};
-// export const StaticColourGenerator COLOUR_GENERATOR{red};
-export const CircularColourGenerator COLOUR_GENERATOR{
+// DO NOT CHANGE!
+const RandomColourGenerator RANDOM_COLOUR_GENERATOR{RANDOM_SEED};
+const StaticColourGenerator STATIC_COLOUR_GENERATOR{STATIC_COLOUR};
+const CircularColourGenerator CIRCULAR_RANDOM_COLOUR_GENERATOR{
     std::make_shared<RandomColourGenerator>(RANDOM_SEED),
     std::make_shared<RandomColourGenerator>(RANDOM_SEED + 100),
     std::make_shared<RandomColourGenerator>(RANDOM_SEED + 200)};
+
+// SELECT ONE:
+export const ColourGenerator &COLOUR_GENERATOR = STATIC_COLOUR_GENERATOR;
 
 // ============================================================================
 // COLOUR CALCULATOR
@@ -71,15 +111,17 @@ export const ColourCalculator &COLOUR_CALCULATOR = GRADIENT_COLOUR_CALCULATOR;
 // ============================================================================
 
 // DO NOT CHANGE!
-export const DepthColourIntensifier DEPTH_COLOUR_INTENSIFIER{};
-export const BorderColourIntensifier BORDER_COLOUR_INTENSIFIER{};
-export const CenterColourIntensifier CENTER_COLOUR_INTENSIFIER{};
+const DepthColourIntensifierFactory DEPTH_COLOUR_INTENSIFIER{};
+const BorderColourIntensifierFactory BORDER_COLOUR_INTENSIFIER{};
+const CenterColourIntensifierFactory CENTER_COLOUR_INTENSIFIER{};
+const UniformPhongColourIntensifierFactory UNIFORM_PHONG_COLOUR_INTENSIFIER{LIGHT_POSITION};
 
 // SELECT ONE:
-export const ColourIntensifier *COLOUR_INTENSIFIER = nullptr;
-// export const ColourIntensifier *COLOUR_INTENSIFIER = &DEPTH_COLOUR_INTENSIFIER;
-//  export const ColourIntensifier *COLOUR_INTENSIFIER = &BORDER_COLOUR_INTENSIFIER;
-//  export const ColourIntensifier *COLOUR_INTENSIFIER = &CENTER_COLOUR_INTENSIFIER;
+// export const ColourIntensifierFactory *COLOUR_INTENSIFIER = nullptr;
+// export const ColourIntensifierFactory *COLOUR_INTENSIFIER = &DEPTH_COLOUR_INTENSIFIER;
+// export const ColourIntensifierFactory *COLOUR_INTENSIFIER = &BORDER_COLOUR_INTENSIFIER;
+//  export const ColourIntensifierFactory *COLOUR_INTENSIFIER = &CENTER_COLOUR_INTENSIFIER;
+export const ColourIntensifierFactory *COLOUR_INTENSIFIER = &UNIFORM_PHONG_COLOUR_INTENSIFIER;
 
 // ============================================================================
 // DRAWING PATTERN
@@ -93,28 +135,6 @@ export const CenterDrawingPattern CENTER_DRAWING_PATTERN{};
 // export const DrawingPattern *DRAWING_PATTERN = &BORDER_DRAWING_PATTERN;
 // export const DrawingPattern *DRAWING_PATTERN = &CENTER_DRAWING_PATTERN;
 export const DrawingPattern *DRAWING_PATTERN = nullptr;
-
-// ============================================================================
-// MVP Transform
-// ============================================================================
-
-constexpr Rotation ROTATION =
-    Rotation{Radian{}, Radian::fromDegrees(30.0), Radian{}};
-
-const Vector3D EYE(0, 0, 3);  // Camera position.
-const Vector3D GAZE(0, 0, 0); // Camera direction.
-const Vector3D UP(0, 1, 0);   // Camera up vector.
-
-export const MVPTransform &getMVPTransform()
-{
-    static const MVPTransform instance{
-        ModelTransform{
-            RotationTransform{ROTATION},
-        },
-        ViewTransform{EYE, GAZE, UP},
-        PerspectiveProjection{}};
-    return instance;
-}
 
 // ============================================================================
 // RASTERIZER
@@ -138,10 +158,10 @@ export const Rasterizer &RASTERIZER = BOUNDING_BOX_RASTERIZER;
 // ============================================================================
 
 // DO NOT CHANGE!
-export const FogFilter FOG_FILTER{Colour{0, 0, 0, 255}};
+export const FogFilter FOG_FILTER{FOG_COLOUR};
 export const BrightFilter BRIGHT_FILTER{Colour{237, 234, 222, 255}};
 
 // SELECT ONE:
-// export const Filter *FILTER = nullptr;
-export const Filter *FILTER = &FOG_FILTER;
+export const Filter *FILTER = nullptr;
+// export const Filter *FILTER = &FOG_FILTER;
 // export const Filter *FILTER = &BRIGHT_FILTER;

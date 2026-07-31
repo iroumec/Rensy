@@ -1,6 +1,7 @@
 module;
 
 #include <cmath>
+#include <memory>
 #include <iostream>
 #include <algorithm>
 
@@ -234,6 +235,11 @@ void BoundingBoxRasterizer::
         std::cout << "maxY: " << maxY << std::endl;
     }
 
+    std::shared_ptr<ColourIntensifier> colourIntensifier = nullptr;
+
+    if (colourIntensifierFactory)
+        colourIntensifier = colourIntensifierFactory->instance(a, b, c);
+
     for (int y = minY; y <= maxY; y++)
     {
         for (int x = minX; x <= maxX; x++)
@@ -263,8 +269,8 @@ void BoundingBoxRasterizer::
 
             // Colour calculation and adjusting.
             Colour colour = this->colourCalculator.calculateColour(a, b, c, coordinates);
-            if (colourIntensifier != nullptr)
-                colour = colourIntensifier->adjustColour(colour, a, b, c, coordinates);
+            if (colourIntensifier)
+                colour = colourIntensifier->adjustColour(colour, coordinates);
 
             buffer.setColour(x, y, colour);
             buffer.setDepth(x, y, z);

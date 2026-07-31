@@ -1,5 +1,6 @@
 module;
 
+#include <cassert>
 #include <iostream>
 
 module transform;
@@ -36,6 +37,9 @@ ViewTransform::ViewTransform(
 Matrix<double, 4, 4> makeViewMatrix(
     const Vector3D &eye, const Vector3D &gaze, const Vector3D &up)
 {
+    assert((eye - gaze).length() != 0);
+    assert(up.length() != 0);
+
     Vector3D w = (eye - gaze).normalize();
     // Vector3D w = -(gaze).normalize();
     Vector3D u = (up.cross(w)).normalize();

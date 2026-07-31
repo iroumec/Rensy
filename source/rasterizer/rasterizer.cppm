@@ -13,7 +13,7 @@ import transform;
 import drawing_pattern;
 import colour_generator;
 import colour_calculator;
-import colour_intensifier;
+import intensifier;
 
 // ============================================================================
 // Declarations
@@ -83,24 +83,24 @@ export class BoundingBoxRasterizer : public Rasterizer
 {
     const ColourCalculator &colourCalculator;
     const DrawingPattern *drawingPattern = nullptr;
-    const ColourIntensifier *colourIntensifier = nullptr;
+    const ColourIntensifierFactory *colourIntensifierFactory = nullptr;
 
 public:
     BoundingBoxRasterizer(
         const ColourCalculator &colourCalculator,
         const DrawingPattern *drawingPattern = nullptr,
-        const ColourIntensifier *colourIntensifier = nullptr)
+        const ColourIntensifierFactory *colourIntensifierFactory = nullptr)
         : colourCalculator(colourCalculator),
           drawingPattern(drawingPattern),
-          colourIntensifier(colourIntensifier) {}
+          colourIntensifierFactory(colourIntensifierFactory) {}
 
     BoundingBoxRasterizer(
         const ColourCalculator &colourCalculator,
-        const ColourIntensifier *colourIntensifier = nullptr,
+        const ColourIntensifierFactory *colourIntensifierFactory = nullptr,
         const DrawingPattern *drawingPattern = nullptr)
         : colourCalculator(colourCalculator),
           drawingPattern(drawingPattern),
-          colourIntensifier(colourIntensifier) {}
+          colourIntensifierFactory(colourIntensifierFactory) {}
 
     using Rasterizer::draw;
     void draw(

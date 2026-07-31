@@ -106,3 +106,7 @@ export constexpr Colour yellow = {255, 255, 0, 255};
 export constexpr Colour magenta = {255, 0, 255, 255};
 export constexpr Colour orange = {255, 165, 0, 255};
 export constexpr Colour purple = {128, 0, 128, 255};
+export constexpr Colour darkGray = {64, 64, 64, 255};
+export constexpr Colour gray = {169, 169, 169, 255};
+export constexpr Colour lightGray = {211, 211, 211, 255};
+export constexpr Colour black = {0, 0, 0, 255};

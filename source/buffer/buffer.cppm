@@ -50,11 +50,17 @@ export class FrameBuffer
     DepthBuffer depthBuffer;
 
 public:
-    FrameBuffer(unsigned width, unsigned height)
+    FrameBuffer(unsigned width, unsigned height, const Colour &backgroundColour = black)
         : width{width},
           height{height},
           colourBuffer(width, height, TGAImage::RGB),
-          depthBuffer{width * height} {}
+          depthBuffer{width * height}
+    {
+
+        for (unsigned x = 0; x < this->width; ++x)
+            for (unsigned y = 0; y < this->height; ++y)
+                this->colourBuffer.set(x, y, backgroundColour);
+    }
 
     void setColour(unsigned x, unsigned y, const Colour &colour)
     {
