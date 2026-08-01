@@ -45,7 +45,7 @@ export struct RenderingInputData
     const Rasterizer &rasterizer;
 
     const ColourCalculator &colourCalculator;
-    const ColourIntensifierFactory *colourIntensifierFactory;
+    const ColourShadingFactory *colourShadingFactory;
 
     const Colour backgroundColour;
 };

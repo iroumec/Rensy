@@ -2,32 +2,28 @@ module;
 
 #include <memory>
 
-export module renderer:colour.intensifier.factory.base;
+export module renderer:colour.shading.factory.base;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import :structure.triangle;
-import :colour.intensifier.instance.base;
+import :colour.shading.instance.base;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-// ----------------------------------------------------------------------------
-// Colour Itensifier Factory (Base Class)
-// ----------------------------------------------------------------------------
-
-export class ColourIntensifierFactory
+export class ColourShadingFactory
 {
 
 public:
-    virtual ~ColourIntensifierFactory() = default;
+    virtual ~ColourShadingFactory() = default;
 
     // Sets all the necessary thing needed in common for every point
     // in the triangle.
-    virtual std::shared_ptr<ColourIntensifier> instance(
+    virtual std::shared_ptr<ColourShading> instance(
         const Triangle &primitive) const = 0;
 };
 

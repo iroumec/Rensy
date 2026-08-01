@@ -69,7 +69,7 @@ RenderingOutputData Renderer::
     std::vector<Fragment> fragments;
     FragmentShader fragmentShader(
         inputData.colourCalculator,
-        inputData.colourIntensifierFactory);
+        inputData.colourShadingFactory);
 
     for (Triangle &primitive : primitives)
     {

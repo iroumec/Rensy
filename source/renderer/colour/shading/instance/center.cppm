@@ -1,6 +1,8 @@
 module;
 
-export module renderer:colour.intensifier.instance.base;
+#include <cmath>
+
+export module renderer:colour.shading.instance.center;
 
 // ============================================================================
 // Imports
@@ -8,24 +10,25 @@ export module renderer:colour.intensifier.instance.base;
 
 import colour;
 import barycentric;
+import :colour.shading.instance.base;
 
 // ============================================================================
-// Declarations
+// Declarations and Implementations
 // ============================================================================
 
-// ----------------------------------------------------------------------------
-// Colour Intensifier (Base Class)
-// ----------------------------------------------------------------------------
-
-export class ColourIntensifier
+export class CenterColourShading : public ColourShading
 {
-
 public:
-    virtual ~ColourIntensifier() = default;
-
-    virtual constexpr Colour adjustColour(
+    constexpr Colour adjustColour(
         const Colour &colour,
-        const BarycentricCoordinate &coordinates) const = 0;
+        const BarycentricCoordinate &coordinates) const override
+    {
+        double intensity = 3 * (std::pow(coordinates.alpha, 2) +
+                                std::pow(coordinates.beta, 2) +
+                                std::pow(coordinates.gamma, 2));
+
+        return colour * (1 / intensity);
+    }
 };
 
 // ============================================================================

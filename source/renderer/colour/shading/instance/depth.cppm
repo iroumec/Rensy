@@ -2,7 +2,7 @@ module;
 
 #include <cmath>
 
-export module renderer:colour.intensifier.instance.depth;
+export module renderer:colour.shading.instance.depth;
 
 // ============================================================================
 // Imports
@@ -10,13 +10,13 @@ export module renderer:colour.intensifier.instance.depth;
 
 import colour;
 import barycentric;
-import :colour.intensifier.instance.base;
+import :colour.shading.instance.base;
 
 // ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
-export class DepthColourIntensifier : public ColourIntensifier
+export class DepthColourShading : public ColourShading
 {
     const double aZ;
     const double bZ;
@@ -25,7 +25,7 @@ export class DepthColourIntensifier : public ColourIntensifier
     const double maxZ;
 
 public:
-    DepthColourIntensifier(
+    DepthColourShading(
         double aZ = 0, double bZ = 0, double cZ = 0,
         double minZ = 0, double maxZ = 0)
         : aZ{aZ}, bZ{bZ}, cZ{cZ}, minZ{minZ}, maxZ{maxZ} {}

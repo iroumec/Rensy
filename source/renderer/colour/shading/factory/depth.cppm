@@ -3,28 +3,28 @@ module;
 #include <cmath>
 #include <memory>
 
-export module renderer:colour.intensifier.factory.depth;
+export module renderer:colour.shading.factory.depth;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import :structure.triangle;
-import :colour.intensifier.factory.base;
-import :colour.intensifier.instance.base;
-import :colour.intensifier.instance.depth;
+import :colour.shading.factory.base;
+import :colour.shading.instance.base;
+import :colour.shading.instance.depth;
 
 // ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
-export class DepthColourIntensifierFactory : public ColourIntensifierFactory
+export class DepthColourShadingFactory : public ColourShadingFactory
 {
 public:
-    std::shared_ptr<ColourIntensifier> instance(
+    std::shared_ptr<ColourShading> instance(
         const Triangle &primitive) const override
     {
-        return std::make_shared<DepthColourIntensifier>(
+        return std::make_shared<DepthColourShading>(
             primitive.v0.screenPosition.z(),
             primitive.v1.screenPosition.z(),
             primitive.v2.screenPosition.z(),

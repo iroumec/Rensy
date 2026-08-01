@@ -8,8 +8,8 @@ export module renderer:pipeline.fragment_shader;
 // Imports
 // ============================================================================
 
+import :colour.shading;
 import :colour.calculator;
-import :colour.intensifier;
 import :structure.fragment;
 import :structure.triangle;
 
@@ -20,14 +20,14 @@ import :structure.triangle;
 export class FragmentShader
 {
     const ColourCalculator &colourCalculator;
-    const ColourIntensifierFactory *colourIntensifierFactory = nullptr;
+    const ColourShadingFactory *colourShadingFactory = nullptr;
 
 public:
     FragmentShader(
         const ColourCalculator &colourCalculator,
-        const ColourIntensifierFactory *colourIntensifierFactory = nullptr)
+        const ColourShadingFactory *colourShadingFactory = nullptr)
         : colourCalculator(colourCalculator),
-          colourIntensifierFactory(colourIntensifierFactory) {}
+          colourShadingFactory(colourShadingFactory) {}
 
     void processFragments(
         std::vector<Fragment> &fragments, const Triangle &primitive);

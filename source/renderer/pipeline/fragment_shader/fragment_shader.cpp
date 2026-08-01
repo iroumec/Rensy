@@ -10,8 +10,8 @@ module renderer;
 // ============================================================================
 
 import colour;
+import :colour.shading;
 import :colour.calculator;
-import :colour.intensifier;
 import :structure.fragment;
 import :structure.triangle;
 import :pipeline.fragment_shader;
@@ -23,17 +23,17 @@ import :pipeline.fragment_shader;
 void FragmentShader::processFragments(std::vector<Fragment> &fragments,
                                       const Triangle &primitive)
 {
-    std::shared_ptr<ColourIntensifier> colourIntensifier = nullptr;
+    std::shared_ptr<ColourShading> colourShading = nullptr;
 
-    if (this->colourIntensifierFactory != nullptr)
-        colourIntensifier = colourIntensifierFactory->instance(primitive);
+    if (this->colourShadingFactory != nullptr)
+        colourShading = colourShadingFactory->instance(primitive);
 
     for (Fragment &fragment : fragments)
     {
         Colour colour = colourCalculator.calculateColour(fragment, primitive);
 
-        if (colourIntensifier)
-            colour = colourIntensifier->adjustColour(
+        if (colourShading)
+            colour = colourShading->adjustColour(
                 colour,
                 fragment.barycentricCoordinates);
 

@@ -3,7 +3,7 @@ module;
 #include <cmath>
 #include <memory>
 
-export module renderer:colour.intensifier.factory.uniform_phong;
+export module renderer:colour.shading.factory.flat;
 
 // ============================================================================
 // Imports
@@ -11,24 +11,24 @@ export module renderer:colour.intensifier.factory.uniform_phong;
 
 import vector;
 import :structure.triangle;
-import :colour.intensifier.factory.base;
-import :colour.intensifier.instance.base;
-import :colour.intensifier.instance.uniform_phong;
+import :colour.shading.factory.base;
+import :colour.shading.instance.base;
+import :colour.shading.instance.flat;
 
 // ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
-export class UniformPhongColourIntensifierFactory
-    : public ColourIntensifierFactory
+export class FlatColourShadingFactory
+    : public ColourShadingFactory
 {
     const Vector3D lightPoint;
 
 public:
-    UniformPhongColourIntensifierFactory(const Vector3D &lightPoint)
+    FlatColourShadingFactory(const Vector3D &lightPoint)
         : lightPoint(lightPoint) {}
 
-    std::shared_ptr<ColourIntensifier> instance(
+    std::shared_ptr<ColourShading> instance(
         const Triangle &primitive) const override
     {
         Vector3D a = primitive.v0.worldPosition;
@@ -53,7 +53,7 @@ public:
         // double lightIntensity = std::max(0.0, n.dot(l));
         double lightIntensity = std::abs(n.dot(l)); // Two points of lights.
 
-        return std::make_shared<UniformPhongColourIntensifier>(lightIntensity);
+        return std::make_shared<FlatColourShading>(lightIntensity);
     }
 };
 

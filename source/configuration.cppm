@@ -62,7 +62,7 @@ const Colour STATIC_COLOUR = darkGray;
 // PHONG MODEL
 // ============================================================================
 
-const Vector3D LIGHT_POSITION(0, 0, 1); // Camera coordinates.
+const Vector3D LIGHT_POSITION(-5, 2, -1); // Camera coordinates.
 const Colour AMBIENT_COLOUR = darkGray;
 
 // ============================================================================
@@ -99,17 +99,17 @@ export const ColourCalculator &COLOUR_CALCULATOR = GRADIENT_COLOUR_CALCULATOR;
 // ============================================================================
 
 // DO NOT CHANGE!
-const DepthColourIntensifierFactory DEPTH_COLOUR_INTENSIFIER{};
-const BorderColourIntensifierFactory BORDER_COLOUR_INTENSIFIER{};
-const CenterColourIntensifierFactory CENTER_COLOUR_INTENSIFIER{};
-const UniformPhongColourIntensifierFactory UNIFORM_PHONG_COLOUR_INTENSIFIER{LIGHT_POSITION};
+const DepthColourShadingFactory DEPTH_COLOUR_INTENSIFIER{};
+const BorderColourShadingFactory BORDER_COLOUR_INTENSIFIER{};
+const CenterColourShadingFactory CENTER_COLOUR_INTENSIFIER{};
+const FlatColourShadingFactory FLAT_COLOUR_INTENSIFIER{LIGHT_POSITION};
 
 // SELECT ONE:
-export const ColourIntensifierFactory *COLOUR_INTENSIFIER = nullptr;
-// export const ColourIntensifierFactory *COLOUR_INTENSIFIER = &DEPTH_COLOUR_INTENSIFIER;
-// export const ColourIntensifierFactory *COLOUR_INTENSIFIER = &BORDER_COLOUR_INTENSIFIER;
-//  export const ColourIntensifierFactory *COLOUR_INTENSIFIER = &CENTER_COLOUR_INTENSIFIER;
-// export const ColourIntensifierFactory *COLOUR_INTENSIFIER = &UNIFORM_PHONG_COLOUR_INTENSIFIER;
+// export const ColourShadingFactory *COLOUR_INTENSIFIER = nullptr;
+// export const ColourShadingFactory *COLOUR_INTENSIFIER = &DEPTH_COLOUR_INTENSIFIER;
+// export const ColourShadingFactory *COLOUR_INTENSIFIER = &BORDER_COLOUR_INTENSIFIER;
+//  export const ColourShadingFactory *COLOUR_INTENSIFIER = &CENTER_COLOUR_INTENSIFIER;
+export const ColourShadingFactory *COLOUR_INTENSIFIER = &FLAT_COLOUR_INTENSIFIER;
 
 // ============================================================================
 // DRAWING PATTERN

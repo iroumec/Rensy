@@ -6,8 +6,8 @@ export module renderer:colour;
 // Exports
 // ============================================================================
 
+export import :colour.shading;
 export import :colour.calculator;
-export import :colour.intensifier;
 
 // ============================================================================
 // EOF

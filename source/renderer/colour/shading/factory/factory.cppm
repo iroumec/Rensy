@@ -1,13 +1,16 @@
 module;
 
-export module renderer:colour.intensifier;
+export module renderer:colour.shading.factory;
 
 // ============================================================================
 // Imports and Exports
 // ============================================================================
 
-export import :colour.intensifier.factory;
-export import :colour.intensifier.instance;
+export import :colour.shading.factory.base;
+export import :colour.shading.factory.flat;
+export import :colour.shading.factory.depth;
+export import :colour.shading.factory.border;
+export import :colour.shading.factory.center;
 
 // ============================================================================
 // EOF

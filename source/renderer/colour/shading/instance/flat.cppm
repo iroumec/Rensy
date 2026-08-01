@@ -2,7 +2,7 @@ module;
 
 #include <cmath>
 
-export module renderer:colour.intensifier.instance.border;
+export module renderer:colour.shading.instance.flat;
 
 // ============================================================================
 // Imports
@@ -10,25 +10,25 @@ export module renderer:colour.intensifier.instance.border;
 
 import colour;
 import barycentric;
-import :colour.intensifier.instance.base;
+import :colour.shading.instance.base;
 
 // ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
-export class BorderColourIntensifier : public ColourIntensifier
+export class FlatColourShading : public ColourShading
 {
+    const double lightIntensity;
+
 public:
+    FlatColourShading(double lightIntensity)
+        : lightIntensity(lightIntensity) {}
+
     constexpr Colour adjustColour(
         const Colour &colour,
         const BarycentricCoordinate &coordinates) const override
     {
-        double intensity =
-            std::pow(coordinates.alpha, 2) +
-            std::pow(coordinates.beta, 2) +
-            std::pow(coordinates.gamma, 2);
-
-        return colour * intensity;
+        return colour + (white * (0.2 + this->lightIntensity));
     }
 };
 

@@ -2,29 +2,29 @@ module;
 
 #include <memory>
 
-export module renderer:colour.intensifier.factory.center;
+export module renderer:colour.shading.factory.center;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import :structure.triangle;
-import :colour.intensifier.factory.base;
-import :colour.intensifier.instance.base;
-import :colour.intensifier.instance.center;
+import :colour.shading.factory.base;
+import :colour.shading.instance.base;
+import :colour.shading.instance.center;
 
 // ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
-export class CenterColourIntensifierFactory : public ColourIntensifierFactory
+export class CenterColourShadingFactory : public ColourShadingFactory
 {
 public:
-    std::shared_ptr<ColourIntensifier> instance(
+    std::shared_ptr<ColourShading> instance(
         const Triangle &primitive) const override
     {
         static auto staticInstance =
-            std::make_shared<CenterColourIntensifier>();
+            std::make_shared<CenterColourShading>();
         return staticInstance;
     }
 };
