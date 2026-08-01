@@ -1,6 +1,6 @@
 module;
 
-export module transform:projection_transform;
+export module transform:projection;
 
 // ============================================================================
 // Imports

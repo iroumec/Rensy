@@ -1,5 +1,7 @@
 module;
 
+#include <vector>
+
 export module rasterizer;
 
 // ============================================================================
@@ -28,13 +30,8 @@ export class Rasterizer
 public:
     virtual ~Rasterizer() = default;
 
-    virtual void draw(
-        Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const = 0;
-
-    void draw(const Model &model,
-              FrameBuffer &buffer,
-              const ColourGenerator &colourGenerator,
-              const MVPTransform &mvpTransform) const;
+    virtual std::vector<Fragment> rasterize(
+        const Triangle &primitive) const = 0;
 };
 
 // ----------------------------------------------------------------------------
@@ -44,9 +41,7 @@ public:
 export class VertexRasterizer : public Rasterizer
 {
 public:
-    using Rasterizer::draw;
-    void draw(
-        Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const override;
+    std::vector<Fragment> rasterize(const Triangle &primitive) const override;
 };
 
 // ----------------------------------------------------------------------------
@@ -58,9 +53,7 @@ export class WireframeRasterizer : public Rasterizer
     void drawLine(Vertex a, Vertex b, FrameBuffer &buffer) const;
 
 public:
-    using Rasterizer::draw;
-    void draw(
-        Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const override;
+    std::vector<Fragment> rasterize(const Triangle &primitive) const override;
 };
 
 // ----------------------------------------------------------------------------
@@ -70,9 +63,7 @@ public:
 export class ScanlineRasterizer : public Rasterizer
 {
 public:
-    using Rasterizer::draw;
-    void draw(
-        Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const override;
+    std::vector<Fragment> rasterize(const Triangle &primitive) const override;
 };
 
 // ----------------------------------------------------------------------------
@@ -102,9 +93,7 @@ public:
           drawingPattern(drawingPattern),
           colourIntensifierFactory(colourIntensifierFactory) {}
 
-    using Rasterizer::draw;
-    void draw(
-        Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const override;
+    std::vector<Fragment> rasterize(const Triangle &primitive) const override;
 };
 
 // ============================================================================

@@ -5,7 +5,7 @@ module;
 #include <utility>
 #include <ostream>
 
-export module vertex_shader:vertex_in;
+export module ebo;
 
 // ============================================================================
 // Imports
@@ -17,11 +17,9 @@ import vector;
 // Declarations and Implementations
 // ============================================================================
 
-export struct VertexIn
+export struct EBO
 {
-    const Vector3D localPosition;
-    // const Vector3D normal;
-    const Colour colour;
+    std::vector<int> faces;
 
 public:
     Vertex(const Vector3D &localPosition)
@@ -41,6 +39,9 @@ public:
         return out << vertex.localPosition;
     }
 };
+
+// Alternative name.
+using IBO = EBO;
 
 // ============================================================================
 // EOF

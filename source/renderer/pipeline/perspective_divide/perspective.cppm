@@ -14,18 +14,22 @@ import vector;
 // Declarations
 // ============================================================================
 
-export constexpr Vector4D getNDC(const Vector4D &vector)
+export constexpr void getNDC(VertexOut &vertex)
+{
+    vertex.ndcPosition = getNDC(vertex.clipPosition);
+}
+
+constexpr Vector3D getNDC(const Vector4D &vector)
 {
     const double w = vector.w();
 
     if (w == 0.0)
         throw std::runtime_error("Perspective divide by zero");
 
-    return Vector4D{
+    return Vector3D{
         vector.x() / w,
         vector.y() / w,
-        vector.z() / w,
-        1};
+        vector.z() / w};
 }
 
 // Alternative names for the function.

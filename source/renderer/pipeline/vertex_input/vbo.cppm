@@ -17,11 +17,9 @@ import vector;
 // Declarations and Implementations
 // ============================================================================
 
-export struct VertexIn
+export struct VBO
 {
-    const Vector3D localPosition;
-    // const Vector3D normal;
-    const Colour colour;
+    std::vector<VertexIn> vertices;
 
 public:
     Vertex(const Vector3D &localPosition)

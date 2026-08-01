@@ -39,80 +39,11 @@ constexpr bool DEBUG = false;
 // ============================================================================
 
 // ----------------------------------------------------------------------------
-// Rasterizer (Base Class)
-// ----------------------------------------------------------------------------
-
-void Rasterizer::draw(
-    const Model &model,
-    FrameBuffer &buffer,
-    const ColourGenerator &colourGenerator,
-    const MVPTransform &mvpTransform) const
-{
-
-    ViewportTransform viewportTransform(buffer.getWidth(), buffer.getHeight());
-
-    // Iterates through all triangles and draw them.
-    for (unsigned i = 0; i < model.getNumberOfFaces(); i++)
-    {
-        // Model coordinates.
-        Vector4D v0Local(model.getVertex(i, 0));
-        Vector4D v1Local(model.getVertex(i, 1));
-        Vector4D v2Local(model.getVertex(i, 2));
-
-        if (DEBUG)
-        {
-            std::cout << "v0Local: " << v0Local << std::endl;
-            std::cout << "v1Local: " << v1Local << std::endl;
-            std::cout << "v2Local: " << v2Local << std::endl;
-        }
-
-        // Transformation to homogeneous clip space.
-        Vector4D v0Clip = mvpTransform.apply(v0Local);
-        Vector4D v1Clip = mvpTransform.apply(v1Local);
-        Vector4D v2Clip = mvpTransform.apply(v2Local);
-
-        if (DEBUG)
-        {
-            std::cout << "v0Clip: " << v0Clip << std::endl;
-            std::cout << "v1Clip: " << v1Clip << std::endl;
-            std::cout << "v2Clip: " << v2Clip << std::endl;
-        }
-
-        // Clipping space validation.
-        if (true /*insideClipVolume(v0Clip) &&
-            insideClipVolume(v1Clip) &&
-            insideClipVolume(v2Clip)*/
-                 /* v0Clip.w() > 0.001 &&
-             v1Clip.w() > 0.001 && v2Clip.w() > 0.001 */
-        )
-        {
-            // Screen space transformation (NDC -> Viewport).
-            Vector4D v0Viewport = viewportTransform.apply(getNDC(v0Clip));
-            Vector4D v1Viewport = viewportTransform.apply(getNDC(v1Clip));
-            Vector4D v2Viewport = viewportTransform.apply(getNDC(v2Clip));
-
-            if (DEBUG)
-            {
-                std::cout << "v0Viewport: " << v0Viewport << std::endl;
-                std::cout << "v1Viewport: " << v1Viewport << std::endl;
-                std::cout << "v2Viewport: " << v2Viewport << std::endl;
-            }
-
-            this->draw(
-                {v0Clip, v0Viewport, colourGenerator()},
-                {v1Clip, v1Viewport, colourGenerator()},
-                {v2Clip, v2Viewport, colourGenerator()},
-                buffer);
-        }
-    }
-}
-
-// ----------------------------------------------------------------------------
 // Vertex Rasterizer
 // ----------------------------------------------------------------------------
 
-void VertexRasterizer::
-    draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const
+std::vector<Fragment> VertexRasterizer::
+    rasterize(const Triangle &primitive) const override
 {
 
     buffer.setColour(a.xScreen(), a.yScreen(), a.getColour());
@@ -156,8 +87,8 @@ void WireframeRasterizer::
     }
 }
 
-void WireframeRasterizer::
-    draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const
+std::vector<Fragment> WireframeRasterizer::
+    rasterize(const Triangle &primitive) const override
 {
     // This order is important for circular colour generators.
     this->drawLine(a, b, buffer);
@@ -169,8 +100,8 @@ void WireframeRasterizer::
 // Scanline Rasterizer
 // ----------------------------------------------------------------------------
 
-void ScanlineRasterizer::
-    draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const
+std::vector<Fragment> ScanlineRasterizer::
+    rasterize(const Triangle &primitive) const override
 {
     // Vertices ordering.
     auto orderedVertices = orderByAscendingAxisY(a, b, c);
@@ -217,8 +148,8 @@ void ScanlineRasterizer::
 // Bounding Box Rasterizer
 // ----------------------------------------------------------------------------
 
-void BoundingBoxRasterizer::
-    draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const
+std::vector<Fragment> BoundingBoxRasterizer::
+    rasterize(const Triangle &primitive) const override
 {
     BoundingBox bbox = BoundingBox(a.getVector(), b.getVector(), c.getVector());
 
@@ -278,6 +209,70 @@ void BoundingBoxRasterizer::
         }
     }
 }
+
+/*
+std::vector<Fragment> BoundingBoxRasterizer::
+    rasterize(const Triangle &primitive) const override
+{
+    BoundingBox bbox = BoundingBox(a.getVector(), b.getVector(), c.getVector());
+
+    int minX = std::max(0, static_cast<int>(bbox.minX));
+    int maxX = std::min(static_cast<int>(buffer.getWidth() - 1), static_cast<int>(bbox.maxX));
+    int minY = std::max(0, static_cast<int>(bbox.minY));
+    int maxY = std::min(static_cast<int>(buffer.getHeight() - 1), static_cast<int>(bbox.maxY));
+
+    if (DEBUG)
+    {
+        std::cout << "Bunding Box: " << std::endl;
+        std::cout << "minX: " << minX << std::endl;
+        std::cout << "maxX: " << maxX << std::endl;
+        std::cout << "minY: " << minY << std::endl;
+        std::cout << "maxY: " << maxY << std::endl;
+    }
+
+    std::shared_ptr<ColourIntensifier> colourIntensifier = nullptr;
+
+    if (colourIntensifierFactory)
+        colourIntensifier = colourIntensifierFactory->instance(a, b, c);
+
+    for (int y = minY; y <= maxY; y++)
+    {
+        for (int x = minX; x <= maxX; x++)
+        {
+            // Barycentric coordinates obtention.
+            BarycentricCoordinate coordinates = getBarycentricCoordinates(
+                a.getVector(), b.getVector(), c.getVector(),
+                Vector2D{(double)x, (double)y});
+
+            // If the point is not inside the triangle, it is discarded.
+            if (!coordinates.isInsideTriangle())
+                continue;
+
+            // If the point isn't valid in the drawing pattern, it's discarded.
+            if (drawingPattern != nullptr && !drawingPattern->isValid(coordinates))
+                continue;
+
+            // Depth calculation.
+            double z =
+                coordinates.alpha * a.z() +
+                coordinates.beta * b.z() +
+                coordinates.gamma * c.z();
+
+            // If the new depth is higher than the stored one, continue.
+            if (buffer.isStoredDepthLower(x, y, z))
+                continue;
+
+            // Colour calculation and adjusting.
+            Colour colour = this->colourCalculator.calculateColour(a, b, c, coordinates);
+            if (colourIntensifier)
+                colour = colourIntensifier->adjustColour(colour, coordinates);
+
+            buffer.setColour(x, y, colour);
+            buffer.setDepth(x, y, z);
+        }
+    }
+}
+*/
 
 // ============================================================================
 // EOF

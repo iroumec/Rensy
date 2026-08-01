@@ -1,22 +1,28 @@
 module;
 
-export module rotation;
+export module transform:model;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import radian;
+import :base;
+import :rotation;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export struct Rotation
+// ----------------------------------------------------------------------------
+// Model Transform
+// ----------------------------------------------------------------------------
+
+export class ModelTransform : public Transform
 {
-    Radian x{};
-    Radian y{};
-    Radian z{};
+    // Creates a model transform matrix.
+
+public:
+    ModelTransform(const RotationTransform &rotationTransform);
 };
 
 // ============================================================================

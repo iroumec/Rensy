@@ -1,28 +1,33 @@
 module;
 
-export module transform:model_transform;
+export module transform:mvp;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import :base;
-import :rotation_transform;
+import :view;
+import :model;
+import :projection;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
 // ----------------------------------------------------------------------------
-// Model Transform
+// MVP Transform
 // ----------------------------------------------------------------------------
 
-export class ModelTransform : public Transform
+export class MVPTransform : public Transform
 {
-    // Creates a model transform matrix.
+    // Creates a Model-View-Projection Matrix.
 
 public:
-    ModelTransform(const RotationTransform &rotationTransform);
+    MVPTransform(
+        const ModelTransform &modelTransform,
+        const ViewTransform &viewTransform,
+        const ProjectionTransform &projectionTransform);
 };
 
 // ============================================================================

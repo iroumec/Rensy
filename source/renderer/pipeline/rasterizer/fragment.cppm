@@ -1,22 +1,22 @@
 module;
 
-export module triangle;
+export module fragment;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import vertex_out;
+import vector;
+import colour;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export struct Triangle
+export struct Fragment
 {
-    VertexOut v0;
-    VertexOut v1;
-    VertexOut v2;
+    Vector3D screnPosition;
+    Colour colour;
 };
 
 // ============================================================================

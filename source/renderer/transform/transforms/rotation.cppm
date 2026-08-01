@@ -1,6 +1,6 @@
 module;
 
-export module transform:rotation_transform;
+export module transform:rotation;
 
 // ============================================================================
 // Imports
@@ -8,11 +8,23 @@ export module transform:rotation_transform;
 
 import :base;
 import matrix;
+import radian;
 import rotation;
 
 // ============================================================================
 // Declaration
 // ============================================================================
+
+// ----------------------------------------------------------------------------
+// Rotation Structure
+// ----------------------------------------------------------------------------
+
+export struct Rotation
+{
+    Radian x{};
+    Radian y{};
+    Radian z{};
+};
 
 // ----------------------------------------------------------------------------
 // Rotation Transform
