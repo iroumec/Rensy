@@ -46,9 +46,9 @@ const Vector3D EYE(0, 0, 1);  // Camera position.
 const Vector3D GAZE(0, 0, 0); // Camera direction.
 const Vector3D UP(0, 1, 0);   // Camera up vector.
 
-const ModelTransform MODEL_TRANSFORM{RotationTransform{ROTATION}};
-const ViewTransform VIEW_TRANSFORM{EYE, GAZE, UP};
-const PerspectiveProjection PERSPECTIVE_PROJECTION{};
+export const ModelTransform MODEL_TRANSFORM{RotationTransform{ROTATION}};
+export const ViewTransform VIEW_TRANSFORM{EYE, GAZE, UP};
+export const PerspectiveProjection PROJECTION_TRANSFORM{};
 
 // ============================================================================
 // COLOURS

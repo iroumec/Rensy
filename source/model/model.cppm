@@ -1,6 +1,6 @@
 module;
 
-#include <vector>
+#include <tuple>
 #include <string>
 
 export module model;
@@ -10,21 +10,16 @@ export module model;
 // ============================================================================
 
 import vector;
+import renderer;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export class Model
+export class ObjModel
 {
-    std::vector<Vector3D> vertices = {}; // Array of vertices
-    std::vector<int> faces = {};         // Per-triangle index in the above array
 public:
-    Model(const std::string &filename);
-    unsigned getNumberOfVertices() const;
-    unsigned getNumberOfFaces() const;
-    Vector3D getVertex(const unsigned vertexNumber) const;
-    Vector3D getVertex(const unsigned faceNumber, const unsigned nthvert) const;
+    static std::tuple<VBO, EBO> load(const std::string &filename);
 };
 
 // ============================================================================

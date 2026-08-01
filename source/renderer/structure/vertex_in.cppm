@@ -15,9 +15,9 @@ import vector;
 
 export struct VertexIn
 {
-    const Vector3D localPosition;
+    Vector3D localPosition;
     // const Vector3D normal;
-    const Colour colour;
+    Colour colour;
 };
 
 // ============================================================================

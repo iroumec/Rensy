@@ -15,6 +15,7 @@ import :structure.triangle;
 import :pipeline.depth_test;
 import :pipeline.framebuffer;
 import :pipeline.vertex_shader;
+import :pipeline.fragment_shader;
 import :pipeline.primitive_assembly;
 import :pipeline.viewport_transform;
 import :pipeline.perspective_divide;
@@ -49,6 +50,9 @@ RenderingOutputData Renderer::
 
     // 7&8. Rasterization && Fragment Shader.
     std::vector<Fragment> fragments;
+    FragmentShader fragmentShader(
+        inputData.colourCalculator,
+        inputData.colourIntensifierFactory);
 
     for (Triangle &primitive : primitives)
     {
@@ -57,11 +61,14 @@ RenderingOutputData Renderer::
 
         fragmentShader.processFragments(primitiveFragments, primitive);
 
-        fragments.push_back(primitiveFragments);
+        fragments.insert(
+            fragments.end(),
+            primitiveFragments.begin(),
+            primitiveFragments.end());
     }
 
     // 9. Depth Test
-    DepthBuffer zBuffer(inputData.width, inputData.height);
+    DepthBuffer zBuffer(inputData.screenWidth, inputData.screenHeight);
     std::vector<Fragment> processedFragments = zBuffer.process(fragments);
 
     // 10. Stencil test.
@@ -72,7 +79,7 @@ RenderingOutputData Renderer::
 
     // 12. Framebuffer
     FrameBuffer frameBuffer(
-        inputData.width, inputData.height, inputData.backgroundColour);
+        inputData.screenWidth, inputData.screenHeight, inputData.backgroundColour);
     frameBuffer.process(processedFragments);
 
     return RenderingOutputData{

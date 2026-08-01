@@ -1,5 +1,8 @@
 module;
 
+#include <tuple>
+#include <tuple>
+#include <vector>
 #include <string>
 #include <cassert>
 #include <fstream>
@@ -14,6 +17,7 @@ module model;
 // ============================================================================
 
 import vector;
+import renderer;
 
 // ============================================================================
 // Constants
@@ -25,8 +29,11 @@ constexpr bool DEBUG = false;
 // Implementations
 // ============================================================================
 
-Model::Model(const std::string &filename)
+std::tuple<VBO, EBO> ObjModel::load(const std::string &filename)
 {
+    std::vector<VertexIn> vertices;
+    std::vector<int> faces;
+
     std::ifstream ist{filename};
     if (!ist)
         throw std::runtime_error("Cannot open input file: " + filename);
@@ -43,9 +50,9 @@ Model::Model(const std::string &filename)
 
         if (dataType == "v") // Vertices.
         {
-            Vector3D v;
-            lineStream >> v;
-            this->vertices.push_back(v);
+            VertexIn v;
+            lineStream >> v.localPosition;
+            vertices.push_back(v);
         }
         else if (dataType == "f") // Faces / Triangles.
         {
@@ -71,41 +78,15 @@ Model::Model(const std::string &filename)
 
                 // The vertices in .obj starts at 1, but the array starts at 0.
                 // So we have to decrease one.
-                this->faces.push_back(idx - 1);
+                faces.push_back(idx - 1);
             }
         }
     }
 
     if (DEBUG)
-        std::cout << "Loaded " << this->vertices.size() << " vertices\n";
-}
+        std::cout << "Loaded " << vertices.size() << " vertices\n";
 
-unsigned Model::getNumberOfVertices() const
-{
-    return this->vertices.size();
-}
-
-unsigned Model::getNumberOfFaces() const
-{
-    return this->faces.size() / 3;
-}
-
-Vector3D Model::getVertex(const unsigned vertexNumber) const
-{
-    return this->vertices[vertexNumber];
-}
-
-Vector3D Model::getVertex(const unsigned faceNumber, const unsigned vertexNumber) const
-{
-    assert(faceNumber < this->getNumberOfFaces() && vertexNumber <= 2);
-
-    // Each face is stored as three consecutive indices into the vertices array.
-    // faceNumber * 3 gives the first index of the face, and vertexNumber (0-2)
-    // selects one of its three vertices.
-
-    // If faceNumber = 0, we are placed in the first face. Increasing vertexNumber
-    // in [0, 2] gives us the vertex.
-    return this->vertices[this->faces[faceNumber * 3 + vertexNumber]];
+    return {VBO{vertices}, EBO{faces}};
 }
 
 // ============================================================================

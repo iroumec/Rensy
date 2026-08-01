@@ -24,7 +24,7 @@ import :structure.fragment;
 // Constants
 // ============================================================================
 
-constexpr bool DEBUG = false;
+// constexpr bool DEBUG = false;
 
 // ============================================================================
 // Implementations
@@ -159,20 +159,20 @@ std::vector<Fragment> ScanlineRasterizer::
 // ----------------------------------------------------------------------------
 
 std::vector<Fragment> BoundingBoxRasterizer::
-    rasterize(const Triangle &primitive) const override
+    rasterize(const Triangle &primitive) const
 {
     std::vector<Fragment> fragments;
-
-    BoundingBox bbox = BoundingBox(a.getVector(), b.getVector(), c.getVector());
-
-    int minX = std::max(0, static_cast<int>(bbox.minX));
-    int maxX = std::min(static_cast<int>(buffer.getWidth() - 1), static_cast<int>(bbox.maxX));
-    int minY = std::max(0, static_cast<int>(bbox.minY));
-    int maxY = std::min(static_cast<int>(buffer.getHeight() - 1), static_cast<int>(bbox.maxY));
 
     Vector3D a = primitive.v0.screenPosition;
     Vector3D b = primitive.v1.screenPosition;
     Vector3D c = primitive.v2.screenPosition;
+
+    BoundingBox bbox = BoundingBox(a, b, c);
+
+    int minX = std::max(0, static_cast<int>(bbox.minX));
+    int maxX = std::min(static_cast<int>(800 - 1), static_cast<int>(bbox.maxX));
+    int minY = std::max(0, static_cast<int>(bbox.minY));
+    int maxY = std::min(static_cast<int>(800 - 1), static_cast<int>(bbox.maxY));
 
     for (int y = minY; y <= maxY; y++)
     {
@@ -182,13 +182,13 @@ std::vector<Fragment> BoundingBoxRasterizer::
             BarycentricCoordinate barycentricCoordinates =
                 getBarycentricCoordinates(
                     a, b, c,
-                    Vector2D{static_cast<double> x, static_cast<double> y});
+                    Vector2D{static_cast<double>(x), static_cast<double>(y)});
 
             // If the point is not inside the triangle, it is discarded.
             if (barycentricCoordinates.isInsideTriangle())
             {
                 // If the point isn't valid in the drawing pattern, it's discarded.
-                if (drawingPattern != nullptr && !drawingPattern->isValid(coordinates))
+                if (drawingPattern != nullptr && !drawingPattern->isValid(barycentricCoordinates))
                     continue;
 
                 Fragment fragment;
@@ -226,6 +226,8 @@ std::vector<Fragment> BoundingBoxRasterizer::
             }
         }
     }
+
+    return fragments;
 }
 
 // ============================================================================

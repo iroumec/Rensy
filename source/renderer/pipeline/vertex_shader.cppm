@@ -37,7 +37,6 @@ std::vector<VertexOut> processVertices(
     // #pragma omp parallel for
     for (unsigned i = 0; i < numberOfVertices; ++i)
     {
-
         VertexOut vertexOut{};
         vertexOut.worldPosition = modelTransform.apply(vertices[i].localPosition);
         vertexOut.clipPosition = mvpTransform.apply(vertices[i].localPosition);

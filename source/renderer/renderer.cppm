@@ -30,19 +30,22 @@ import colour_generator;
 
 export struct RenderingInputData
 {
-    unsigned screenWidth;
-    unsigned screenHeight;
+    const unsigned screenWidth;
+    const unsigned screenHeight;
 
-    VBO vbo;
-    EBO ebo;
+    const VBO vbo;
+    const EBO ebo;
 
-    ModelTransform modelTransform;
-    ViewTransform viewTransform;
-    ProjectionTransform projectionTransform;
+    const ModelTransform modelTransform;
+    const ViewTransform viewTransform;
+    const ProjectionTransform projectionTransform;
 
-    ColourGenerator &colourGenerator;
+    const Rasterizer &rasterizer;
 
-    Colour backgroundColour;
+    const ColourCalculator &colourCalculator;
+    const ColourIntensifierFactory *colourIntensifierFactory;
+
+    const Colour backgroundColour;
 };
 
 // ----------------------------------------------------------------------------
@@ -51,7 +54,7 @@ export struct RenderingInputData
 
 export struct RenderingOutputData
 {
-    FrameBuffer framebuffer;
+    FrameBuffer frameBuffer;
     DepthBuffer depthBuffer;
 };
 

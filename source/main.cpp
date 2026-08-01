@@ -31,19 +31,26 @@ int main(int argc, char **argv)
 
     initializeConfiguration();
 
-    Model model{argv[1]};
+    auto [vbo, ebo] = ObjModel::load(argv[1]);
 
-    RenderingInputData{
-
+    RenderingInputData inputData{
+        WIDTH,
+        HEIGHT,
+        vbo,
+        ebo,
+        MODEL_TRANSFORM,
+        VIEW_TRANSFORM,
+        PROJECTION_TRANSFORM,
+        RASTERIZER,
+        COLOUR_CALCULATOR,
+        COLOUR_INTENSIFIER,
+        BACKGROUND_COLOUR,
     };
 
-    RASTERIZER.draw(model, buffer, COLOUR_GENERATOR, getMVPTransform());
+    RenderingOutputData output = Renderer::render(inputData);
 
-    if (FILTER != nullptr)
-        FILTER->apply(buffer);
-
-    buffer.renderColourBuffer(outputFrameFileName);
-    buffer.renderDepthBuffer(outputZBufferFileName);
+    output.frameBuffer.renderIntoImage(outputFrameFileName);
+    output.depthBuffer.renderIntoImage(outputZBufferFileName);
     return 0;
 }
 
