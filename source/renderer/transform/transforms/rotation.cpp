@@ -2,7 +2,7 @@ module;
 
 #include <cmath>
 
-module transform;
+module renderer;
 
 // ============================================================================
 // Imports

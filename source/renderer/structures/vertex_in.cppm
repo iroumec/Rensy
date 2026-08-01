@@ -1,23 +1,24 @@
 module;
 
-module renderer;
+export module renderer:vertex_in;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :transform.rotation;
+import colour;
+import vector;
 
 // ============================================================================
-// Implementations
+// Declarations
 // ============================================================================
 
-// ----------------------------------------------------------------------------
-// Model Transform
-// ----------------------------------------------------------------------------
-
-ModelTransform::ModelTransform(const RotationTransform &rotationTransform)
-    : Transform(rotationTransform.getMatrix()) {}
+export struct VertexIn
+{
+    const Vector3D localPosition;
+    // const Vector3D normal;
+    const Colour colour;
+};
 
 // ============================================================================
 // EOF

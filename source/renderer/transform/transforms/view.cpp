@@ -3,7 +3,7 @@ module;
 #include <cassert>
 #include <iostream>
 
-module transform;
+module renderer;
 
 // ============================================================================
 // Imports

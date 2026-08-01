@@ -1,36 +1,60 @@
 module;
 
-export module renderer:transform.view;
+export module renderer;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import vector;
-import matrix;
-import :transform.base;
+import vbo;
+import ebo;
+import transform;
+import depth_test;
+import framebuffer;
+import colour_generator;
 
 // ============================================================================
-// Declaration
+// Declarations
 // ============================================================================
 
 // ----------------------------------------------------------------------------
-// View Transform
+// Rendereing Input Data
 // ----------------------------------------------------------------------------
 
-export class ViewTransform : public Transform
+export struct RenderingInputData
 {
-public:
-    ViewTransform(
-        const Vector3D &eye, const Vector3D &gaze, const Vector3D &up);
+    unsigned width;
+    unsigned height;
+
+    VBO vbo;
+    EBO ebo;
+
+    ModelTransform modelTransform;
+    ViewTransform viewTransform;
+    ProjectionTransform projectionTransform;
+
+    ColourGenerator colourGenerator;
 };
 
 // ----------------------------------------------------------------------------
-// View Matrix
+// Rendereing Output Data
 // ----------------------------------------------------------------------------
 
-Matrix<double, 4, 4> makeViewMatrix(
-    const Vector3D &eye, const Vector3D &gaze, const Vector3D &up);
+export struct RenderingOutputData
+{
+    Framebuffer framebuffer;
+    DepthBuffer depthBuffer;
+};
+
+// ----------------------------------------------------------------------------
+// Renderer
+// ----------------------------------------------------------------------------
+
+export class Renderer
+{
+public:
+    RenderingOutputData render(const RenderingInputData &inputData) const;
+};
 
 // ============================================================================
 // EOF

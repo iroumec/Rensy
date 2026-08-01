@@ -1,13 +1,13 @@
 module;
 
-export module transform:model;
+export module renderer:transform.model;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :base;
-import :rotation;
+import :transform.base;
+import :transform.rotation;
 
 // ============================================================================
 // Declarations

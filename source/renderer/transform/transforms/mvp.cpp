@@ -1,6 +1,6 @@
 module;
 
-module transform;
+module renderer;
 
 // ============================================================================
 // Declarations

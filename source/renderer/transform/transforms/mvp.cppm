@@ -1,15 +1,15 @@
 module;
 
-export module transform:mvp;
+export module renderer:transform.mvp;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :base;
-import :view;
-import :model;
-import :projection;
+import :transform.base;
+import :transform.view;
+import :transform.model;
+import :transform.projection;
 
 // ============================================================================
 // Declarations

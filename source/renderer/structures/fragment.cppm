@@ -1,23 +1,27 @@
 module;
 
-module renderer;
+export module renderer:fragment;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :transform.rotation;
+import vector;
+import colour;
+import barycentric;
 
 // ============================================================================
-// Implementations
+// Declarations
 // ============================================================================
 
-// ----------------------------------------------------------------------------
-// Model Transform
-// ----------------------------------------------------------------------------
-
-ModelTransform::ModelTransform(const RotationTransform &rotationTransform)
-    : Transform(rotationTransform.getMatrix()) {}
+export struct Fragment
+{
+    unsigned xScreen;
+    unsigned yScreen;
+    double depth;
+    Colour colour;
+    BarycentricCoordinates barycentricCoordinates;
+};
 
 // ============================================================================
 // EOF

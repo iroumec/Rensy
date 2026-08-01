@@ -3,14 +3,21 @@ module;
 export module renderer;
 
 // ============================================================================
+// Exports-Import
+// ============================================================================
+
+export import :depth_test;
+export import :framebuffer;
+export import :transform.view;
+export import :transform.model;
+export import :transform.projection;
+
+// ============================================================================
 // Imports
 // ============================================================================
 
-import vbo;
-import ebo;
-import transform;
-import depth_test;
-import framebuffer;
+import :vbo;
+import :ebo;
 import colour_generator;
 
 // ============================================================================

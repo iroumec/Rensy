@@ -1,12 +1,12 @@
 module;
 
-export module transform:viewport_transform;
+export module renderer:transform.viewport;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :base;
+import :transform.base;
 
 // ============================================================================
 // Declarations

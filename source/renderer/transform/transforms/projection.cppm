@@ -1,13 +1,13 @@
 module;
 
-export module transform:projection;
+export module renderer:transform.projection;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :base;
 import matrix;
+import :transform.base;
 
 // ============================================================================
 // Declaration

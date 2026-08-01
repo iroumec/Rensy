@@ -1,7 +1,6 @@
 module;
 
 #include <vector>
-#include <stdexcept>
 
 export module primitive_assembly;
 

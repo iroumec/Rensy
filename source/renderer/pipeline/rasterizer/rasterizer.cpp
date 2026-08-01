@@ -100,6 +100,19 @@ std::vector<Fragment> WireframeRasterizer::
 // Scanline Rasterizer
 // ----------------------------------------------------------------------------
 
+export std::array<Vertex, 3>
+orderByAscendingAxisY(Vertex a, Vertex b, Vertex c)
+{
+    if (a.yScreen() > b.yScreen())
+        std::swap(a, b);
+    if (a.yScreen() > c.yScreen())
+        std::swap(a, c);
+    if (b.yScreen() > c.yScreen())
+        std::swap(b, c);
+
+    return {a, b, c};
+}
+
 std::vector<Fragment> ScanlineRasterizer::
     rasterize(const Triangle &primitive) const override
 {
@@ -149,8 +162,15 @@ std::vector<Fragment> ScanlineRasterizer::
 // ----------------------------------------------------------------------------
 
 std::vector<Fragment> BoundingBoxRasterizer::
+    rasterize(const std::vector<Triangle> &primitive) const override
+{
+}
+
+std::vector<Fragment> BoundingBoxRasterizer::
     rasterize(const Triangle &primitive) const override
 {
+    std::vector<Fragment> fragments;
+
     BoundingBox bbox = BoundingBox(a.getVector(), b.getVector(), c.getVector());
 
     int minX = std::max(0, static_cast<int>(bbox.minX));
@@ -158,54 +178,35 @@ std::vector<Fragment> BoundingBoxRasterizer::
     int minY = std::max(0, static_cast<int>(bbox.minY));
     int maxY = std::min(static_cast<int>(buffer.getHeight() - 1), static_cast<int>(bbox.maxY));
 
-    if (DEBUG)
-    {
-        std::cout << "Bunding Box: " << std::endl;
-        std::cout << "minX: " << minX << std::endl;
-        std::cout << "maxX: " << maxX << std::endl;
-        std::cout << "minY: " << minY << std::endl;
-        std::cout << "maxY: " << maxY << std::endl;
-    }
-
-    std::shared_ptr<ColourIntensifier> colourIntensifier = nullptr;
-
-    if (colourIntensifierFactory)
-        colourIntensifier = colourIntensifierFactory->instance(a, b, c);
-
     for (int y = minY; y <= maxY; y++)
     {
         for (int x = minX; x <= maxX; x++)
         {
             // Barycentric coordinates obtention.
-            BarycentricCoordinate coordinates = getBarycentricCoordinates(
-                a.getVector(), b.getVector(), c.getVector(),
-                Vector2D{(double)x, (double)y});
+            BarycentricCoordinate barycentricCoordinates =
+                getBarycentricCoordinates(
+                    primitive.v0.screenPosition,
+                    primitive.v1.screenPosition,
+                    primitive.v2.screenPosition,
+                    Vector2D{(double)x, (double)y});
 
             // If the point is not inside the triangle, it is discarded.
-            if (!coordinates.isInsideTriangle())
-                continue;
+            if (barycentricCoordinates.isInsideTriangle())
+            {
+                // If the point isn't valid in the drawing pattern, it's discarded.
+                if (drawingPattern != nullptr && !drawingPattern->isValid(coordinates))
+                    continue;
 
-            // If the point isn't valid in the drawing pattern, it's discarded.
-            if (drawingPattern != nullptr && !drawingPattern->isValid(coordinates))
-                continue;
+                Fragment fragment{};
 
-            // Depth calculation.
-            double z =
-                coordinates.alpha * a.z() +
-                coordinates.beta * b.z() +
-                coordinates.gamma * c.z();
+                fragment.screenPosition = Vector2D{x, y};
+                fragment.depth = coordinates.alpha * a.z() +
+                                 coordinates.beta * b.z() +
+                                 coordinates.gamma * c.z();
+                fragment.barycentricCoordinates = barycentricCoordinates;
 
-            // If the new depth is higher than the stored one, continue.
-            if (buffer.isStoredDepthLower(x, y, z))
-                continue;
-
-            // Colour calculation and adjusting.
-            Colour colour = this->colourCalculator.calculateColour(a, b, c, coordinates);
-            if (colourIntensifier)
-                colour = colourIntensifier->adjustColour(colour, coordinates);
-
-            buffer.setColour(x, y, colour);
-            buffer.setDepth(x, y, z);
+                fragments.push_back(fragment);
+            }
         }
     }
 }

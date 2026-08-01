@@ -24,10 +24,18 @@ public:
           height{height},
           colourBuffer(width, height, TGAImage::RGB)
     {
-
         for (unsigned x = 0; x < this->width; ++x)
             for (unsigned y = 0; y < this->height; ++y)
                 this->colourBuffer.set(x, y, backgroundColour);
+    }
+
+    constexpr void process(const std::vector<Fragment> &fragments)
+    {
+        for (fragment : fragments)
+            this->setColour(
+                fragment.xScreen,
+                fragment.yScreen,
+                fragment.colour);
     }
 
     void setColour(unsigned x, unsigned y, const Colour &colour)

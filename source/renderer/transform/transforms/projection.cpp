@@ -4,7 +4,7 @@ module;
 #include <cassert>
 #include <numbers>
 
-module transform;
+module renderer;
 
 // ============================================================================
 // Imports

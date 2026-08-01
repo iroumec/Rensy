@@ -1,15 +1,14 @@
 module;
 
-export module transform:rotation;
+export module renderer:transform.rotation;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :base;
 import matrix;
 import radian;
-import rotation;
+import :transform.base;
 
 // ============================================================================
 // Declaration

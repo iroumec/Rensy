@@ -7,13 +7,22 @@ module;
 #include <vector>
 #include <cassert>
 
-export module buffer;
+export module renderer:depth_buffer;
 
-import colour;
-import tgaimage;
+// ============================================================================
+// Imports
+// ============================================================================
+
+import fragment;
+
+// ============================================================================
+// Declarations and Implementations
+// ============================================================================
 
 class DepthBuffer
 {
+    const unsigned width;
+    const unsigned height;
     std::vector<double> buffer;
 
 public:
@@ -21,57 +30,26 @@ public:
     DepthBuffer(std::size_t length) : buffer(length, -std::numeric_limits<double>::infinity()) {}
     void setDepth(std::size_t index, double depth) { this->buffer[index] = depth; }
     double getDepth(std::size_t index) const { return this->buffer[index]; }
-    std::tuple<double, double> getMinMaxElements() const
+
+    export constexpr std::vector<Fragment> applyViewportTransform(
+        const std::vector<Fragment> &fragments)
     {
-        double min = std::numeric_limits<double>::infinity();
-        double max = -std::numeric_limits<double>::infinity();
+        std::vector<Fragment> processedFragments;
 
-        for (double depth : buffer)
+        for (fragment : fragments)
+            if (depthTest.testAndSet(fragment))
+                processedFragments.push_back(fragment);
+    }
+
+    bool testAndSet(unsigned x, unsigned y, double depth)
+    {
+        if (this->isStoredDepthLower(x, y, depth))
         {
-            if (!std::isfinite(depth))
-                continue;
-
-            if (depth < min)
-                min = depth;
-
-            if (depth > max)
-                max = depth;
+            this->setDepth(x, y, depth);
+            return true;
         }
 
-        return {min, max};
-    }
-};
-
-export class FrameBuffer
-{
-    const unsigned width;
-    const unsigned height;
-    TGAImage colourBuffer;
-    DepthBuffer depthBuffer;
-
-public:
-    FrameBuffer(unsigned width, unsigned height, const Colour &backgroundColour = black)
-        : width{width},
-          height{height},
-          colourBuffer(width, height, TGAImage::RGB),
-          depthBuffer{width * height}
-    {
-
-        for (unsigned x = 0; x < this->width; ++x)
-            for (unsigned y = 0; y < this->height; ++y)
-                this->colourBuffer.set(x, y, backgroundColour);
-    }
-
-    void setColour(unsigned x, unsigned y, const Colour &colour)
-    {
-        this->colourBuffer.set(x, y, colour);
-    }
-
-    const Colour getColour(unsigned x, unsigned y) const
-    {
-        TGAColour tgaColour = this->colourBuffer.get(x, y);
-
-        return {tgaColour[2], tgaColour[1], tgaColour[0], tgaColour[3]};
+        return false;
     }
 
     void setDepth(unsigned x, unsigned y, double depth)
@@ -92,9 +70,24 @@ public:
         return this->depthBuffer.getDepth(index);
     }
 
-    std::tuple<double, double> getMinMaxDepth() const
+    std::tuple<double, double> getMinMaxElements() const
     {
-        return this->depthBuffer.getMinMaxElements();
+        double min = std::numeric_limits<double>::infinity();
+        double max = -std::numeric_limits<double>::infinity();
+
+        for (double depth : buffer)
+        {
+            if (!std::isfinite(depth))
+                continue;
+
+            if (depth < min)
+                min = depth;
+
+            if (depth > max)
+                max = depth;
+        }
+
+        return {min, max};
     }
 
     bool isStoredDepthLower(unsigned x, unsigned y, double newDepth) const
@@ -108,12 +101,7 @@ public:
         return newDepth < this->depthBuffer.getDepth(index); // The higher the values, the more close they are to the screen.
     }
 
-    void renderColourBuffer(const std::string path) const
-    {
-        this->colourBuffer.write_tga_file(path);
-    }
-
-    void renderDepthBuffer(const std::string path) const
+    void renderIntoImage(const std::string path) const
     {
         TGAImage imageBuffer(this->width, this->height, TGAImage::GRAYSCALE);
 
@@ -132,7 +120,17 @@ public:
         imageBuffer.write_tga_file(path);
     }
 
-    constexpr unsigned getWidth() const { return this->width; }
+    constexpr unsigned getWidth() const
+    {
+        return this->width;
+    }
 
-    constexpr unsigned getHeight() const { return this->height; }
+    constexpr unsigned getHeight() const
+    {
+        return this->height;
+    }
 };
+
+// ============================================================================
+// EOF
+// ============================================================================

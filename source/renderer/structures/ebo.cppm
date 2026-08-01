@@ -1,23 +1,29 @@
 module;
 
-export module fragment;
+#include <cmath>
+#include <array>
+#include <utility>
+#include <ostream>
+
+export module renderer:ebo;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import vector;
-import colour;
 
 // ============================================================================
-// Declarations
+// Declarations and Implementations
 // ============================================================================
 
-export struct Fragment
+export struct EBO
 {
-    Vector3D screnPosition;
-    Colour colour;
+    std::vector<int> faces;
 };
+
+// Alternative name.
+using IBO = EBO;
 
 // ============================================================================
 // EOF

@@ -2,7 +2,7 @@ module;
 
 #include <algorithm>
 
-export module clipping;
+export module renderer:clipping;
 
 // ============================================================================
 // Imports

@@ -2,21 +2,28 @@ module;
 
 #include <stdexcept>
 
-export module perspective;
+export module perspective_divide;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import vector;
+import triangle;
 
 // ============================================================================
-// Declarations
+// Declarations and Implementations
 // ============================================================================
 
-export constexpr void getNDC(VertexOut &vertex)
+export constexpr void applyPerspectiveDivide(std::vector<Triangles> &primitives)
 {
-    vertex.ndcPosition = getNDC(vertex.clipPosition);
+    // #pragma omp parallel for
+    for (primitive : primitives)
+    {
+        primitive.v0.ndcPositionn = getNDC(primitive.v0);
+        primitive.v1.ndcPositionn = getNDC(primitive.v1);
+        primitive.v2.ndcPositionn = getNDC(primitive.v2);
+    }
 }
 
 constexpr Vector3D getNDC(const Vector4D &vector)
@@ -31,8 +38,5 @@ constexpr Vector3D getNDC(const Vector4D &vector)
         vector.y() / w,
         vector.z() / w};
 }
-
-// Alternative names for the function.
-constexpr auto &applyPerspectiveDivide = getNDC;
 
 // ============================================================================

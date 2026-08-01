@@ -1,17 +1,23 @@
 module;
 
-export module renderer:transform;
+#include <vector>
+
+export module renderer:vertex_in;
 
 // ============================================================================
-// Exports
+// Imports
 // ============================================================================
 
-export import :transform.mvp;
-export import :transform.view;
-export import :transform.model;
-export import :transform.viewport;
-export import :transform.rotation;
-export import :transform.projection;
+import vector;
+
+// ============================================================================
+// Declarations and Implementations
+// ============================================================================
+
+export struct VBO
+{
+    std::vector<VertexIn> vertices;
+};
 
 // ============================================================================
 // EOF

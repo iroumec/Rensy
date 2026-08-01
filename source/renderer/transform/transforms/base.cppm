@@ -1,6 +1,6 @@
 module;
 
-export module transform:base;
+export module renderer:transform.base;
 
 // ============================================================================
 // Imports
