@@ -10,6 +10,8 @@ module renderer;
 
 import vector;
 import :pipeline.clipping;
+import :structure.fragment;
+import :structure.triangle;
 import :pipeline.depth_test;
 import :pipeline.framebuffer;
 import :pipeline.vertex_shader;
@@ -22,7 +24,7 @@ import :pipeline.perspective_divide;
 // ============================================================================
 
 RenderingOutputData Renderer::
-    render(const RenderingInputData &inputData) const
+    render(const RenderingInputData &inputData)
 {
     // 2. Vertex shader.
     std::vector<VertexOut> processedVertices = processVertices(
@@ -33,7 +35,7 @@ RenderingOutputData Renderer::
 
     // 3. Primitive Assembly.
     std::vector<Triangle> primitives =
-        assemblyPrimitives(processedVertices, inputData.faces);
+        assemblyPrimitives(processedVertices, inputData.ebo.faces);
 
     // 4. Clipping.
     // std::vector<Triangle> primitives = applyClipping(primitives);
@@ -43,12 +45,12 @@ RenderingOutputData Renderer::
 
     // 6. Viewport Transform.
     applyViewportTransform(
-        primitives, inputData.screenWidth, inputData.viewWidth);
+        primitives, inputData.screenWidth, inputData.screenHeight);
 
     // 7&8. Rasterization && Fragment Shader.
     std::vector<Fragment> fragments;
 
-    for (Primitive &primitive : primitives)
+    for (Triangle &primitive : primitives)
     {
         std::vector<Fragment> primitiveFragments =
             inputData.rasterizer.rasterize(primitive);

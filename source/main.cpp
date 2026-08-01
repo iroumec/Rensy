@@ -11,9 +11,8 @@
 
 import model;
 import colour;
-import buffer;
 import tgaimage;
-import rasterizer;
+import renderer;
 import configuration;
 
 // ============================================================================
@@ -33,7 +32,10 @@ int main(int argc, char **argv)
     initializeConfiguration();
 
     Model model{argv[1]};
-    FrameBuffer buffer{WIDTH, HEIGHT, BACKGROUND_COLOUR};
+
+    RenderingInputData{
+
+    };
 
     RASTERIZER.draw(model, buffer, COLOUR_GENERATOR, getMVPTransform());
 

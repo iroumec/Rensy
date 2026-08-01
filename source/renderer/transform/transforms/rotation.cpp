@@ -9,7 +9,7 @@ module renderer;
 // ============================================================================
 
 import matrix;
-import rotation;
+import :transform.rotation;
 
 // ============================================================================
 // Implementations

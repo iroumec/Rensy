@@ -1,16 +1,14 @@
 module;
 
-export module renderer:transform;
+export module renderer:pipeline;
 
 // ============================================================================
 // Exports
 // ============================================================================
 
-export import :transform.view;
-export import :transform.model;
-export import :transform.viewport;
-export import :transform.rotation;
-export import :transform.projection;
+export import :pipeline.rasterizer;
+export import :pipeline.depth_test;
+export import :pipeline.framebuffer;
 
 // ============================================================================
 // EOF

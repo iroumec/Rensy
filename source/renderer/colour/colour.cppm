@@ -1,16 +1,13 @@
 module;
 
-export module renderer:transform;
+export module renderer:colour;
 
 // ============================================================================
 // Exports
 // ============================================================================
 
-export import :transform.view;
-export import :transform.model;
-export import :transform.viewport;
-export import :transform.rotation;
-export import :transform.projection;
+export import :colour.calculator;
+export import :colour.intensifier;
 
 // ============================================================================
 // EOF

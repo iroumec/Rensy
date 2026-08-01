@@ -6,11 +6,10 @@ export module renderer;
 // Exports-Import
 // ============================================================================
 
-export import :pipeline.depth_test;
-export import :pipeline.framebuffer;
-export import :transform.view;
-export import :transform.model;
-export import :transform.projection;
+export import :colour;
+export import :transform;
+export import :pipeline;
+export import :structure;
 
 // ============================================================================
 // Imports
@@ -18,6 +17,7 @@ export import :transform.projection;
 
 import :structure.vbo;
 import :structure.ebo;
+import colour;
 import colour_generator;
 
 // ============================================================================
@@ -30,8 +30,8 @@ import colour_generator;
 
 export struct RenderingInputData
 {
-    unsigned width;
-    unsigned height;
+    unsigned screenWidth;
+    unsigned screenHeight;
 
     VBO vbo;
     EBO ebo;
@@ -41,6 +41,8 @@ export struct RenderingInputData
     ProjectionTransform projectionTransform;
 
     ColourGenerator &colourGenerator;
+
+    Colour backgroundColour;
 };
 
 // ----------------------------------------------------------------------------
@@ -60,7 +62,7 @@ export struct RenderingOutputData
 export class Renderer
 {
 public:
-    RenderingOutputData render(const RenderingInputData &inputData) const;
+    static RenderingOutputData render(const RenderingInputData &inputData);
 };
 
 // ============================================================================

@@ -35,7 +35,7 @@ public:
     void setDepth(std::size_t index, double depth) { this->buffer[index] = depth; }
     double getDepth(std::size_t index) const { return this->buffer[index]; }
 
-    constexpr std::vector<Fragment> applyViewportTransform(
+    constexpr std::vector<Fragment> process(
         const std::vector<Fragment> &fragments)
     {
         std::vector<Fragment> processedFragments;

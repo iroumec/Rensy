@@ -52,7 +52,6 @@ export class WireframeRasterizer : public Rasterizer
 public:
     std::vector<Fragment> rasterize(const Triangle &primitive) const override;
 };
-*/
 
 // ----------------------------------------------------------------------------
 // Scanline Rasterizer
@@ -63,6 +62,8 @@ export class ScanlineRasterizer : public Rasterizer
 public:
     std::vector<Fragment> rasterize(const Triangle &primitive) const override;
 };
+
+*/
 
 // ----------------------------------------------------------------------------
 // Bounding Box Rasterizer

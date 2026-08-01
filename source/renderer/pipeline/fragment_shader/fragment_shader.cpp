@@ -12,6 +12,7 @@ import colour;
 import :colour.intensifier;
 import :structure.fragment;
 import :structure.triangle;
+import :pipeline.fragment_shader;
 
 // ============================================================================
 // Implementations

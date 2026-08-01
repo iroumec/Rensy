@@ -2,6 +2,7 @@ module;
 
 #include <cmath>
 #include <memory>
+#include <vector>
 #include <iostream>
 #include <algorithm>
 
@@ -15,10 +16,9 @@ import bbox;
 import vector;
 import matrix;
 import geometry;
-import clipping;
-import transform;
-import perspective;
 import barycentric;
+import :structure.triangle;
+import :structure.fragment;
 
 // ============================================================================
 // Constants
@@ -95,6 +95,7 @@ std::vector<Fragment> WireframeRasterizer::
 // Scanline Rasterizer
 // ----------------------------------------------------------------------------
 
+/*
 export std::array<Vertex, 3>
 orderByAscendingAxisY(Vertex a, Vertex b, Vertex c)
 {
@@ -151,6 +152,7 @@ std::vector<Fragment> ScanlineRasterizer::
             buffer.setColour(x, y, top.getColour()); // TODO: Fix this.
     }
 }
+*/
 
 // ----------------------------------------------------------------------------
 // Bounding Box Rasterizer
@@ -168,6 +170,10 @@ std::vector<Fragment> BoundingBoxRasterizer::
     int minY = std::max(0, static_cast<int>(bbox.minY));
     int maxY = std::min(static_cast<int>(buffer.getHeight() - 1), static_cast<int>(bbox.maxY));
 
+    Vector3D a = primitive.v0.screenPosition;
+    Vector3D b = primitive.v1.screenPosition;
+    Vector3D c = primitive.v2.screenPosition;
+
     for (int y = minY; y <= maxY; y++)
     {
         for (int x = minX; x <= maxX; x++)
@@ -175,9 +181,7 @@ std::vector<Fragment> BoundingBoxRasterizer::
             // Barycentric coordinates obtention.
             BarycentricCoordinate barycentricCoordinates =
                 getBarycentricCoordinates(
-                    primitive.v0.screenPosition,
-                    primitive.v1.screenPosition,
-                    primitive.v2.screenPosition,
+                    a, b, c,
                     Vector2D{static_cast<double> x, static_cast<double> y});
 
             // If the point is not inside the triangle, it is discarded.
@@ -191,32 +195,33 @@ std::vector<Fragment> BoundingBoxRasterizer::
 
                 fragment.xScreen = x;
                 fragment.yScreen = y;
-                fragment.depth = coordinates.alpha * a.z() +
-                                 coordinates.beta * b.z() +
-                                 coordinates.gamma * c.z();
+                fragment.depth = barycentricCoordinates.alpha * a.z() +
+                                 barycentricCoordinates.beta * b.z() +
+                                 barycentricCoordinates.gamma * c.z();
 
                 fragment.barycentricCoordinates = barycentricCoordinates;
 
+                /*
                 fragment.worldPosition =
-                    alpha * v0.worldPosition +
-                    beta * v1.worldPosition +
-                    gamma * v2.worldPosition;
+                    barycentricCoordinates.alpha * primitive.v0.worldPosition +
+                    barycentricCoordinates.beta * primitive.v1.worldPosition +
+                    barycentricCoordinates.gamma * primitive.v2.worldPosition;
 
                 fragment.normal =
-                    alpha * v0.normal +
-                    beta * v1.normal +
-                    gamma * v2.normal;
+                    alpha * primitive.v0.normal +
+                    beta * primitive.v1.normal +
+                    gamma * primitive.v2.normal;
 
                 fragment.uv =
-                    alpha * v0.uv +
-                    beta * v1.uv +
-                    gamma * v2.uv;
+                    alpha * primitive.v0.uv +
+                    beta * primitive.v1.uv +
+                    gamma * primitive.v2.uv;
 
                 fragment.colour =
-                    alpha * v0.colour +
-                    beta * v1.colour +
-                    gamma * v2.colour;
-
+                    alpha * primitive.v0.colour +
+                    beta * primitive.v1.colour +
+                    gamma * primitive.v2.colour;
+                */
                 fragments.push_back(fragment);
             }
         }

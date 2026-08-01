@@ -12,12 +12,10 @@ export module configuration;
 
 import radian;
 import colour;
-import filter;
 import vector;
 import renderer;
 import drawing_pattern;
 import colour_generator;
-import colour_calculator;
 
 export constexpr unsigned WIDTH = 1080;
 export constexpr unsigned HEIGHT = 1080;
@@ -48,16 +46,9 @@ const Vector3D EYE(0, 0, 1);  // Camera position.
 const Vector3D GAZE(0, 0, 0); // Camera direction.
 const Vector3D UP(0, 1, 0);   // Camera up vector.
 
-export const MVPTransform &getMVPTransform()
-{
-    static const MVPTransform instance{
-        ModelTransform{
-            RotationTransform{ROTATION},
-        },
-        ViewTransform{EYE, GAZE, UP},
-        PerspectiveProjection{}};
-    return instance;
-}
+const ModelTransform MODEL_TRANSFORM{RotationTransform{ROTATION}};
+const ViewTransform VIEW_TRANSFORM{EYE, GAZE, UP};
+const PerspectiveProjection PERSPECTIVE_PROJECTION{};
 
 // ============================================================================
 // COLOURS
@@ -125,8 +116,8 @@ export const ColourIntensifierFactory *COLOUR_INTENSIFIER = &UNIFORM_PHONG_COLOU
 // ============================================================================
 
 // DO NOT CHANGE!
-export const BorderDrawingPattern BORDER_DRAWING_PATTERN{};
-export const CenterDrawingPattern CENTER_DRAWING_PATTERN{};
+// export const BorderDrawingPattern BORDER_DRAWING_PATTERN{};
+// export const CenterDrawingPattern CENTER_DRAWING_PATTERN{};
 
 // SELECT ONE:
 // export const DrawingPattern *DRAWING_PATTERN = &BORDER_DRAWING_PATTERN;
@@ -138,11 +129,10 @@ export const DrawingPattern *DRAWING_PATTERN = nullptr;
 // ============================================================================
 
 // DO NOT CHANGE!
-const VertexRasterizer VERTEX_RASTERIZER{};
-const WireframeRasterizer WIREFRAME_RASTERIZER{};
-const ScanlineRasterizer SCANLINE_RASTERIZER{};
-const BoundingBoxRasterizer BOUNDING_BOX_RASTERIZER{
-    COLOUR_CALCULATOR, COLOUR_INTENSIFIER, DRAWING_PATTERN};
+// const VertexRasterizer VERTEX_RASTERIZER{};
+// const WireframeRasterizer WIREFRAME_RASTERIZER{};
+// const ScanlineRasterizer SCANLINE_RASTERIZER{};
+const BoundingBoxRasterizer BOUNDING_BOX_RASTERIZER{DRAWING_PATTERN};
 
 // SELECT ONE:
 // export const Rasterizer &RASTERIZER = VERTEX_RASTERIZER;
@@ -155,10 +145,10 @@ export const Rasterizer &RASTERIZER = BOUNDING_BOX_RASTERIZER;
 // ============================================================================
 
 // DO NOT CHANGE!
-export const FogFilter FOG_FILTER{FOG_COLOUR};
-export const BrightFilter BRIGHT_FILTER{Colour{237, 234, 222, 255}};
+// export const FogFilter FOG_FILTER{FOG_COLOUR};
+// export const BrightFilter BRIGHT_FILTER{Colour{237, 234, 222, 255}};
 
 // SELECT ONE:
-export const Filter *FILTER = nullptr;
+// export const Filter *FILTER = nullptr;
 // export const Filter *FILTER = &FOG_FILTER;
 // export const Filter *FILTER = &BRIGHT_FILTER;
