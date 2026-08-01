@@ -74,7 +74,7 @@ const Colour STATIC_COLOUR = darkGray;
 // PHONG MODEL
 // ============================================================================
 
-const Vector3D LIGHT_POSITION(2, 2, 4);
+const Vector3D LIGHT_POSITION(0, 0, 1); // Camera coordinates.
 const Colour AMBIENT_COLOUR = darkGray;
 
 // ============================================================================

@@ -87,21 +87,21 @@ void Rasterizer::draw(
         )
         {
             // Screen space transformation (NDC -> Viewport).
-            Vector4D a = viewportTransform.apply(getNDC(v0Clip));
-            Vector4D b = viewportTransform.apply(getNDC(v1Clip));
-            Vector4D c = viewportTransform.apply(getNDC(v2Clip));
+            Vector4D v0Viewport = viewportTransform.apply(getNDC(v0Clip));
+            Vector4D v1Viewport = viewportTransform.apply(getNDC(v1Clip));
+            Vector4D v2Viewport = viewportTransform.apply(getNDC(v2Clip));
 
             if (DEBUG)
             {
-                std::cout << "a: " << a << std::endl;
-                std::cout << "b: " << b << std::endl;
-                std::cout << "c: " << c << std::endl;
+                std::cout << "v0Viewport: " << v0Viewport << std::endl;
+                std::cout << "v1Viewport: " << v1Viewport << std::endl;
+                std::cout << "v2Viewport: " << v2Viewport << std::endl;
             }
 
             this->draw(
-                {a, colourGenerator()},
-                {b, colourGenerator()},
-                {c, colourGenerator()},
+                {v0Clip, v0Viewport, colourGenerator()},
+                {v1Clip, v1Viewport, colourGenerator()},
+                {v2Clip, v2Viewport, colourGenerator()},
                 buffer);
         }
     }
@@ -114,7 +114,8 @@ void Rasterizer::draw(
 void VertexRasterizer::
     draw(Vertex a, Vertex b, Vertex c, FrameBuffer &buffer) const
 {
-    buffer.setColour(a.x(), a.y(), a.getColour());
+
+    buffer.setColour(a.xScreen(), a.yScreen(), a.getColour());
     buffer.setColour(b.x(), b.y(), b.getColour());
     buffer.setColour(c.x(), c.y(), c.getColour());
 }

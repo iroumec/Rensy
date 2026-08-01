@@ -22,7 +22,6 @@ import :instance.uniform_phong;
 export class UniformPhongColourIntensifierFactory
     : public ColourIntensifierFactory
 {
-
     const Vector3D lightPoint;
 
 public:
@@ -47,7 +46,8 @@ public:
         Vector3D l = (this->lightPoint - midpoint).normalize();
 
         // Light intensity calculation.
-        double lightIntensity = n.dot(l);
+        // double lightIntensity = std::max(0.0, n.dot(l));
+        double lightIntensity = std::abs(n.dot(l)); // Two points of lights.
 
         return std::make_shared<UniformPhongColourIntensifier>(lightIntensity);
     }
