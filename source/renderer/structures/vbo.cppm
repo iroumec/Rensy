@@ -2,7 +2,7 @@ module;
 
 #include <vector>
 
-export module renderer:vertex_in;
+export module renderer:structure.vbo;
 
 // ============================================================================
 // Imports

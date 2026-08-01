@@ -3,7 +3,7 @@ module;
 #include <cmath>
 #include <memory>
 
-export module intensifier:factory.uniform_phong;
+export module renderer:colour.intensifier.factory.uniform_phong;
 
 // ============================================================================
 // Imports
@@ -11,9 +11,9 @@ export module intensifier:factory.uniform_phong;
 
 import vertex;
 import vector;
-import :factory.base;
-import :instance.base;
-import :instance.uniform_phong;
+import :colour.intensifier.factory.base;
+import :colour.intensifier.instance.base;
+import :colour.intensifier.instance.uniform_phong;
 
 // ============================================================================
 // Declarations and Implementations

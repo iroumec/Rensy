@@ -2,16 +2,16 @@ module;
 
 #include <vector>
 
-export module vertex_shader;
+export module renderer:pipeline.vertex_shader;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import vector;
-import transform;
-import vertex_in;
-import vertex_out;
+import :transform.mvp;
+import :structure.vertex_in;
+import :structure.vertex_out;
 
 // ============================================================================
 // Declarations and Implementations

@@ -3,7 +3,7 @@ module;
 #include <cmath>
 #include <iostream>
 
-export module intensifier:instance.uniform_phong;
+export module renderer:colour.intensifier.instance.uniform_phong;
 
 // ============================================================================
 // Imports
@@ -11,7 +11,7 @@ export module intensifier:instance.uniform_phong;
 
 import colour;
 import barycentric;
-import :instance.base;
+import :colour.intensifier.instance.base;
 
 // ============================================================================
 // Declarations and Implementations

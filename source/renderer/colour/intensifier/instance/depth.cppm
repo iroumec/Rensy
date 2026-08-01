@@ -2,7 +2,7 @@ module;
 
 #include <cmath>
 
-export module intensifier:instance.depth;
+export module renderer:colour.intensifier.instance.depth;
 
 // ============================================================================
 // Imports
@@ -10,7 +10,7 @@ export module intensifier:instance.depth;
 
 import colour;
 import barycentric;
-import :instance.base;
+import :colour.intensifier.instance.base;
 
 // ============================================================================
 // Declarations and Implementations

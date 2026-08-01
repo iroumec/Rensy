@@ -1,13 +1,13 @@
 module;
 
-export module viewport_transform;
+export module renderer:pipeline.viewport_transform;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import triangle;
-import transform;
+import :structure.triangle;
+import :transform.viewport;
 
 // ============================================================================
 // Declarations and Implementations

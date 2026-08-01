@@ -2,14 +2,14 @@ module;
 
 #include <vector>
 
-export module primitive_assembly;
+export module renderer:pipeline.primitive_assembly;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import triangle;
-import vertex_out;
+import :structure.triangle;
+import :structure.vertex_out;
 
 // ============================================================================
 // Declarations

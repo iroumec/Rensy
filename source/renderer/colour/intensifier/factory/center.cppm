@@ -1,35 +1,31 @@
 module;
 
-#include <cmath>
 #include <memory>
 
-export module intensifier:factory.depth;
+export module renderer:colour.intensifier.factory.center;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import vertex;
-import :factory.base;
-import :instance.base;
-import :instance.depth;
+import :colour.intensifier.factory.base;
+import :colour.intensifier.instance.base;
+import :colour.intensifier.instance.center;
 
 // ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
-export class DepthColourIntensifierFactory : public ColourIntensifierFactory
+export class CenterColourIntensifierFactory : public ColourIntensifierFactory
 {
 public:
     std::shared_ptr<ColourIntensifier> instance(
         const Vertex &a, const Vertex &b, const Vertex &c) const override
     {
-        return std::make_shared<DepthColourIntensifier>(
-            a.z(),
-            b.z(),
-            c.z(),
-            std::min(a.z(), std::min(b.z(), c.z())),
-            std::max(a.z(), std::max(b.z(), c.z())));
+        static auto staticInstance =
+            std::make_shared<CenterColourIntensifier>();
+        return staticInstance;
     }
 };
 

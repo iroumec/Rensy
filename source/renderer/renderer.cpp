@@ -46,14 +46,18 @@ RenderingOutputData Renderer::
     applyViewportTransform(
         primitives, inputData.screenWidth, inputData.viewWidth);
 
-    // 7. Rasterization.
+    // 7&8. Rasterization && Fragment Shader.
+    std::vector<Fragment> fragments;
 
-    std::vector<Fragment> fragments =
-        inputData.rasterizer.rasterize(primitives);
+    for (primitive : primitives)
+    {
+        std::vector<Fragment> primitiveFragments =
+            inputData.rasterizer.rasterize(primitive);
 
-    // 8. Fragment shader.
-    // for (fragment : fragments)
-    //    fragmentShader.apply(fragment);
+        fragmentShader.processFragments(primitiveFragments, primitive);
+
+        fragments.push_back(primitiveFragments);
+    }
 
     // 9. Depth Test
     DepthBuffer zBuffer(inputData.width, inputData.height);

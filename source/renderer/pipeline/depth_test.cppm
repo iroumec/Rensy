@@ -7,13 +7,13 @@ module;
 #include <vector>
 #include <cassert>
 
-export module renderer:depth_buffer;
+export module renderer:pipeline.depth_test;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import fragment;
+import :structure.fragment;
 
 // ============================================================================
 // Declarations and Implementations

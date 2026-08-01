@@ -1,16 +1,16 @@
 module;
 
-export module intensifier:instance;
+export module renderer:colour.intensifier.instance;
 
 // ============================================================================
 // Imports and Exports
 // ============================================================================
 
-export import :instance.base;
-export import :instance.border;
-export import :instance.center;
-export import :instance.depth;
-export import :instance.uniform_phong;
+export import :colour.intensifier.instance.base;
+export import :colour.intensifier.instance.border;
+export import :colour.intensifier.instance.center;
+export import :colour.intensifier.instance.depth;
+export import :colour.intensifier.instance.uniform_phong;
 
 // ============================================================================
 // EOF

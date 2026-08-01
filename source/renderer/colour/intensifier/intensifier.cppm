@@ -1,16 +1,13 @@
 module;
 
-export module intensifier:factory;
+export module renderer:colour.intensifier;
 
 // ============================================================================
 // Imports and Exports
 // ============================================================================
 
-export import :factory.base;
-export import :factory.border;
-export import :factory.center;
-export import :factory.depth;
-export import :factory.uniform_phong;
+export import :factory;
+export import :instance;
 
 // ============================================================================
 // EOF

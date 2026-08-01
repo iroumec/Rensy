@@ -1,34 +1,31 @@
 module;
 
-#include <memory>
-
-export module intensifier:factory.base;
+export module renderer:colour.intensifier.instance.base;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import vertex;
-import :instance.base;
+import colour;
+import barycentric;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
 // ----------------------------------------------------------------------------
-// Colour Itensifier Factory (Base Class)
+// Colour Intensifier (Base Class)
 // ----------------------------------------------------------------------------
 
-export class ColourIntensifierFactory
+export class ColourIntensifier
 {
 
 public:
-    virtual ~ColourIntensifierFactory() = default;
+    virtual ~ColourIntensifier() = default;
 
-    // Sets all the necessary thing needed in common for every point
-    // in the triangle.
-    virtual std::shared_ptr<ColourIntensifier> instance(
-        const Vertex &a, const Vertex &b, const Vertex &c) const = 0;
+    virtual constexpr Colour adjustColour(
+        const Colour &colour,
+        const BarycentricCoordinate &coordinates) const = 0;
 };
 
 // ============================================================================

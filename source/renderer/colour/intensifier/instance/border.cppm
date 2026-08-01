@@ -2,7 +2,7 @@ module;
 
 #include <cmath>
 
-export module intensifier:instance.border;
+export module renderer:colour.intensifier.instance.border;
 
 // ============================================================================
 // Imports
@@ -10,7 +10,7 @@ export module intensifier:instance.border;
 
 import colour;
 import barycentric;
-import :instance.base;
+import :colour.intensifier.instance.base;
 
 // ============================================================================
 // Declarations and Implementations

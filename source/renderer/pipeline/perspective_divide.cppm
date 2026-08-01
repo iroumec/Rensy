@@ -2,14 +2,14 @@ module;
 
 #include <stdexcept>
 
-export module perspective_divide;
+export module renderer:pipeline.perspective_divide;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import vector;
-import triangle;
+import :structure.triangle;
 
 // ============================================================================
 // Declarations and Implementations

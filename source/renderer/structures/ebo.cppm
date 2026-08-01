@@ -5,7 +5,7 @@ module;
 #include <utility>
 #include <ostream>
 
-export module renderer:ebo;
+export module renderer:structure.ebo;
 
 // ============================================================================
 // Imports

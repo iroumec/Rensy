@@ -1,12 +1,12 @@
 module;
 
-export module renderer:triangle;
+export module renderer:structure.triangle;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :vertex_out;
+import :structure.vertex_out;
 
 // ============================================================================
 // Declarations

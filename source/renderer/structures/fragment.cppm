@@ -1,6 +1,6 @@
 module;
 
-export module renderer:fragment;
+export module renderer:structure.fragment;
 
 // ============================================================================
 // Imports
@@ -19,8 +19,13 @@ export struct Fragment
     unsigned xScreen;
     unsigned yScreen;
     double depth;
-    Colour colour;
-    BarycentricCoordinates barycentricCoordinates;
+
+    BarycentricCoordinate barycentricCoordinates;
+
+    // Vector3 worldPosition;
+    // Vector3 normal;
+    // Vector2 uv;
+    // Colour colour;
 };
 
 // ============================================================================

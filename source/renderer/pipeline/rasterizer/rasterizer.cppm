@@ -2,20 +2,15 @@ module;
 
 #include <vector>
 
-export module rasterizer;
+export module renderer:pipeline.rasterizer;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import model;
-import buffer;
-import vertex;
-import transform;
 import drawing_pattern;
-import colour_generator;
-import colour_calculator;
-import intensifier;
+import :structure.triangle;
+import :structure.fragment;
 
 // ============================================================================
 // Declarations

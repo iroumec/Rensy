@@ -5,28 +5,20 @@ module;
 #include <iostream>
 #include <algorithm>
 
-module rasterizer;
+module renderer;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import bbox;
-import model;
-import buffer;
-import colour;
 import vector;
-import vertex;
 import matrix;
 import geometry;
 import clipping;
 import transform;
 import perspective;
 import barycentric;
-
-// Delete then.
-import rotation;
-import radian;
 
 // ============================================================================
 // Constants
@@ -162,11 +154,6 @@ std::vector<Fragment> ScanlineRasterizer::
 // ----------------------------------------------------------------------------
 
 std::vector<Fragment> BoundingBoxRasterizer::
-    rasterize(const std::vector<Triangle> &primitive) const override
-{
-}
-
-std::vector<Fragment> BoundingBoxRasterizer::
     rasterize(const Triangle &primitive) const override
 {
     std::vector<Fragment> fragments;
@@ -188,7 +175,7 @@ std::vector<Fragment> BoundingBoxRasterizer::
                     primitive.v0.screenPosition,
                     primitive.v1.screenPosition,
                     primitive.v2.screenPosition,
-                    Vector2D{(double)x, (double)y});
+                    Vector2D{static_cast<double> x, static_cast<double> y});
 
             // If the point is not inside the triangle, it is discarded.
             if (barycentricCoordinates.isInsideTriangle())
@@ -197,83 +184,41 @@ std::vector<Fragment> BoundingBoxRasterizer::
                 if (drawingPattern != nullptr && !drawingPattern->isValid(coordinates))
                     continue;
 
-                Fragment fragment{};
+                Fragment fragment;
 
-                fragment.screenPosition = Vector2D{x, y};
+                fragment.xScreen = x;
+                fragment.yScreen = y;
                 fragment.depth = coordinates.alpha * a.z() +
                                  coordinates.beta * b.z() +
                                  coordinates.gamma * c.z();
+
                 fragment.barycentricCoordinates = barycentricCoordinates;
+
+                fragment.worldPosition =
+                    alpha * v0.worldPosition +
+                    beta * v1.worldPosition +
+                    gamma * v2.worldPosition;
+
+                fragment.normal =
+                    alpha * v0.normal +
+                    beta * v1.normal +
+                    gamma * v2.normal;
+
+                fragment.uv =
+                    alpha * v0.uv +
+                    beta * v1.uv +
+                    gamma * v2.uv;
+
+                fragment.colour =
+                    alpha * v0.colour +
+                    beta * v1.colour +
+                    gamma * v2.colour;
 
                 fragments.push_back(fragment);
             }
         }
     }
 }
-
-/*
-std::vector<Fragment> BoundingBoxRasterizer::
-    rasterize(const Triangle &primitive) const override
-{
-    BoundingBox bbox = BoundingBox(a.getVector(), b.getVector(), c.getVector());
-
-    int minX = std::max(0, static_cast<int>(bbox.minX));
-    int maxX = std::min(static_cast<int>(buffer.getWidth() - 1), static_cast<int>(bbox.maxX));
-    int minY = std::max(0, static_cast<int>(bbox.minY));
-    int maxY = std::min(static_cast<int>(buffer.getHeight() - 1), static_cast<int>(bbox.maxY));
-
-    if (DEBUG)
-    {
-        std::cout << "Bunding Box: " << std::endl;
-        std::cout << "minX: " << minX << std::endl;
-        std::cout << "maxX: " << maxX << std::endl;
-        std::cout << "minY: " << minY << std::endl;
-        std::cout << "maxY: " << maxY << std::endl;
-    }
-
-    std::shared_ptr<ColourIntensifier> colourIntensifier = nullptr;
-
-    if (colourIntensifierFactory)
-        colourIntensifier = colourIntensifierFactory->instance(a, b, c);
-
-    for (int y = minY; y <= maxY; y++)
-    {
-        for (int x = minX; x <= maxX; x++)
-        {
-            // Barycentric coordinates obtention.
-            BarycentricCoordinate coordinates = getBarycentricCoordinates(
-                a.getVector(), b.getVector(), c.getVector(),
-                Vector2D{(double)x, (double)y});
-
-            // If the point is not inside the triangle, it is discarded.
-            if (!coordinates.isInsideTriangle())
-                continue;
-
-            // If the point isn't valid in the drawing pattern, it's discarded.
-            if (drawingPattern != nullptr && !drawingPattern->isValid(coordinates))
-                continue;
-
-            // Depth calculation.
-            double z =
-                coordinates.alpha * a.z() +
-                coordinates.beta * b.z() +
-                coordinates.gamma * c.z();
-
-            // If the new depth is higher than the stored one, continue.
-            if (buffer.isStoredDepthLower(x, y, z))
-                continue;
-
-            // Colour calculation and adjusting.
-            Colour colour = this->colourCalculator.calculateColour(a, b, c, coordinates);
-            if (colourIntensifier)
-                colour = colourIntensifier->adjustColour(colour, coordinates);
-
-            buffer.setColour(x, y, colour);
-            buffer.setDepth(x, y, z);
-        }
-    }
-}
-*/
 
 // ============================================================================
 // EOF

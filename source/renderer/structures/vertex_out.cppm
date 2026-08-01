@@ -1,6 +1,6 @@
 module;
 
-export module vertex_out;
+export module renderer:structure.vertex_out;
 
 // ============================================================================
 // Imports

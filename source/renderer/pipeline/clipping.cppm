@@ -1,8 +1,6 @@
 module;
 
-#include <algorithm>
-
-export module renderer:clipping;
+export module renderer:pipeline.clipping;
 
 // ============================================================================
 // Imports
