@@ -23,11 +23,6 @@ double Vector2D::dotProduct(const Vector2D &other) const
     return this->x * other.x + this->y * other.y;
 }
 
-Vector2D Vector2D::operator=(const Vector2D &other) const
-{
-    return Vector2D{other.x, other.y};
-}
-
 Vector2D::operator Vector3D() const
 {
     return Vector3D{x, y, 0.0};

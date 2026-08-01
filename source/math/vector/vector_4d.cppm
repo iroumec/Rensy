@@ -50,7 +50,7 @@ public:
 
     // Cross product is, strictly, defined only for 3 and 7 dimensions.
 
-    Vector4D operator=(const Vector4D &other) const;
+    Vector4D &operator=(const Vector4D &) = default;
 
     friend Vector4D operator*(
         const Matrix<double, 4, 4> &matrix, const Vector4D &vector);

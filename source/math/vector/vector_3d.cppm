@@ -65,7 +65,7 @@ public:
 
     operator Vector4D() const;
 
-    Vector3D operator=(const Vector3D &other) const;
+    Vector3D &operator=(const Vector3D &) = default;
 
     friend Vector3D operator*(double value, const Vector3D &vector);
 

@@ -73,11 +73,6 @@ Vector3D::operator Vector4D() const
     return Vector4D{this->x(), this->y(), this->z(), 1.};
 }
 
-Vector3D Vector3D::operator=(const Vector3D &other) const
-{
-    return Vector3D{other.x(), other.y(), other.z()};
-}
-
 Vector3D operator*(double value, const Vector3D &vector)
 {
     return vector * value;

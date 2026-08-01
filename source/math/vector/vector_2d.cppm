@@ -33,7 +33,7 @@ public:
 
     operator Vector3D() const;
 
-    Vector2D operator=(const Vector2D &other) const;
+    Vector2D &operator=(const Vector2D &) = default;
 
     friend std::ostream &operator<<(std::ostream &out, const Vector2D &v);
 };

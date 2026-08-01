@@ -1,6 +1,7 @@
 module;
 
 #include <vector>
+#include <iostream>
 
 export module renderer:pipeline.vertex_shader;
 

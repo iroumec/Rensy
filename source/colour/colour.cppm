@@ -97,15 +97,7 @@ export struct Colour
         };
     }
 
-    Colour operator=(const Colour &other) const
-    {
-        return Colour{
-            other.r,
-            other.g,
-            other.b,
-            other.a,
-        };
-    }
+    Colour &operator=(const Colour &) = default;
 
     operator TGAColour() const
     {
