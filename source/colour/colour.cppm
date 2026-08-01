@@ -4,6 +4,7 @@ module;
 #include <vector>
 #include <memory>
 #include <cstdint>
+#include <ostream>
 #include <algorithm>
 
 export module colour;
@@ -98,6 +99,20 @@ export struct Colour
     }
 
     Colour &operator=(const Colour &) = default;
+
+    friend std::ostream &operator<<(std::ostream &out, const Colour &colour)
+    {
+        out << "R: "
+            << static_cast<int>(colour.r)
+            << ", G: "
+            << static_cast<int>(colour.g)
+            << ", B: "
+            << static_cast<int>(colour.b)
+            << ", A: "
+            << static_cast<int>(colour.a) << '\n';
+
+        return out;
+    }
 
     operator TGAColour() const
     {

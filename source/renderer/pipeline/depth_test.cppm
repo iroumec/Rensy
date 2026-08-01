@@ -32,8 +32,26 @@ public:
         : width{width}, height{height},
           buffer(width * height, -std::numeric_limits<double>::infinity()) {}
 
-    void setDepth(std::size_t index, double depth) { this->buffer[index] = depth; }
-    double getDepth(std::size_t index) const { return this->buffer[index]; }
+    void setDepth(unsigned int x, unsigned int y, double depth)
+    {
+        assert(x >= 0 && x < this->width);
+        assert(y >= 0 && y < this->height);
+
+        std::size_t index = y * width + x;
+        assert(index < width * height);
+
+        this->buffer[index] = depth;
+    }
+    double getDepth(unsigned int x, unsigned int y) const
+    {
+        assert(x >= 0 && x < this->width);
+        assert(y >= 0 && y < this->height);
+
+        std::size_t index = y * width + x;
+        assert(index < width * height);
+
+        return this->buffer[index];
+    }
 
     constexpr std::vector<Fragment> process(
         const std::vector<Fragment> &fragments)
@@ -49,31 +67,13 @@ public:
 
     bool testAndSet(unsigned x, unsigned y, double depth)
     {
-        if (this->isStoredDepthLower(x, y, depth))
+        if (depth > this->getDepth(x, y)) // The higher the values, the more close they are to the screen.)
         {
             this->setDepth(x, y, depth);
             return true;
         }
 
         return false;
-    }
-
-    void setDepth(unsigned x, unsigned y, double depth)
-    {
-        assert(x >= 0 && x < this->width);
-        assert(y >= 0 && y < this->height);
-
-        std::size_t index = y * width + x;
-
-        this->setDepth(index, depth);
-    }
-
-    double getDepth(unsigned x, unsigned y) const
-    {
-        std::size_t index = y * width + x;
-        assert(index < width * height);
-
-        return this->getDepth(index);
     }
 
     std::tuple<double, double> getMinMaxDepth() const
@@ -96,17 +96,6 @@ public:
         return {min, max};
     }
 
-    bool isStoredDepthLower(unsigned x, unsigned y, double newDepth) const
-    {
-        if (x >= width || y >= height) // Overflow control.
-            return false;
-
-        std::size_t index = y * width + x;
-        assert(index < width * height);
-
-        return newDepth < this->getDepth(index); // The higher the values, the more close they are to the screen.
-    }
-
     void renderIntoImage(const std::string path) const
     {
         TGAImage imageBuffer(this->width, this->height, TGAImage::GRAYSCALE);
@@ -121,7 +110,7 @@ public:
                     column,
                     row,
                     TGAColour{{static_cast<unsigned char>(
-                        (this->getDepth(row * this->width + column) - minDepth) / (maxDepth - minDepth) * 255)}});
+                        (this->getDepth(column, row) - minDepth) / (maxDepth - minDepth) * 255)}});
 
         imageBuffer.write_tga_file(path);
     }

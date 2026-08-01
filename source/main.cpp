@@ -41,6 +41,7 @@ int main(int argc, char **argv)
         MODEL_TRANSFORM,
         VIEW_TRANSFORM,
         PROJECTION_TRANSFORM,
+        COLOUR_GENERATOR,
         RASTERIZER,
         COLOUR_CALCULATOR,
         COLOUR_INTENSIFIER,

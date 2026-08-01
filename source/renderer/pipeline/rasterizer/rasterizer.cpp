@@ -3,7 +3,6 @@ module;
 #include <cmath>
 #include <memory>
 #include <vector>
-#include <iostream>
 #include <algorithm>
 
 module renderer;

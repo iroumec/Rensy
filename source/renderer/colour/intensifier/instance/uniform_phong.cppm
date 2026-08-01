@@ -1,7 +1,6 @@
 module;
 
 #include <cmath>
-#include <iostream>
 
 export module renderer:colour.intensifier.instance.uniform_phong;
 
@@ -29,8 +28,6 @@ public:
         const Colour &colour,
         const BarycentricCoordinate &coordinates) const override
     {
-        std::cout << lightIntensity << std::endl;
-
         return colour + (white * (0.2 + this->lightIntensity));
     }
 };

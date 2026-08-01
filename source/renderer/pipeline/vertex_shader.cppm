@@ -1,7 +1,6 @@
 module;
 
 #include <vector>
-#include <iostream>
 
 export module renderer:pipeline.vertex_shader;
 
@@ -15,6 +14,7 @@ import :transform.model;
 import :structure.vertex_in;
 import :structure.vertex_out;
 import :transform.projection;
+import colour_generator;
 
 // ============================================================================
 // Declarations and Implementations
@@ -24,7 +24,8 @@ std::vector<VertexOut> processVertices(
     const std::vector<VertexIn> &vertices,
     const ModelTransform &modelTransform,
     const ViewTransform &viewTransform,
-    const ProjectionTransform &projectionTransform)
+    const ProjectionTransform &projectionTransform,
+    const ColourGenerator &colourGenerator)
 {
     int numberOfVertices = vertices.size();
 
@@ -41,6 +42,7 @@ std::vector<VertexOut> processVertices(
         VertexOut vertexOut{};
         vertexOut.worldPosition = modelTransform.apply(vertices[i].localPosition);
         vertexOut.clipPosition = mvpTransform.apply(vertices[i].localPosition);
+        vertexOut.colour = colourGenerator();
 
         processedVertices[i] = vertexOut;
     }

@@ -1,6 +1,7 @@
 module;
 
 #include <vector>
+#include <iostream>
 
 module renderer;
 
@@ -21,22 +22,38 @@ import :pipeline.viewport_transform;
 import :pipeline.perspective_divide;
 
 // ============================================================================
+// Constants
+// ============================================================================
+
+constexpr bool VERBOSE = true;
+
+// ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
 RenderingOutputData Renderer::
     render(const RenderingInputData &inputData)
 {
+
+    if (VERBOSE)
+        std::cout
+            << "Vertices received: " << inputData.vbo.vertices.size() << '\n';
+
     // 2. Vertex shader.
     std::vector<VertexOut> processedVertices = processVertices(
         inputData.vbo.vertices,
         inputData.modelTransform,
         inputData.viewTransform,
-        inputData.projectionTransform);
+        inputData.projectionTransform,
+        inputData.colourGenerator);
 
     // 3. Primitive Assembly.
     std::vector<Triangle> primitives =
         assemblyPrimitives(processedVertices, inputData.ebo.faces);
+
+    if (VERBOSE)
+        std::cout
+            << "Primitives assembled: " << primitives.size() << '\n';
 
     // 4. Clipping.
     // std::vector<Triangle> primitives = applyClipping(primitives);
@@ -67,9 +84,17 @@ RenderingOutputData Renderer::
             primitiveFragments.end());
     }
 
+    if (VERBOSE)
+        std::cout
+            << "Fragments after rasterization: " << fragments.size() << '\n';
+
     // 9. Depth Test
     DepthBuffer zBuffer(inputData.screenWidth, inputData.screenHeight);
     std::vector<Fragment> processedFragments = zBuffer.process(fragments);
+
+    if (VERBOSE)
+        std::cout << "Fragments after depth test: "
+                  << processedFragments.size() << '\n';
 
     // 10. Stencil test.
     // TODO

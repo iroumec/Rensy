@@ -105,11 +105,11 @@ const CenterColourIntensifierFactory CENTER_COLOUR_INTENSIFIER{};
 const UniformPhongColourIntensifierFactory UNIFORM_PHONG_COLOUR_INTENSIFIER{LIGHT_POSITION};
 
 // SELECT ONE:
-// export const ColourIntensifierFactory *COLOUR_INTENSIFIER = nullptr;
+export const ColourIntensifierFactory *COLOUR_INTENSIFIER = nullptr;
 // export const ColourIntensifierFactory *COLOUR_INTENSIFIER = &DEPTH_COLOUR_INTENSIFIER;
 // export const ColourIntensifierFactory *COLOUR_INTENSIFIER = &BORDER_COLOUR_INTENSIFIER;
 //  export const ColourIntensifierFactory *COLOUR_INTENSIFIER = &CENTER_COLOUR_INTENSIFIER;
-export const ColourIntensifierFactory *COLOUR_INTENSIFIER = &UNIFORM_PHONG_COLOUR_INTENSIFIER;
+// export const ColourIntensifierFactory *COLOUR_INTENSIFIER = &UNIFORM_PHONG_COLOUR_INTENSIFIER;
 
 // ============================================================================
 // DRAWING PATTERN

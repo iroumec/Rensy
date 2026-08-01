@@ -40,6 +40,8 @@ export struct RenderingInputData
     const ViewTransform viewTransform;
     const ProjectionTransform projectionTransform;
 
+    const ColourGenerator &colourGenerator;
+
     const Rasterizer &rasterizer;
 
     const ColourCalculator &colourCalculator;
