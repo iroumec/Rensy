@@ -158,7 +158,10 @@ std::vector<Fragment> ScanlineRasterizer::
 // ----------------------------------------------------------------------------
 
 std::vector<Fragment> BoundingBoxRasterizer::
-    rasterize(const Triangle &primitive) const
+    rasterize(
+        const Triangle &primitive,
+        unsigned screenWidth,
+        unsigned screenHeight) const
 {
     std::vector<Fragment> fragments;
 
@@ -169,9 +172,9 @@ std::vector<Fragment> BoundingBoxRasterizer::
     BoundingBox bbox = BoundingBox(a, b, c);
 
     int minX = std::max(0, static_cast<int>(bbox.minX));
-    int maxX = std::min(static_cast<int>(800 - 1), static_cast<int>(bbox.maxX));
+    int maxX = std::min(static_cast<int>(screenWidth - 1), static_cast<int>(bbox.maxX));
     int minY = std::max(0, static_cast<int>(bbox.minY));
-    int maxY = std::min(static_cast<int>(800 - 1), static_cast<int>(bbox.maxY));
+    int maxY = std::min(static_cast<int>(screenHeight - 1), static_cast<int>(bbox.maxY));
 
     for (int y = minY; y <= maxY; y++)
     {

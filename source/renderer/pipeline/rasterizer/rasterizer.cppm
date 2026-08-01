@@ -27,7 +27,9 @@ public:
     virtual ~Rasterizer() = default;
 
     virtual std::vector<Fragment> rasterize(
-        const Triangle &primitive) const = 0;
+        const Triangle &primitive,
+        unsigned screenWidth,
+        unsigned screenHeight) const = 0;
 };
 
 // ----------------------------------------------------------------------------
@@ -77,7 +79,9 @@ public:
     BoundingBoxRasterizer(const DrawingPattern *drawingPattern = nullptr)
         : drawingPattern(drawingPattern) {}
 
-    std::vector<Fragment> rasterize(const Triangle &primitive) const override;
+    std::vector<Fragment> rasterize(const Triangle &primitive,
+                                    unsigned screenWidth,
+                                    unsigned screenHeight) const override;
 };
 
 // ============================================================================

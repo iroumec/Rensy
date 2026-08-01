@@ -74,7 +74,8 @@ RenderingOutputData Renderer::
     for (Triangle &primitive : primitives)
     {
         std::vector<Fragment> primitiveFragments =
-            inputData.rasterizer.rasterize(primitive);
+            inputData.rasterizer.rasterize(
+                primitive, inputData.screenWidth, inputData.screenHeight);
 
         fragmentShader.processFragments(primitiveFragments, primitive);
 
