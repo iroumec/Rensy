@@ -5,22 +5,17 @@ module;
 module renderer;
 
 // ============================================================================
-// Exports-Import
-// ============================================================================
-
-export import :depth_test;
-export import :framebuffer;
-
-// ============================================================================
 // Imports
 // ============================================================================
 
 import vector;
-import :clipping;
-import :vertex_shader;
-import :perspective_divide;
-import :primitive_assembly;
-import :viewport_transform;
+import :pipeline.clipping;
+import :pipeline.depth_test;
+import :pipeline.framebuffer;
+import :pipeline.vertex_shader;
+import :pipeline.primitive_assembly;
+import :pipeline.viewport_transform;
+import :pipeline.perspective_divide;
 
 // ============================================================================
 // Declarations and Implementations
@@ -30,7 +25,11 @@ RenderingOutputData Renderer::
     render(const RenderingInputData &inputData) const
 {
     // 2. Vertex shader.
-    std::vector<VertexOut> processedVertices = processVertices(inputData);
+    std::vector<VertexOut> processedVertices = processVertices(
+        inputData.vbo.vertices,
+        inputData.modelTransform,
+        inputData.viewTransform,
+        inputData.projectionTransform);
 
     // 3. Primitive Assembly.
     std::vector<Triangle> primitives =
@@ -49,7 +48,7 @@ RenderingOutputData Renderer::
     // 7&8. Rasterization && Fragment Shader.
     std::vector<Fragment> fragments;
 
-    for (primitive : primitives)
+    for (Primitive &primitive : primitives)
     {
         std::vector<Fragment> primitiveFragments =
             inputData.rasterizer.rasterize(primitive);

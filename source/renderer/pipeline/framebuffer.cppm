@@ -7,7 +7,7 @@ module;
 #include <vector>
 #include <cassert>
 
-export module renderer:pipeline.buffer;
+export module renderer:pipeline.framebuffer;
 
 // ============================================================================
 // Imports
@@ -15,6 +15,7 @@ export module renderer:pipeline.buffer;
 
 import colour;
 import tgaimage;
+import :structure.fragment;
 
 // ============================================================================
 // Declarations
@@ -39,7 +40,7 @@ public:
 
     constexpr void process(const std::vector<Fragment> &fragments)
     {
-        for (fragment : fragments)
+        for (Fragment fragment : fragments)
             this->setColour(
                 fragment.xScreen,
                 fragment.yScreen,

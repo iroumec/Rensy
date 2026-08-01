@@ -25,7 +25,7 @@ export struct Fragment
     // Vector3 worldPosition;
     // Vector3 normal;
     // Vector2 uv;
-    // Colour colour;
+    Colour colour;
 };
 
 // ============================================================================

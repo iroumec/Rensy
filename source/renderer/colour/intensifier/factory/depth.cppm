@@ -9,7 +9,7 @@ export module renderer:colour.intensifier.factory.depth;
 // Imports
 // ============================================================================
 
-import vertex;
+import :structure.triangle;
 import :colour.intensifier.factory.base;
 import :colour.intensifier.instance.base;
 import :colour.intensifier.instance.depth;
@@ -22,14 +22,22 @@ export class DepthColourIntensifierFactory : public ColourIntensifierFactory
 {
 public:
     std::shared_ptr<ColourIntensifier> instance(
-        const Vertex &a, const Vertex &b, const Vertex &c) const override
+        const Triangle &primitive) const override
     {
         return std::make_shared<DepthColourIntensifier>(
-            a.z(),
-            b.z(),
-            c.z(),
-            std::min(a.z(), std::min(b.z(), c.z())),
-            std::max(a.z(), std::max(b.z(), c.z())));
+            primitive.v0.screenPosition.z(),
+            primitive.v1.screenPosition.z(),
+            primitive.v2.screenPosition.z(),
+            std::min(
+                primitive.v0.screenPosition.z(),
+                std::min(
+                    primitive.v1.screenPosition.z(),
+                    primitive.v2.screenPosition.z())),
+            std::max(
+                primitive.v0.screenPosition.z(),
+                std::max(
+                    primitive.v1.screenPosition.z(),
+                    primitive.v2.screenPosition.z())));
     }
 };
 

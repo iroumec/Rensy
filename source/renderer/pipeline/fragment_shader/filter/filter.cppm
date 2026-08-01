@@ -5,16 +5,17 @@ module;
 #include <limits>
 #include <algorithm>
 
-export module filter;
+export module renderer:filter;
 
-import buffer;
 import colour;
+import :pipeline.depth_test;
+import :pipeline.framebuffer;
 
 export class Filter
 {
 
 public:
-    virtual constexpr void apply(FrameBuffer &buffer) const = 0;
+    virtual constexpr void apply(FrameBuffer &buffer, const DepthBuffer &depthBuffer) const = 0;
 };
 
 // The deeper the pixel, the more fog it gets.
@@ -28,16 +29,16 @@ public:
     FogFilter(const Colour &colour, double minIntensity = 0.1, double maxIntensity = 0.9)
         : fogColour(colour), minFogIntensity(minIntensity), maxFogIntensity(maxIntensity) {}
 
-    constexpr void apply(FrameBuffer &buffer) const override
+    constexpr void apply(FrameBuffer &buffer, const DepthBuffer &depthBuffer) const override
     {
-        auto [minDepth, maxDepth] = buffer.getMinMaxDepth();
+        auto [minDepth, maxDepth] = depthBuffer.getMinMaxDepth();
         if (minDepth == maxDepth)
             return;
 
         for (unsigned x = 0; x < buffer.getWidth(); x++)
             for (unsigned y = 0; y < buffer.getHeight(); y++)
             {
-                double depth = buffer.getDepth(x, y);
+                double depth = depthBuffer.getDepth(x, y);
 
                 if (!std::isfinite(depth))
                     continue;
@@ -59,16 +60,16 @@ public:
     BrightFilter(const Colour &colour, double minIntensity = 0., double maxIntensity = 0.5)
         : brightColour(colour), minBrightIntensity(minIntensity), maxBrightIntensity(maxIntensity) {}
 
-    constexpr void apply(FrameBuffer &buffer) const override
+    constexpr void apply(FrameBuffer &buffer, const DepthBuffer &depthBuffer) const override
     {
-        auto [minDepth, maxDepth] = buffer.getMinMaxDepth();
+        auto [minDepth, maxDepth] = depthBuffer.getMinMaxDepth();
         if (minDepth == maxDepth)
             return;
 
         for (unsigned x = 0; x < buffer.getWidth(); x++)
             for (unsigned y = 0; y < buffer.getHeight(); y++)
             {
-                double depth = buffer.getDepth(x, y);
+                double depth = depthBuffer.getDepth(x, y);
 
                 if (!std::isfinite(depth))
                     continue;

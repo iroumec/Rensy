@@ -2,11 +2,12 @@ module;
 
 #include <cmath>
 
-export module colour_calculator;
+export module renderer:colour.calculator;
 
-import vertex;
 import colour;
 import barycentric;
+import :structure.fragment;
+import :structure.triangle;
 
 /**
  * Given a list of vertex, these classes calculate the final colour.
@@ -18,7 +19,8 @@ export class ColourCalculator
 public:
     virtual ~ColourCalculator() = default;
 
-    virtual constexpr Colour calculateColour(const Vertex &a, const Vertex &b, const Vertex &c, const BarycentricCoordinate &coordinates) const = 0;
+    virtual constexpr Colour calculateColour(
+        const Fragment &fragment, const Triangle &primitive) const = 0;
 };
 
 /**
@@ -28,14 +30,17 @@ export class DominantColourCalculator : public ColourCalculator
 {
 
 public:
-    constexpr Colour calculateColour(const Vertex &a, const Vertex &b, const Vertex &c, const BarycentricCoordinate &coordinates) const override
+    constexpr Colour calculateColour(
+        const Fragment &fragment, const Triangle &primitive) const override
     {
+        BarycentricCoordinate coordinates = fragment.barycentricCoordinates;
+
         if (coordinates.alpha >= coordinates.beta && coordinates.alpha >= coordinates.gamma)
-            return a.getColour();
+            return primitive.v0.colour;
         else if (coordinates.beta >= coordinates.alpha && coordinates.beta >= coordinates.gamma)
-            return b.getColour();
+            return primitive.v1.colour;
         else
-            return c.getColour();
+            return primitive.v2.colour;
     }
 };
 
@@ -43,14 +48,17 @@ export class SubordinateColourCalculator : public ColourCalculator
 {
 
 public:
-    constexpr Colour calculateColour(const Vertex &a, const Vertex &b, const Vertex &c, const BarycentricCoordinate &coordinates) const override
+    constexpr Colour calculateColour(
+        const Fragment &fragment, const Triangle &primitive) const override
     {
+        BarycentricCoordinate coordinates = fragment.barycentricCoordinates;
+
         if (coordinates.alpha <= coordinates.beta && coordinates.alpha <= coordinates.gamma)
-            return a.getColour();
+            return primitive.v0.colour;
         else if (coordinates.beta <= coordinates.alpha && coordinates.beta <= coordinates.gamma)
-            return b.getColour();
+            return primitive.v1.colour;
         else
-            return c.getColour();
+            return primitive.v2.colour;
     }
 };
 
@@ -58,8 +66,13 @@ export class GradientColourCalculator : public ColourCalculator
 {
 
 public:
-    constexpr Colour calculateColour(const Vertex &a, const Vertex &b, const Vertex &c, const BarycentricCoordinate &coordinates) const override
+    constexpr Colour calculateColour(
+        const Fragment &fragment, const Triangle &primitive) const override
     {
-        return coordinates.alpha * a.getColour() + coordinates.beta * b.getColour() + coordinates.gamma * c.getColour();
+        BarycentricCoordinate coordinates = fragment.barycentricCoordinates;
+
+        return coordinates.alpha * primitive.v0.colour +
+               coordinates.beta * primitive.v1.colour +
+               coordinates.gamma * primitive.v2.colour;
     }
 };

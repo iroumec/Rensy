@@ -11,6 +11,7 @@ export module renderer:pipeline.rasterizer;
 import drawing_pattern;
 import :structure.triangle;
 import :structure.fragment;
+import :structure.vertex_out;
 
 // ============================================================================
 // Declarations
@@ -33,6 +34,7 @@ public:
 // Vertex Rasterizer
 // ----------------------------------------------------------------------------
 
+/*
 export class VertexRasterizer : public Rasterizer
 {
 public:
@@ -45,11 +47,12 @@ public:
 
 export class WireframeRasterizer : public Rasterizer
 {
-    void drawLine(Vertex a, Vertex b, FrameBuffer &buffer) const;
+    void drawLine(VertexOut a, VertexOut b) const;
 
 public:
     std::vector<Fragment> rasterize(const Triangle &primitive) const override;
 };
+*/
 
 // ----------------------------------------------------------------------------
 // Scanline Rasterizer
@@ -67,26 +70,11 @@ public:
 
 export class BoundingBoxRasterizer : public Rasterizer
 {
-    const ColourCalculator &colourCalculator;
     const DrawingPattern *drawingPattern = nullptr;
-    const ColourIntensifierFactory *colourIntensifierFactory = nullptr;
 
 public:
-    BoundingBoxRasterizer(
-        const ColourCalculator &colourCalculator,
-        const DrawingPattern *drawingPattern = nullptr,
-        const ColourIntensifierFactory *colourIntensifierFactory = nullptr)
-        : colourCalculator(colourCalculator),
-          drawingPattern(drawingPattern),
-          colourIntensifierFactory(colourIntensifierFactory) {}
-
-    BoundingBoxRasterizer(
-        const ColourCalculator &colourCalculator,
-        const ColourIntensifierFactory *colourIntensifierFactory = nullptr,
-        const DrawingPattern *drawingPattern = nullptr)
-        : colourCalculator(colourCalculator),
-          drawingPattern(drawingPattern),
-          colourIntensifierFactory(colourIntensifierFactory) {}
+    BoundingBoxRasterizer(const DrawingPattern *drawingPattern = nullptr)
+        : drawingPattern(drawingPattern) {}
 
     std::vector<Fragment> rasterize(const Triangle &primitive) const override;
 };

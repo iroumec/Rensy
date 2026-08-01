@@ -9,8 +9,8 @@ export module renderer:colour.intensifier.factory.uniform_phong;
 // Imports
 // ============================================================================
 
-import vertex;
 import vector;
+import :structure.triangle;
 import :colour.intensifier.factory.base;
 import :colour.intensifier.instance.base;
 import :colour.intensifier.instance.uniform_phong;
@@ -29,11 +29,15 @@ public:
         : lightPoint(lightPoint) {}
 
     std::shared_ptr<ColourIntensifier> instance(
-        const Vertex &a, const Vertex &b, const Vertex &c) const override
+        const Triangle &primitive) const override
     {
+        Vector3D a = primitive.v0.worldPosition;
+        Vector3D b = primitive.v1.worldPosition;
+        Vector3D c = primitive.v2.worldPosition;
+
         // Normal vector calculation.
-        Vector3D ab = b.getVector() - a.getVector();
-        Vector3D ac = c.getVector() - a.getVector();
+        Vector3D ab = b - a;
+        Vector3D ac = c - a;
         Vector3D n = (ab.cross(ac)).normalize();
 
         // Midpoint calculation.

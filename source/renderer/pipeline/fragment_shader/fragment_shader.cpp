@@ -8,10 +8,10 @@ module renderer;
 // Imports
 // ============================================================================
 
-import :structure.fragment;
-import :structure.primitive;
 import colour;
-import intensifier;
+import :colour.intensifier;
+import :structure.fragment;
+import :structure.triangle;
 
 // ============================================================================
 // Implementations

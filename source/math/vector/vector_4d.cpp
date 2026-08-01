@@ -49,6 +49,11 @@ Vector4D operator*(
     return matrix * vector.data;
 }
 
+Vector4D Vector4D::operator=(const Vector4D &other) const
+{
+    return Vector4D{other.x(), other.y(), other.z(), other.w()};
+}
+
 std::ostream &operator<<(std::ostream &out, const Vector4D &v)
 {
     return out << "[ " << v.x() << " | " << v.y() << " | " << v.z() << " | " << v.w() << " ]";

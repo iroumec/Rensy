@@ -8,7 +8,7 @@ export module renderer:colour.intensifier.factory.base;
 // Imports
 // ============================================================================
 
-import vertex;
+import :structure.triangle;
 import :colour.intensifier.instance.base;
 
 // ============================================================================
@@ -28,7 +28,7 @@ public:
     // Sets all the necessary thing needed in common for every point
     // in the triangle.
     virtual std::shared_ptr<ColourIntensifier> instance(
-        const Vertex &a, const Vertex &b, const Vertex &c) const = 0;
+        const Triangle &primitive) const = 0;
 };
 
 // ============================================================================

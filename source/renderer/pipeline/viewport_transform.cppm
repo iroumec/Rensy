@@ -1,5 +1,7 @@
 module;
 
+#include <vector>
+
 export module renderer:pipeline.viewport_transform;
 
 // ============================================================================
@@ -14,18 +16,21 @@ import :transform.viewport;
 // ============================================================================
 
 export constexpr void applyViewportTransform(
-    std::vector<Triangles> &primitives,
+    std::vector<Triangle> &primitives,
     unsigned screenWidth,
     unsigned screenHeight)
 {
     ViewportTransform viewportTransform{screenWidth, screenHeight};
 
     // #pragma omp parallel for
-    for (primitive : primitives)
+    for (Triangle &primitive : primitives)
     {
-        primitive.v0.screenPositionn = viewportTransform.apply(primitive.v0);
-        primitive.v1.screenPositionn = viewportTransform.apply(primitive.v1);
-        primitive.v2.screenPositionn = viewportTransform.apply(primitive.v2);
+        primitive.v0.screenPosition =
+            viewportTransform.apply(primitive.v0.ndcPosition);
+        primitive.v1.screenPosition =
+            viewportTransform.apply(primitive.v1.ndcPosition);
+        primitive.v2.screenPosition =
+            viewportTransform.apply(primitive.v2.ndcPosition);
     }
 }
 

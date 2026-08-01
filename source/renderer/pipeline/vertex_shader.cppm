@@ -8,35 +8,39 @@ export module renderer:pipeline.vertex_shader;
 // Imports
 // ============================================================================
 
-import vector;
 import :transform.mvp;
+import :transform.view;
+import :transform.model;
 import :structure.vertex_in;
 import :structure.vertex_out;
+import :transform.projection;
 
 // ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
-std::vector<VertexOut> processVertices(const RenderingInputData &inputData)
+std::vector<VertexOut> processVertices(
+    const std::vector<VertexIn> &vertices,
+    const ModelTransform &modelTransform,
+    const ViewTransform &viewTransform,
+    const ProjectionTransform &projectionTransform)
 {
-    int numberOfVertices = inputData.vertices.size();
+    int numberOfVertices = vertices.size();
 
     std::vector<VertexOut> processedVertices(numberOfVertices);
 
     MVPTransform mvpTransform = MVPTransform(
-        inputData.modelTransform,
-        inputData.viewTransform,
-        inputData.projectionTransform);
+        modelTransform,
+        viewTransform,
+        projectionTransform);
 
     // #pragma omp parallel for
     for (unsigned i = 0; i < numberOfVertices; ++i)
     {
 
         VertexOut vertexOut{};
-        out.worldPosition = inputData.modelTransform.apply(
-            inputData.vertices[i].localPosition);
-        out.clipPosition = inputData.mvpTransform.apply(
-            inputData.vertices[i].localPosition);
+        vertexOut.worldPosition = modelTransform.apply(vertices[i].localPosition);
+        vertexOut.clipPosition = mvpTransform.apply(vertices[i].localPosition);
 
         processedVertices[i] = vertexOut;
     }

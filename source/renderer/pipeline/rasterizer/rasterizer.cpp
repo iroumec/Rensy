@@ -34,6 +34,7 @@ constexpr bool DEBUG = false;
 // Vertex Rasterizer
 // ----------------------------------------------------------------------------
 
+/*
 std::vector<Fragment> VertexRasterizer::
     rasterize(const Triangle &primitive) const override
 {
@@ -87,6 +88,8 @@ std::vector<Fragment> WireframeRasterizer::
     this->drawLine(c, a, buffer);
     this->drawLine(b, c, buffer);
 }
+
+*/
 
 // ----------------------------------------------------------------------------
 // Scanline Rasterizer

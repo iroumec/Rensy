@@ -13,6 +13,7 @@ export module renderer:pipeline.depth_test;
 // Imports
 // ============================================================================
 
+import tgaimage;
 import :structure.fragment;
 
 // ============================================================================
@@ -27,18 +28,23 @@ class DepthBuffer
 
 public:
     // The buffer is initialized with the biggest value.
-    DepthBuffer(std::size_t length) : buffer(length, -std::numeric_limits<double>::infinity()) {}
+    DepthBuffer(unsigned width, unsigned height)
+        : width{width}, height{height},
+          buffer(width * height, -std::numeric_limits<double>::infinity()) {}
+
     void setDepth(std::size_t index, double depth) { this->buffer[index] = depth; }
     double getDepth(std::size_t index) const { return this->buffer[index]; }
 
-    export constexpr std::vector<Fragment> applyViewportTransform(
+    constexpr std::vector<Fragment> applyViewportTransform(
         const std::vector<Fragment> &fragments)
     {
         std::vector<Fragment> processedFragments;
 
-        for (fragment : fragments)
-            if (depthTest.testAndSet(fragment))
+        for (Fragment fragment : fragments)
+            if (this->testAndSet(fragment.xScreen, fragment.yScreen, fragment.depth))
                 processedFragments.push_back(fragment);
+
+        return processedFragments;
     }
 
     bool testAndSet(unsigned x, unsigned y, double depth)
@@ -59,7 +65,7 @@ public:
 
         std::size_t index = y * width + x;
 
-        this->depthBuffer.setDepth(index, depth);
+        this->setDepth(index, depth);
     }
 
     double getDepth(unsigned x, unsigned y) const
@@ -67,10 +73,10 @@ public:
         std::size_t index = y * width + x;
         assert(index < width * height);
 
-        return this->depthBuffer.getDepth(index);
+        return this->getDepth(index);
     }
 
-    std::tuple<double, double> getMinMaxElements() const
+    std::tuple<double, double> getMinMaxDepth() const
     {
         double min = std::numeric_limits<double>::infinity();
         double max = -std::numeric_limits<double>::infinity();
@@ -98,14 +104,14 @@ public:
         std::size_t index = y * width + x;
         assert(index < width * height);
 
-        return newDepth < this->depthBuffer.getDepth(index); // The higher the values, the more close they are to the screen.
+        return newDepth < this->getDepth(index); // The higher the values, the more close they are to the screen.
     }
 
     void renderIntoImage(const std::string path) const
     {
         TGAImage imageBuffer(this->width, this->height, TGAImage::GRAYSCALE);
 
-        auto [minDepth, maxDepth] = this->depthBuffer.getMinMaxElements();
+        auto [minDepth, maxDepth] = this->getMinMaxDepth();
 
         minDepth -= 0.5; // So the things too distant aren't completely black.
 
@@ -115,7 +121,7 @@ public:
                     column,
                     row,
                     TGAColour{{static_cast<unsigned char>(
-                        (this->depthBuffer.getDepth(row * this->width + column) - minDepth) / (maxDepth - minDepth) * 255)}});
+                        (this->getDepth(row * this->width + column) - minDepth) / (maxDepth - minDepth) * 255)}});
 
         imageBuffer.write_tga_file(path);
     }

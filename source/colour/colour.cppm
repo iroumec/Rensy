@@ -18,6 +18,13 @@ export struct Colour
     std::uint8_t b;
     std::uint8_t a;
 
+    constexpr Colour(
+        std::uint8_t r = 0,
+        std::uint8_t g = 0,
+        std::uint8_t b = 0,
+        std::uint8_t a = 255)
+        : r{r}, g{g}, b{b}, a{a} {}
+
     // --------------------------------------------------------------------- //
     // RANDOM GENERATION
     // --------------------------------------------------------------------- //
@@ -87,6 +94,16 @@ export struct Colour
             static_cast<std::uint8_t>(std::clamp(g + other.g, 0, 255)),
             static_cast<std::uint8_t>(std::clamp(b + other.b, 0, 255)),
             static_cast<std::uint8_t>(std::clamp(a + other.a, 0, 255)),
+        };
+    }
+
+    Colour operator=(const Colour &other) const
+    {
+        return Colour{
+            other.r,
+            other.g,
+            other.b,
+            other.a,
         };
     }
 

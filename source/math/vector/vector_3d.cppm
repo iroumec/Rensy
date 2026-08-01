@@ -65,6 +65,8 @@ public:
 
     operator Vector4D() const;
 
+    Vector3D operator=(const Vector3D &other) const;
+
     friend std::istream &operator>>(std::istream &is, Vector3D &v);
 
     friend std::ostream &operator<<(std::ostream &out, const Vector3D &v);

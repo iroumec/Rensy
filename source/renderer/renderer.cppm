@@ -6,8 +6,8 @@ export module renderer;
 // Exports-Import
 // ============================================================================
 
-export import :depth_test;
-export import :framebuffer;
+export import :pipeline.depth_test;
+export import :pipeline.framebuffer;
 export import :transform.view;
 export import :transform.model;
 export import :transform.projection;
@@ -16,8 +16,8 @@ export import :transform.projection;
 // Imports
 // ============================================================================
 
-import :vbo;
-import :ebo;
+import :structure.vbo;
+import :structure.ebo;
 import colour_generator;
 
 // ============================================================================
@@ -40,7 +40,7 @@ export struct RenderingInputData
     ViewTransform viewTransform;
     ProjectionTransform projectionTransform;
 
-    ColourGenerator colourGenerator;
+    ColourGenerator &colourGenerator;
 };
 
 // ----------------------------------------------------------------------------
@@ -49,7 +49,7 @@ export struct RenderingInputData
 
 export struct RenderingOutputData
 {
-    Framebuffer framebuffer;
+    FrameBuffer framebuffer;
     DepthBuffer depthBuffer;
 };
 

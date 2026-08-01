@@ -8,7 +8,7 @@ export module renderer:structure.vbo;
 // Imports
 // ============================================================================
 
-import vector;
+import :structure.vertex_in;
 
 // ============================================================================
 // Declarations and Implementations

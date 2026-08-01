@@ -6,8 +6,8 @@ export module renderer:colour.intensifier;
 // Imports and Exports
 // ============================================================================
 
-export import :factory;
-export import :instance;
+export import :colour.intensifier.factory;
+export import :colour.intensifier.instance;
 
 // ============================================================================
 // EOF

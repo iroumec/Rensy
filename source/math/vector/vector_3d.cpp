@@ -73,6 +73,11 @@ Vector3D::operator Vector4D() const
     return Vector4D{this->x(), this->y(), this->z(), 1.};
 }
 
+Vector3D Vector3D::operator=(const Vector3D &other) const
+{
+    return Vector3D{other.x(), other.y(), other.z()};
+}
+
 std::istream &operator>>(std::istream &is, Vector3D &v)
 {
     is >> v.x() >> v.y() >> v.z();

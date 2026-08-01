@@ -1,9 +1,6 @@
 module;
 
-#include <cmath>
-#include <array>
-#include <utility>
-#include <ostream>
+#include <vector>
 
 export module renderer:structure.ebo;
 

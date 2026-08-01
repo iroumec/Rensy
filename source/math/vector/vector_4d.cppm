@@ -28,7 +28,7 @@ public:
     Vector4D(const Matrix<double, 4, 1> matrix)
         : data{matrix} {}
 
-    Vector4D(double x, double y, double z, double w)
+    Vector4D(double x = 0.0, double y = 0.0, double z = 0.0, double w = 0.0)
         : data{x, y, z, w} {}
 
     constexpr double x() const { return data[0, 0]; }
@@ -49,6 +49,8 @@ public:
     operator Vector3D() const;
 
     // Cross product is, strictly, defined only for 3 and 7 dimensions.
+
+    Vector4D operator=(const Vector4D &other) const;
 
     friend Vector4D operator*(
         const Matrix<double, 4, 4> &matrix, const Vector4D &vector);
