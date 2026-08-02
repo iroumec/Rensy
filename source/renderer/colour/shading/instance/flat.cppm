@@ -28,7 +28,7 @@ public:
         const Colour &colour,
         const BarycentricCoordinate &coordinates) const override
     {
-        return colour + (white * (0.2 + this->lightIntensity));
+        return colour + (white * this->lightIntensity);
     }
 };
 

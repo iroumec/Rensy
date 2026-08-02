@@ -46,6 +46,7 @@ int main(int argc, char **argv)
         COLOUR_CALCULATOR,
         COLOUR_INTENSIFIER,
         BACKGROUND_COLOUR,
+        FILTER,
     };
 
     RenderingOutputData output = Renderer::render(inputData);

@@ -1,14 +1,14 @@
 module;
 
-export module renderer:colour;
+export module renderer:colour.filter;
 
 // ============================================================================
-// Exports
+// Exports-Imports
 // ============================================================================
 
-export import :colour.filter;
-export import :colour.shading;
-export import :colour.calculator;
+export import :colour.filter.fog;
+export import :colour.filter.base;
+export import :colour.filter.bright;
 
 // ============================================================================
 // EOF

@@ -108,6 +108,10 @@ RenderingOutputData Renderer::
         inputData.screenWidth, inputData.screenHeight, inputData.backgroundColour);
     frameBuffer.process(processedFragments);
 
+    // 13. Post-Processing.
+    if (inputData.filter != nullptr)
+        inputData.filter->apply(frameBuffer, zBuffer);
+
     return RenderingOutputData{
         frameBuffer,
         zBuffer,

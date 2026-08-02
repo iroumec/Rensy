@@ -79,6 +79,7 @@ const CircularColourGenerator CIRCULAR_RANDOM_COLOUR_GENERATOR{
 
 // SELECT ONE:
 export const ColourGenerator &COLOUR_GENERATOR = STATIC_COLOUR_GENERATOR;
+// export const ColourGenerator &COLOUR_GENERATOR = RANDOM_COLOUR_GENERATOR;
 
 // ============================================================================
 // COLOUR CALCULATOR
@@ -145,10 +146,10 @@ export const Rasterizer &RASTERIZER = BOUNDING_BOX_RASTERIZER;
 // ============================================================================
 
 // DO NOT CHANGE!
-// export const FogFilter FOG_FILTER{FOG_COLOUR};
-// export const BrightFilter BRIGHT_FILTER{Colour{237, 234, 222, 255}};
+export const FogFilter FOG_FILTER{FOG_COLOUR};
+export const BrightFilter BRIGHT_FILTER{Colour{237, 234, 222, 255}};
 
 // SELECT ONE:
-// export const Filter *FILTER = nullptr;
+export const Filter *FILTER = nullptr;
 // export const Filter *FILTER = &FOG_FILTER;
-// export const Filter *FILTER = &BRIGHT_FILTER;
+//  export const Filter *FILTER = &BRIGHT_FILTER;

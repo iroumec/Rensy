@@ -48,6 +48,8 @@ export struct RenderingInputData
     const ColourShadingFactory *colourShadingFactory;
 
     const Colour backgroundColour;
+
+    const Filter *filter;
 };
 
 // ----------------------------------------------------------------------------
