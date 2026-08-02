@@ -8,7 +8,7 @@ export module renderer:pipeline.rasterizer;
 // Imports
 // ============================================================================
 
-import drawing_pattern;
+import :drawing_pattern;
 import :structure.triangle;
 import :structure.fragment;
 import :structure.vertex_out;

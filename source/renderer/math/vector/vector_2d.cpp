@@ -2,7 +2,7 @@ module;
 
 #include <ostream>
 
-module vector;
+module renderer;
 
 // ============================================================================
 // Implementations

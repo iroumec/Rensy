@@ -6,7 +6,7 @@ export module renderer:colour.filter.base;
 // Imports
 // ============================================================================
 
-import colour;
+import :structure.colour;
 import :pipeline.depth_test;
 import :pipeline.framebuffer;
 

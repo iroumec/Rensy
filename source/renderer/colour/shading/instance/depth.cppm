@@ -8,8 +8,8 @@ export module renderer:colour.shading.instance.depth;
 // Imports
 // ============================================================================
 
-import colour;
-import barycentric;
+import :structure.colour;
+import :math.barycentric;
 import :colour.shading.instance.base;
 
 // ============================================================================

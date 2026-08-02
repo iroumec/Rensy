@@ -2,7 +2,7 @@ module;
 
 #include <ostream>
 
-export module vector:vector_2d;
+export module renderer:math.vector.vector_2d;
 
 // ============================================================================
 // Forward Declarations

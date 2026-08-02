@@ -6,9 +6,8 @@ export module renderer:structure.fragment;
 // Imports
 // ============================================================================
 
-import vector;
-import colour;
-import barycentric;
+import :structure.colour;
+import :math.barycentric;
 
 // ============================================================================
 // Declarations

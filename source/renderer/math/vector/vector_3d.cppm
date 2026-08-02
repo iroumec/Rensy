@@ -3,13 +3,13 @@ module;
 #include <istream>
 #include <ostream>
 
-export module vector:vector_3d;
+export module renderer:math.vector.vector_3d;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import matrix;
+import :math.matrix;
 
 // ============================================================================
 // Forward Declarations

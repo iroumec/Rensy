@@ -11,11 +11,11 @@ module renderer;
 // Imports
 // ============================================================================
 
-import bbox;
-import vector;
-import matrix;
-import geometry;
-import barycentric;
+import :math.bbox;
+import :math.vector;
+import :math.matrix;
+import :math.geometry;
+import :math.barycentric;
 import :structure.triangle;
 import :structure.fragment;
 

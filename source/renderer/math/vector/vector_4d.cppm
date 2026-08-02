@@ -2,13 +2,13 @@ module;
 
 #include <ostream>
 
-export module vector:vector_4d;
+export module renderer:math.vector.vector_4d;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import matrix;
+import :math.matrix;
 
 // ============================================================================
 // Forward Declarations

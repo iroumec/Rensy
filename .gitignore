@@ -67,8 +67,8 @@ vcpkg_installed/
 Testing/
 .cache/
 
-# Outputs.
-output/
+# Outputs. The first bar indicates that it starts search from the project root.
+/output/
 
 # VSCode
 .vscode/

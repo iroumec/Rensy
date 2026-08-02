@@ -9,7 +9,6 @@ module renderer;
 // Imports
 // ============================================================================
 
-import vector;
 import :pipeline.clipping;
 import :structure.fragment;
 import :structure.triangle;

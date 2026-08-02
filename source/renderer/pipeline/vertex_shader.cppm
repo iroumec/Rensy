@@ -11,10 +11,10 @@ export module renderer:pipeline.vertex_shader;
 import :transform.mvp;
 import :transform.view;
 import :transform.model;
+import :colour.generator;
 import :structure.vertex_in;
 import :structure.vertex_out;
 import :transform.projection;
-import colour_generator;
 
 // ============================================================================
 // Declarations and Implementations

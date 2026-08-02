@@ -6,7 +6,9 @@ module;
 #include <iostream>
 #include <cstring>
 
-module tgaimage;
+module renderer;
+
+import :output.image.tga;
 
 TGAImage::TGAImage(const int w, const int h, const int bpp) : w(w), h(h), bpp(bpp), data(w * h * bpp, 0) {}
 

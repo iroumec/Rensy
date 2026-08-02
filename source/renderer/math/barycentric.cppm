@@ -2,9 +2,9 @@ module;
 
 #include <ostream>
 
-export module barycentric;
+export module renderer:math.barycentric;
 
-import vector;
+import :math.vector.vector_2d;
 
 export struct BarycentricCoordinate
 {

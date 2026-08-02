@@ -2,7 +2,7 @@ module;
 
 #include <numbers>
 
-export module radian;
+export module renderer:math.radian;
 
 inline constexpr double degreesToRadians(double degrees)
 {

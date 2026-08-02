@@ -6,7 +6,7 @@ export module renderer:transform.projection;
 // Imports
 // ============================================================================
 
-import matrix;
+import :math.matrix;
 import :transform.base;
 
 // ============================================================================

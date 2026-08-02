@@ -7,9 +7,17 @@ module;
 #include <ostream>
 #include <algorithm>
 
-export module colour;
+export module renderer:structure.colour;
 
-import tgaimage;
+// ============================================================================
+// Imports
+// ============================================================================
+
+import :output.image.tga;
+
+// ============================================================================
+// Declarations and Implementations
+// ============================================================================
 
 // BGRA.
 export struct Colour
@@ -114,7 +122,7 @@ export struct Colour
         return out;
     }
 
-    operator TGAColour() const
+    operator TGAColour() const // TODO: Move this to TGAColour.
     {
         return TGAColour{{b, g, r, a}};
     }
@@ -134,3 +142,7 @@ export constexpr Colour darkGray = {64, 64, 64, 255};
 export constexpr Colour gray = {169, 169, 169, 255};
 export constexpr Colour lightGray = {211, 211, 211, 255};
 export constexpr Colour black = {0, 0, 0, 255};
+
+// ============================================================================
+// EOF
+// ============================================================================

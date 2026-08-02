@@ -6,7 +6,7 @@ export module renderer:pipeline.clipping;
 // Imports
 // ============================================================================
 
-import vector;
+import :math.vector.vector_4d;
 
 // ============================================================================
 // Declarations

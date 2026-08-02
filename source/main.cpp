@@ -9,8 +9,6 @@
 // Imports
 // ============================================================================
 
-import colour;
-import tgaimage;
 import renderer;
 import configuration;
 

@@ -6,8 +6,8 @@ export module renderer:transform.rotation;
 // Imports
 // ============================================================================
 
-import matrix;
-import radian;
+import :math.matrix;
+import :math.radian;
 import :transform.base;
 
 // ============================================================================

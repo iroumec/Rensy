@@ -6,9 +6,9 @@ module;
 #include <cstdint>
 #include <algorithm>
 
-export module colour_generator;
+export module renderer:colour.generator;
 
-import colour;
+import :structure.colour;
 
 export class ColourGenerator
 {

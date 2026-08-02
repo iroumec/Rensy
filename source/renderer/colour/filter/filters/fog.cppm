@@ -12,7 +12,7 @@ export module renderer:colour.filter.fog;
 // Imports
 // ============================================================================
 
-import colour;
+import :structure.colour;
 import :colour.filter.base;
 import :pipeline.depth_test;
 import :pipeline.framebuffer;

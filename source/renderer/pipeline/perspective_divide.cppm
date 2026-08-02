@@ -9,8 +9,9 @@ export module renderer:pipeline.perspective_divide;
 // Imports
 // ============================================================================
 
-import vector;
 import :structure.triangle;
+import :math.vector.vector_3d;
+import :math.vector.vector_4d;
 
 // ============================================================================
 // Declarations and Implementations

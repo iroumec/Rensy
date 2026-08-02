@@ -9,7 +9,6 @@ export module renderer:model.loader.obj;
 // Imports
 // ============================================================================
 
-import vector;
 import :structure.vbo;
 import :structure.ebo;
 import :model.loader.base;

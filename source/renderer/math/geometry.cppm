@@ -6,9 +6,9 @@ module;
 #include <iostream>
 #include <algorithm>
 
-export module geometry;
+export module renderer:math.geometry;
 
-import vector;
+import :math.vector.vector_3d;
 
 // Given an Y value, returns an X value.
 export inline double interpolateX(Vector3D a, Vector3D b, double y)

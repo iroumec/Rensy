@@ -9,8 +9,8 @@ module renderer;
 // Imports
 // ============================================================================
 
-import colour;
 import :colour.shading;
+import :structure.colour;
 import :colour.calculator;
 import :structure.fragment;
 import :structure.triangle;

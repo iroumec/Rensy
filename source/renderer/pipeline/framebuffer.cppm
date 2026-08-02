@@ -14,8 +14,8 @@ export module renderer:pipeline.framebuffer;
 // Imports
 // ============================================================================
 
-import colour;
-import tgaimage;
+import :structure.colour;
+import :output.image.tga;
 import :structure.fragment;
 
 // ============================================================================

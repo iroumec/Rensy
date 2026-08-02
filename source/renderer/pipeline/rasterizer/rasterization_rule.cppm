@@ -2,13 +2,13 @@ module;
 
 #include <cmath>
 
-export module drawing_pattern;
+export module renderer:drawing_pattern;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import barycentric;
+import :math.barycentric;
 
 // ============================================================================
 // Declarations

@@ -1,17 +1,13 @@
 module;
 
-#include <cmath>
-#include <iostream>
-
-export module vector;
+export module renderer:math;
 
 // ============================================================================
-// Submodules
+// Exports
 // ============================================================================
 
-export import :vector_2d;
-export import :vector_3d;
-export import :vector_4d;
+export import :math.radian;
+export import :math.vector;
 
 // ============================================================================
 // EOF

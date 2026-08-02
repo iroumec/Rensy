@@ -5,21 +5,17 @@ module;
 export module renderer;
 
 // ============================================================================
-// Exports-Import
+// Exports-Imports
 // ============================================================================
 
+export import :math;
 export import :model;
 export import :normal;
 export import :colour;
-export import :transform;
 export import :pipeline;
-
-// ============================================================================
-// Imports
-// ============================================================================
-
-import colour;
-import colour_generator;
+export import :transform;
+export import :structure;
+export import :drawing_pattern; // TODO: Change this.
 
 // ============================================================================
 // Declarations

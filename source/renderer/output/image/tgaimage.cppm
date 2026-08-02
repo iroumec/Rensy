@@ -4,7 +4,7 @@ module;
 #include <fstream>
 #include <vector>
 
-export module tgaimage;
+export module renderer:output.image.tga;
 
 #pragma pack(push, 1)
 export struct TGAHeader

@@ -13,7 +13,7 @@ export module renderer:pipeline.depth_test;
 // Imports
 // ============================================================================
 
-import tgaimage;
+import :output.image.tga;
 import :structure.fragment;
 
 // ============================================================================

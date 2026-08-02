@@ -6,9 +6,9 @@ export module renderer:transform.view;
 // Imports
 // ============================================================================
 
-import vector;
-import matrix;
+import :math.matrix;
 import :transform.base;
+import :math.vector.vector_3d;
 
 // ============================================================================
 // Declaration

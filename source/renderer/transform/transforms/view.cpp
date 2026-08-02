@@ -9,8 +9,8 @@ module renderer;
 // Imports
 // ============================================================================
 
-import vector;
-import matrix;
+import :math.matrix;
+import :math.vector.vector_3d;
 
 // ============================================================================
 // Constants

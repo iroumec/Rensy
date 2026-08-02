@@ -4,8 +4,8 @@ module;
 
 export module renderer:colour.calculator;
 
-import colour;
-import barycentric;
+import :structure.colour;
+import :math.barycentric;
 import :structure.fragment;
 import :structure.triangle;
 

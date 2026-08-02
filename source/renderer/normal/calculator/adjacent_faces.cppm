@@ -8,8 +8,8 @@ export module renderer:normal.calculator.adjacent_faces;
 // Imports
 // ============================================================================
 
-import vector;
 import :structure.vertex_in;
+import :math.vector.vector_3d;
 import :normal.calculator.base;
 
 // ============================================================================

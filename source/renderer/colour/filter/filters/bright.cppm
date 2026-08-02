@@ -11,7 +11,7 @@ export module renderer:colour.filter.bright;
 // Imports
 // ============================================================================
 
-import colour;
+import :structure.colour;
 import :colour.filter.base;
 import :pipeline.depth_test;
 import :pipeline.framebuffer;

@@ -6,8 +6,8 @@ export module renderer:transform.base;
 // Imports
 // ============================================================================
 
-import vector;
-import matrix;
+import :math.matrix;
+import :math.vector.vector_4d;
 
 // ============================================================================
 // Declarations

@@ -7,7 +7,7 @@ module;
 #include <stdexcept>
 #include <initializer_list>
 
-export module matrix;
+export module renderer:math.matrix;
 
 // The dimensions must be always known in compilation.
 export template <typename T, std::size_t Rows, std::size_t Columns>

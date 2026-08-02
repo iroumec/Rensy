@@ -1,13 +1,18 @@
 module;
 
-export module renderer:structure;
+#include <cmath>
+#include <iostream>
+
+export module renderer:math.vector;
 
 // ============================================================================
-// Exports-Import
+// Submodules
 // ============================================================================
 
-export import :structure.colour;
+export import :math.vector.vector_2d;
+export import :math.vector.vector_3d;
+export import :math.vector.vector_4d;
 
 // ============================================================================
-// Imports
+// EOF
 // ============================================================================

@@ -2,9 +2,9 @@ module;
 
 #include <cmath>
 
-export module bbox;
+export module renderer:math.bbox;
 
-import vector;
+import :math.vector.vector_2d;
 
 export class BoundingBox
 {

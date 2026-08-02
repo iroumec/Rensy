@@ -9,7 +9,7 @@ export module renderer:colour.shading.factory.gouraud;
 // Imports
 // ============================================================================
 
-import vector;
+import :math.vector;
 import :structure.triangle;
 import :colour.shading.factory.base;
 import :colour.shading.instance.base;

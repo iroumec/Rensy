@@ -6,8 +6,8 @@ export module renderer:structure.vertex_in;
 // Imports
 // ============================================================================
 
-import colour;
-import vector;
+import :structure.colour;
+import :math.vector.vector_3d;
 
 // ============================================================================
 // Declarations
