@@ -8,26 +8,26 @@ export module renderer:colour.shading.instance.center;
 // Imports
 // ============================================================================
 
-import :structure.colour;
 import :math.barycentric;
+import :structure.fragment;
 import :colour.shading.instance.base;
 
 // ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
-export class CenterColourShading : public ColourShading
+export class CenterShading : public Shading
 {
 public:
-    constexpr Colour adjustColour(
-        const Colour &colour,
-        const BarycentricCoordinate &coordinates) const override
+    constexpr void adjustColour(Fragment &fragment) const override
     {
+        BarycentricCoordinate coordinates = fragment.barycentricCoordinates;
+
         double intensity = 3 * (std::pow(coordinates.alpha, 2) +
                                 std::pow(coordinates.beta, 2) +
                                 std::pow(coordinates.gamma, 2));
 
-        return colour * (1 / intensity);
+        fragment.colour = fragment.colour * (1 / intensity);
     }
 };
 

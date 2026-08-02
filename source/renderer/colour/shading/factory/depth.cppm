@@ -18,13 +18,13 @@ import :colour.shading.instance.depth;
 // Declarations and Implementations
 // ============================================================================
 
-export class DepthColourShadingFactory : public ColourShadingFactory
+export class DepthShadingFactory : public ShadingFactory
 {
 public:
-    std::shared_ptr<ColourShading> instance(
+    std::shared_ptr<Shading> instance(
         const Triangle &primitive) const override
     {
-        return std::make_shared<DepthColourShading>(
+        return std::make_shared<DepthShading>(
             primitive.v0.screenPosition.z(),
             primitive.v1.screenPosition.z(),
             primitive.v2.screenPosition.z(),

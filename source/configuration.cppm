@@ -87,7 +87,7 @@ const Colour STATIC_COLOUR = darkGray;
 // PHONG MODEL
 // ============================================================================
 
-const Vector3D LIGHT_POSITION(-5, 2, -1); // Camera coordinates.
+const Vector3D LIGHT_POSITION(-5, 2, -1); // World coordinates.
 const Colour AMBIENT_COLOUR = darkGray;
 
 // ============================================================================
@@ -103,8 +103,9 @@ const CircularColourGenerator CIRCULAR_RANDOM_COLOUR_GENERATOR{
     std::make_shared<RandomColourGenerator>(RANDOM_SEED + 200)};
 
 // SELECT ONE:
-export const ColourGenerator &COLOUR_GENERATOR = STATIC_COLOUR_GENERATOR;
+// export const ColourGenerator &COLOUR_GENERATOR = STATIC_COLOUR_GENERATOR;
 // export const ColourGenerator &COLOUR_GENERATOR = RANDOM_COLOUR_GENERATOR;
+export const ColourGenerator &COLOUR_GENERATOR = CIRCULAR_RANDOM_COLOUR_GENERATOR;
 
 // ============================================================================
 // COLOUR CALCULATOR
@@ -121,23 +122,25 @@ export const ColourCalculator &COLOUR_CALCULATOR = GRADIENT_COLOUR_CALCULATOR;
 // export const ColourCalculator &COLOUR_CALCULATOR = SUBORDINATE_COLOUR_CALCULATOR;
 
 // ============================================================================
-// COLOUR INTENSIFIER
+// SHADING
 // ============================================================================
 
 // DO NOT CHANGE!
-const DepthColourShadingFactory DEPTH_COLOUR_INTENSIFIER{};
-const BorderColourShadingFactory BORDER_COLOUR_INTENSIFIER{};
-const CenterColourShadingFactory CENTER_COLOUR_INTENSIFIER{};
-const FlatColourShadingFactory FLAT_COLOUR_INTENSIFIER{LIGHT_POSITION};
-const GouraudColourShadingFactory GOURAUD_SHADING{LIGHT_POSITION};
+const DepthShadingFactory DEPTH_SHADING{};
+const BorderShadingFactory BORDER_SHADING{};
+const CenterShadingFactory CENTER_SHADING{};
+const FlatShadingFactory FLAT_SHADING{LIGHT_POSITION};
+const GouraudShadingFactory GOURAUD_SHADING{LIGHT_POSITION};
+const PhongShadingFactory PHONG_SHADING{LIGHT_POSITION};
 
 // SELECT ONE:
-// export const ColourShadingFactory *COLOUR_INTENSIFIER = nullptr;
-// export const ColourShadingFactory *COLOUR_INTENSIFIER = &DEPTH_COLOUR_INTENSIFIER;
-// export const ColourShadingFactory *COLOUR_INTENSIFIER = &BORDER_COLOUR_INTENSIFIER;
-//  export const ColourShadingFactory *COLOUR_INTENSIFIER = &CENTER_COLOUR_INTENSIFIER;
-// export const ColourShadingFactory *COLOUR_INTENSIFIER = &FLAT_COLOUR_INTENSIFIER;
-export const ColourShadingFactory *COLOUR_INTENSIFIER = &GOURAUD_SHADING;
+// export const ShadingFactory *SHADING = nullptr;
+// export const ShadingFactory *SHADING = &DEPTH_SHADING;
+// export const ShadingFactory *SHADING = &BORDER_SHADING;
+//  export const ShadingFactory *SHADING = &CENTER_SHADING;
+// export const ShadingFactory *SHADING = &FLAT_SHADING;
+// export const ShadingFactory *SHADING = &GOURAUD_SHADING;
+export const ShadingFactory *SHADING = &PHONG_SHADING;
 
 // ============================================================================
 // DRAWING PATTERN
@@ -177,6 +180,6 @@ export const FogFilter FOG_FILTER{FOG_COLOUR};
 export const BrightFilter BRIGHT_FILTER{Colour{237, 234, 222, 255}};
 
 // SELECT ONE:
-export const Filter *FILTER = nullptr;
-// export const Filter *FILTER = &FOG_FILTER;
-//  export const Filter *FILTER = &BRIGHT_FILTER;
+// export const Filter *FILTER = nullptr;
+export const Filter *FILTER = &FOG_FILTER;
+//   export const Filter *FILTER = &BRIGHT_FILTER;

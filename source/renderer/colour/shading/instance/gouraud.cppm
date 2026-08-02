@@ -8,15 +8,15 @@ export module renderer:colour.shading.instance.gouraud;
 // Imports
 // ============================================================================
 
-import :structure.colour;
 import :math.barycentric;
+import :structure.fragment;
 import :colour.shading.instance.base;
 
 // ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
-export class GouraudColourShading : public ColourShading
+export class GouraudShading : public Shading
 {
     const double alphaVertexLightIntensity;
     const double betaVertexLightIntensity;
@@ -24,7 +24,7 @@ export class GouraudColourShading : public ColourShading
     const double ambientLight;
 
 public:
-    GouraudColourShading(
+    GouraudShading(
         double alphaVertexLightIntensity, double betaVertexLightIntensity,
         double gammaVertexLightIntensity, double ambientLight = 0.4)
         : alphaVertexLightIntensity(alphaVertexLightIntensity),
@@ -34,14 +34,15 @@ public:
     {
     }
 
-    constexpr Colour adjustColour(
-        const Colour &colour,
-        const BarycentricCoordinate &coordinates) const override
+    constexpr void adjustColour(Fragment &fragment) const override
     {
-        return colour * (ambientLight +
-                         coordinates.alpha * alphaVertexLightIntensity +
-                         coordinates.beta * betaVertexLightIntensity +
-                         coordinates.gamma * gammaVertexLightIntensity);
+        BarycentricCoordinate coordinates = fragment.barycentricCoordinates;
+
+        fragment.colour =
+            fragment.colour * (ambientLight +
+                               coordinates.alpha * alphaVertexLightIntensity +
+                               coordinates.beta * betaVertexLightIntensity +
+                               coordinates.gamma * gammaVertexLightIntensity);
     }
 };
 

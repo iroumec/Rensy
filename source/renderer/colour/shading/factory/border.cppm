@@ -17,14 +17,14 @@ import :colour.shading.instance.border;
 // Declarations and Implementations
 // ============================================================================
 
-export class BorderColourShadingFactory : public ColourShadingFactory
+export class BorderShadingFactory : public ShadingFactory
 {
 public:
-    std::shared_ptr<ColourShading> instance(
+    std::shared_ptr<Shading> instance(
         const Triangle &primitive) const override
     {
         static auto staticInstance =
-            std::make_shared<BorderColourShading>();
+            std::make_shared<BorderShading>();
         return staticInstance;
     }
 };

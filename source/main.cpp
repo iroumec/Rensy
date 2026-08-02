@@ -40,7 +40,7 @@ int main(int argc, char **argv)
         COLOUR_GENERATOR,
         RASTERIZER,
         COLOUR_CALCULATOR,
-        COLOUR_INTENSIFIER,
+        SHADING,
         BACKGROUND_COLOUR,
         FILTER,
     };

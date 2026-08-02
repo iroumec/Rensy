@@ -203,27 +203,27 @@ std::vector<Fragment> BoundingBoxRasterizer::
 
                 fragment.barycentricCoordinates = barycentricCoordinates;
 
-                /*
                 fragment.worldPosition =
                     barycentricCoordinates.alpha * primitive.v0.worldPosition +
                     barycentricCoordinates.beta * primitive.v1.worldPosition +
                     barycentricCoordinates.gamma * primitive.v2.worldPosition;
 
-                fragment.normal =
-                    alpha * primitive.v0.normal +
-                    beta * primitive.v1.normal +
-                    gamma * primitive.v2.normal;
+                /*
+            fragment.normal =
+                alpha * primitive.v0.normal +
+                beta * primitive.v1.normal +
+                gamma * primitive.v2.normal;
 
-                fragment.uv =
-                    alpha * primitive.v0.uv +
-                    beta * primitive.v1.uv +
-                    gamma * primitive.v2.uv;
+            fragment.uv =
+                alpha * primitive.v0.uv +
+                beta * primitive.v1.uv +
+                gamma * primitive.v2.uv;
 
-                fragment.colour =
-                    alpha * primitive.v0.colour +
-                    beta * primitive.v1.colour +
-                    gamma * primitive.v2.colour;
-                */
+            fragment.colour =
+                alpha * primitive.v0.colour +
+                beta * primitive.v1.colour +
+                gamma * primitive.v2.colour;
+            */
                 fragments.push_back(fragment);
             }
         }

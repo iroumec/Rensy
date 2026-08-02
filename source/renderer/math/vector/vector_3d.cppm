@@ -45,6 +45,8 @@ public:
         return Vector3D{-this->x(), -this->y(), -this->z()};
     }
 
+    Vector3D operator+(const Vector3D &other) const;
+
     Vector3D operator-(const Vector3D &other) const;
 
     Vector3D operator*(double value) const;

@@ -15,15 +15,15 @@ import :colour.shading.instance.base;
 // Declarations
 // ============================================================================
 
-export class ColourShadingFactory
+export class ShadingFactory
 {
 
 public:
-    virtual ~ColourShadingFactory() = default;
+    virtual ~ShadingFactory() = default;
 
     // Sets all the necessary thing needed in common for every point
     // in the triangle.
-    virtual std::shared_ptr<ColourShading> instance(
+    virtual std::shared_ptr<Shading> instance(
         const Triangle &primitive) const = 0;
 };
 

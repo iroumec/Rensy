@@ -23,21 +23,17 @@ import :pipeline.fragment_shader;
 void FragmentShader::processFragments(std::vector<Fragment> &fragments,
                                       const Triangle &primitive)
 {
-    std::shared_ptr<ColourShading> colourShading = nullptr;
+    std::shared_ptr<Shading> shading = nullptr;
 
-    if (this->colourShadingFactory != nullptr)
-        colourShading = colourShadingFactory->instance(primitive);
+    if (this->shadingFactory != nullptr)
+        shading = shadingFactory->instance(primitive);
 
     for (Fragment &fragment : fragments)
     {
-        Colour colour = colourCalculator.calculateColour(fragment, primitive);
+        fragment.colour = colourCalculator.calculateColour(fragment, primitive);
 
-        if (colourShading)
-            colour = colourShading->adjustColour(
-                colour,
-                fragment.barycentricCoordinates);
-
-        fragment.colour = colour;
+        if (shading)
+            shading->adjustColour(fragment);
     }
 }
 

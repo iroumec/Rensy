@@ -8,27 +8,27 @@ export module renderer:colour.shading.instance.border;
 // Imports
 // ============================================================================
 
-import :structure.colour;
 import :math.barycentric;
+import :structure.fragment;
 import :colour.shading.instance.base;
 
 // ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
-export class BorderColourShading : public ColourShading
+export class BorderShading : public Shading
 {
 public:
-    constexpr Colour adjustColour(
-        const Colour &colour,
-        const BarycentricCoordinate &coordinates) const override
+    constexpr void adjustColour(Fragment &fragment) const override
     {
+        BarycentricCoordinate coordinates = fragment.barycentricCoordinates;
+
         double intensity =
             std::pow(coordinates.alpha, 2) +
             std::pow(coordinates.beta, 2) +
             std::pow(coordinates.gamma, 2);
 
-        return colour * intensity;
+        fragment.colour = fragment.colour * intensity;
     }
 };
 

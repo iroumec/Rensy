@@ -8,6 +8,7 @@ export module renderer:structure.fragment;
 
 import :structure.colour;
 import :math.barycentric;
+import :math.vector.vector_3d;
 
 // ============================================================================
 // Declarations
@@ -21,7 +22,7 @@ export struct Fragment
 
     BarycentricCoordinate barycentricCoordinates;
 
-    // Vector3 worldPosition;
+    Vector3D worldPosition;
     // Vector3 normal;
     // Vector2 uv;
     Colour colour;

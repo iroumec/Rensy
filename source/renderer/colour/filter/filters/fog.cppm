@@ -4,7 +4,6 @@ module;
 #include <cmath>
 #include <limits>
 #include <algorithm>
-#include <iostream>
 
 export module renderer:colour.filter.fog;
 
@@ -31,7 +30,7 @@ export class FogFilter : public Filter
 public:
     FogFilter(const Colour &colour,
               double minIntensity = 0.1,
-              double maxIntensity = 0.9)
+              double maxIntensity = 0.5)
         : fogColour(colour),
           minFogIntensity(minIntensity),
           maxFogIntensity(maxIntensity) {}
@@ -53,14 +52,25 @@ public:
                     continue;
 
                 double intensity = (depth - minDepth) / (maxDepth - minDepth);
+
+                // Normalization.
+                double fogIntensity =
+                    minFogIntensity +
+                    (1 - intensity) * (maxFogIntensity - minFogIntensity);
+
+                // Clamping.
+                /*
+                double fogIntensity = std::clamp(
+                    1. - intensity,
+                    minFogIntensity,
+                    maxFogIntensity);
+                    */
+
                 colourBuffer.setColour(
-                    x, y,
-                    colourBuffer.getColour(x, y).blend(
-                        this->fogColour,
-                        std::clamp(
-                            1. - intensity,
-                            minFogIntensity,
-                            maxFogIntensity)));
+                    x,
+                    y,
+                    colourBuffer.getColour(x, y)
+                        .blend(this->fogColour, fogIntensity));
             }
     }
 };

@@ -19,16 +19,15 @@ import :colour.shading.instance.flat;
 // Declarations and Implementations
 // ============================================================================
 
-export class FlatColourShadingFactory
-    : public ColourShadingFactory
+export class FlatShadingFactory : public ShadingFactory
 {
     const Vector3D lightPoint;
 
 public:
-    FlatColourShadingFactory(const Vector3D &lightPoint)
+    FlatShadingFactory(const Vector3D &lightPoint)
         : lightPoint(lightPoint) {}
 
-    std::shared_ptr<ColourShading> instance(
+    std::shared_ptr<Shading> instance(
         const Triangle &primitive) const override
     {
         Vector3D a = primitive.v0.worldPosition;
@@ -53,7 +52,7 @@ public:
         // double lightIntensity = std::max(0.0, n.dot(l));
         double lightIntensity = std::abs(n.dot(l)); // Two points of lights.
 
-        return std::make_shared<FlatColourShading>(lightIntensity);
+        return std::make_shared<FlatShading>(lightIntensity);
     }
 };
 

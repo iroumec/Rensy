@@ -8,15 +8,15 @@ export module renderer:colour.shading.instance.depth;
 // Imports
 // ============================================================================
 
-import :structure.colour;
 import :math.barycentric;
+import :structure.fragment;
 import :colour.shading.instance.base;
 
 // ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
-export class DepthColourShading : public ColourShading
+export class DepthShading : public Shading
 {
     const double aZ;
     const double bZ;
@@ -25,15 +25,15 @@ export class DepthColourShading : public ColourShading
     const double maxZ;
 
 public:
-    DepthColourShading(
+    DepthShading(
         double aZ = 0, double bZ = 0, double cZ = 0,
         double minZ = 0, double maxZ = 0)
         : aZ{aZ}, bZ{bZ}, cZ{cZ}, minZ{minZ}, maxZ{maxZ} {}
 
-    constexpr Colour adjustColour(
-        const Colour &colour,
-        const BarycentricCoordinate &coordinates) const override
+    constexpr void adjustColour(Fragment &fragment) const override
     {
+        BarycentricCoordinate coordinates = fragment.barycentricCoordinates;
+
         double currentDepth =
             coordinates.alpha * this->aZ +
             coordinates.beta * this->bZ +
@@ -45,7 +45,7 @@ public:
             intensity =
                 (currentDepth - this->minZ) / (this->maxZ - this->minZ);
 
-        return colour * intensity;
+        fragment.colour = fragment.colour * intensity;
     }
 };
 

@@ -20,14 +20,14 @@ import :structure.triangle;
 export class FragmentShader
 {
     const ColourCalculator &colourCalculator;
-    const ColourShadingFactory *colourShadingFactory = nullptr;
+    const ShadingFactory *shadingFactory = nullptr;
 
 public:
     FragmentShader(
         const ColourCalculator &colourCalculator,
-        const ColourShadingFactory *colourShadingFactory = nullptr)
+        const ShadingFactory *shadingFactory = nullptr)
         : colourCalculator(colourCalculator),
-          colourShadingFactory(colourShadingFactory) {}
+          shadingFactory(shadingFactory) {}
 
     void processFragments(
         std::vector<Fragment> &fragments, const Triangle &primitive);

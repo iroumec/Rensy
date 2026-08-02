@@ -19,16 +19,15 @@ import :colour.shading.instance.gouraud;
 // Declarations and Implementations
 // ============================================================================
 
-export class GouraudColourShadingFactory
-    : public ColourShadingFactory
+export class GouraudShadingFactory : public ShadingFactory
 {
     const Vector3D lightPoint;
 
 public:
-    GouraudColourShadingFactory(const Vector3D &lightPoint)
+    GouraudShadingFactory(const Vector3D &lightPoint)
         : lightPoint(lightPoint) {}
 
-    std::shared_ptr<ColourShading> instance(
+    std::shared_ptr<Shading> instance(
         const Triangle &primitive) const override
     {
         Vector3D a = primitive.v0.worldPosition;
@@ -49,7 +48,7 @@ public:
         double bLightIntensity = std::abs(bn.dot(bl)); // Two points of lights.
         double cLightIntensity = std::abs(cn.dot(cl)); // Two points of lights.
 
-        return std::make_shared<GouraudColourShading>(
+        return std::make_shared<GouraudShading>(
             aLightIntensity, bLightIntensity, cLightIntensity);
     }
 };

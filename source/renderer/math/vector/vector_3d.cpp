@@ -16,6 +16,14 @@ import :math.matrix;
 // Implementations
 // ============================================================================
 
+Vector3D Vector3D::operator+(const Vector3D &other) const
+{
+    return Vector3D(
+        this->x() + other.x(),
+        this->y() + other.y(),
+        this->z() + other.z());
+}
+
 Vector3D Vector3D::operator-(const Vector3D &other) const
 {
     return Vector3D(

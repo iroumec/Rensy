@@ -6,22 +6,19 @@ export module renderer:colour.shading.instance.base;
 // Imports
 // ============================================================================
 
-import :structure.colour;
-import :math.barycentric;
+import :structure.fragment;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export class ColourShading
+export class Shading
 {
 
 public:
-    virtual ~ColourShading() = default;
+    virtual ~Shading() = default;
 
-    virtual constexpr Colour adjustColour(
-        const Colour &colour,
-        const BarycentricCoordinate &coordinates) const = 0;
+    virtual constexpr void adjustColour(Fragment &fragment) const = 0;
 };
 
 // ============================================================================
