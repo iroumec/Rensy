@@ -1,27 +1,30 @@
 module;
 
-export module renderer:structure.vertex_out;
+#include <tuple>
+#include <string>
+
+export module renderer:model.loader.obj;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import vector;
-import colour;
+import :structure.vbo;
+import :structure.ebo;
+import :model.loader.base;
+import :normal.calculator;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export struct VertexOut
+export class ObjModelLoader : public ModelLoader
 {
-    Vector3D worldPosition; // For lighting / shdadows.
-    Vector4D clipPosition;  // After MVP.
-    Vector3D ndcPosition;
-    Vector3D screenPosition; // For viewport.
-                             // const Vector3D normal;         // For Phong, Goraud...
-    Vector3D worldNormal;
-    Colour colour;
+public:
+    std::tuple<VBO, EBO> load(
+        const std::string &filename,
+        const NormalCalculator &normalCalculator) const override;
 };
 
 // ============================================================================

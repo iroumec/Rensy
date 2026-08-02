@@ -34,14 +34,23 @@ constexpr bool VERBOSE = true;
 RenderingOutputData Renderer::
     render(const RenderingInputData &inputData)
 {
+    if (VERBOSE)
+        std::cout
+            << "\n| RENDERING PROCESS INITIATED |\n\n> Rendering model:"
+            << inputData.fileName << '\n';
+
+    // 1. Vertex Input.
+    auto [vbo, ebo] =
+        inputData.modelLoader.load(
+            inputData.fileName, inputData.normalCalculator);
 
     if (VERBOSE)
         std::cout
-            << "Vertices received: " << inputData.vbo.vertices.size() << '\n';
+            << "\n> Vertices received: " << vbo.vertices.size() << '\n';
 
     // 2. Vertex shader.
     std::vector<VertexOut> processedVertices = processVertices(
-        inputData.vbo.vertices,
+        vbo.vertices,
         inputData.modelTransform,
         inputData.viewTransform,
         inputData.projectionTransform,
@@ -49,11 +58,11 @@ RenderingOutputData Renderer::
 
     // 3. Primitive Assembly.
     std::vector<Triangle> primitives =
-        assemblyPrimitives(processedVertices, inputData.ebo.faces);
+        assemblyPrimitives(processedVertices, ebo.faces);
 
     if (VERBOSE)
         std::cout
-            << "Primitives assembled: " << primitives.size() << '\n';
+            << "\n> Primitives assembled: " << primitives.size() << '\n';
 
     // 4. Clipping.
     // std::vector<Triangle> primitives = applyClipping(primitives);
@@ -87,14 +96,14 @@ RenderingOutputData Renderer::
 
     if (VERBOSE)
         std::cout
-            << "Fragments after rasterization: " << fragments.size() << '\n';
+            << "\n> Fragments after rasterization: " << fragments.size() << '\n';
 
     // 9. Depth Test
     DepthBuffer zBuffer(inputData.screenWidth, inputData.screenHeight);
     std::vector<Fragment> processedFragments = zBuffer.process(fragments);
 
     if (VERBOSE)
-        std::cout << "Fragments after depth test: "
+        std::cout << "\n> Fragments after depth test: "
                   << processedFragments.size() << '\n';
 
     // 10. Stencil test.

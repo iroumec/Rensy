@@ -1,23 +1,28 @@
 module;
 
-export module renderer:structure.vertex_in;
+#include <vector>
+
+export module renderer:normal.calculator.base;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import colour;
-import vector;
+import :structure.vertex_in;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export struct VertexIn
+export class NormalCalculator
 {
-    Vector3D localPosition;
-    Vector3D normal; // Local normal.
-    Colour colour;
+
+public:
+    virtual ~NormalCalculator() = default;
+
+    virtual constexpr void calculateNormals(
+        std::vector<VertexIn> &vertices,
+        const std::vector<int> &faces) const = 0;
 };
 
 // ============================================================================

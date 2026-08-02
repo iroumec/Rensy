@@ -9,7 +9,6 @@
 // Imports
 // ============================================================================
 
-import model;
 import colour;
 import tgaimage;
 import renderer;
@@ -31,13 +30,12 @@ int main(int argc, char **argv)
 
     initializeConfiguration();
 
-    auto [vbo, ebo] = ObjModel::load(argv[1]);
-
     RenderingInputData inputData{
         WIDTH,
         HEIGHT,
-        vbo,
-        ebo,
+        argv[1],
+        MODEL_LOADER,
+        NORMAL_CALCULATOR,
         MODEL_TRANSFORM,
         VIEW_TRANSFORM,
         PROJECTION_TRANSFORM,

@@ -3,23 +3,27 @@ module;
 #include <tuple>
 #include <string>
 
-export module model;
+export module renderer:model.loader.base;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import vector;
-import renderer;
+import :structure.vbo;
+import :structure.ebo;
+import :normal.calculator;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export class ObjModel
+export class ModelLoader
 {
 public:
-    static std::tuple<VBO, EBO> load(const std::string &filename);
+    virtual std::tuple<VBO, EBO> load(
+        const std::string &filename,
+        const NormalCalculator &normalCalculator) const = 0;
 };
 
 // ============================================================================

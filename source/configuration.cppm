@@ -36,6 +36,27 @@ export const std::filesystem::path outputFrameFileName =
     outputDirectory / "framebuffer.tga";
 
 // ============================================================================
+// MODEL LOADER
+// ============================================================================
+
+// DO NOT CHANGE!
+const ObjModelLoader OBJ_MODEL_LOADER{};
+
+// SELECT ONE:
+export const ModelLoader &MODEL_LOADER = OBJ_MODEL_LOADER;
+
+// ============================================================================
+// NORMAL CALCULATOR
+// ============================================================================
+
+// DO NOT CHANGE!
+const AdjacentFacesNormalCalculator ADJACENT_FACES_NORMAL_CALCULATOR{};
+const FileExtractedNormalCalculator FILE_EXTRACTED_NORMAL_CALCULATOR{};
+
+// SELECT ONE:
+export const NormalCalculator &NORMAL_CALCULATOR = ADJACENT_FACES_NORMAL_CALCULATOR;
+
+// ============================================================================
 // MVP Transform
 // ============================================================================
 
@@ -104,13 +125,15 @@ const DepthColourShadingFactory DEPTH_COLOUR_INTENSIFIER{};
 const BorderColourShadingFactory BORDER_COLOUR_INTENSIFIER{};
 const CenterColourShadingFactory CENTER_COLOUR_INTENSIFIER{};
 const FlatColourShadingFactory FLAT_COLOUR_INTENSIFIER{LIGHT_POSITION};
+const GouraudColourShadingFactory GOURAUD_SHADING{LIGHT_POSITION};
 
 // SELECT ONE:
 // export const ColourShadingFactory *COLOUR_INTENSIFIER = nullptr;
 // export const ColourShadingFactory *COLOUR_INTENSIFIER = &DEPTH_COLOUR_INTENSIFIER;
 // export const ColourShadingFactory *COLOUR_INTENSIFIER = &BORDER_COLOUR_INTENSIFIER;
 //  export const ColourShadingFactory *COLOUR_INTENSIFIER = &CENTER_COLOUR_INTENSIFIER;
-export const ColourShadingFactory *COLOUR_INTENSIFIER = &FLAT_COLOUR_INTENSIFIER;
+// export const ColourShadingFactory *COLOUR_INTENSIFIER = &FLAT_COLOUR_INTENSIFIER;
+export const ColourShadingFactory *COLOUR_INTENSIFIER = &GOURAUD_SHADING;
 
 // ============================================================================
 // DRAWING PATTERN

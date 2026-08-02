@@ -1,22 +1,23 @@
 module;
 
+#include <string>
+
 export module renderer;
 
 // ============================================================================
 // Exports-Import
 // ============================================================================
 
+export import :model;
+export import :normal;
 export import :colour;
 export import :transform;
 export import :pipeline;
-export import :structure;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :structure.vbo;
-import :structure.ebo;
 import colour;
 import colour_generator;
 
@@ -33,8 +34,10 @@ export struct RenderingInputData
     const unsigned screenWidth;
     const unsigned screenHeight;
 
-    const VBO vbo;
-    const EBO ebo;
+    const std::string &fileName;
+
+    const ModelLoader &modelLoader;
+    const NormalCalculator &normalCalculator;
 
     const ModelTransform modelTransform;
     const ViewTransform viewTransform;

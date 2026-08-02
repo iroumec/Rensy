@@ -19,16 +19,17 @@ import :colour.shading.instance.base;
 export class FlatColourShading : public ColourShading
 {
     const double lightIntensity;
+    const double ambientLight;
 
 public:
-    FlatColourShading(double lightIntensity)
-        : lightIntensity(lightIntensity) {}
+    FlatColourShading(double lightIntensity, double ambientLight = 0.0)
+        : lightIntensity(lightIntensity), ambientLight{ambientLight} {}
 
     constexpr Colour adjustColour(
         const Colour &colour,
         const BarycentricCoordinate &coordinates) const override
     {
-        return colour + (white * this->lightIntensity);
+        return colour + (white * (ambientLight + this->lightIntensity));
     }
 };
 

@@ -43,6 +43,7 @@ std::vector<VertexOut> processVertices(
         vertexOut.worldPosition = modelTransform.apply(vertices[i].localPosition);
         vertexOut.clipPosition = mvpTransform.apply(vertices[i].localPosition);
         vertexOut.colour = colourGenerator();
+        vertexOut.worldNormal = modelTransform.apply(vertices[i].normal);
 
         processedVertices[i] = vertexOut;
     }

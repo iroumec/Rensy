@@ -10,14 +10,17 @@ module;
 #include <iostream>
 #include <stdexcept>
 
-module model;
+module renderer;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import vector;
-import renderer;
+import :structure.vbo;
+import :structure.ebo;
+import :model.loader.obj;
+import :normal.calculator;
 
 // ============================================================================
 // Constants
@@ -29,7 +32,9 @@ constexpr bool DEBUG = false;
 // Implementations
 // ============================================================================
 
-std::tuple<VBO, EBO> ObjModel::load(const std::string &filename)
+std::tuple<VBO, EBO> ObjModelLoader::load(
+    const std::string &filename,
+    const NormalCalculator &normalCalculator) const
 {
     std::vector<VertexIn> vertices;
     std::vector<int> faces;
@@ -85,6 +90,8 @@ std::tuple<VBO, EBO> ObjModel::load(const std::string &filename)
 
     if (DEBUG)
         std::cout << "Loaded " << vertices.size() << " vertices\n";
+
+    normalCalculator.calculateNormals(vertices, faces);
 
     return {VBO{vertices}, EBO{faces}};
 }

@@ -78,6 +78,15 @@ Vector3D operator*(double value, const Vector3D &vector)
     return vector * value;
 }
 
+Vector3D &Vector3D::operator+=(const Vector3D &other)
+{
+    this->x() += other.x();
+    this->y() += other.y();
+    this->z() += other.z();
+
+    return *this;
+}
+
 std::istream &operator>>(std::istream &is, Vector3D &v)
 {
     is >> v.x() >> v.y() >> v.z();
