@@ -22,5 +22,5 @@ Flat shading rendering with perspective:
 Gouraud shading rendering with perspective:
 ![Gouraud Shading Rendering](resources/interesting_outputs/21.png)
 
-Phong shading renderer with perspective:
+Phong shading rendering with perspective:
 ![Phong Shading Rendering](resources/interesting_outputs/22.png)
