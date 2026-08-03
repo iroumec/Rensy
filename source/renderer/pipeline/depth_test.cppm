@@ -67,7 +67,8 @@ public:
 
     bool testAndSet(unsigned x, unsigned y, double depth)
     {
-        if (depth > this->getDepth(x, y)) // The higher the values, the more close they are to the screen.)
+        // >= to keep always the last vertex analized.
+        if (depth >= this->getDepth(x, y)) // The higher the values, the more close they are to the screen.)
         {
             this->setDepth(x, y, depth);
             return true;

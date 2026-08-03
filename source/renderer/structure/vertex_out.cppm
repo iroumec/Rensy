@@ -19,7 +19,7 @@ export struct VertexOut
     Vector3D worldPosition; // For lighting / shdadows.
     Vector4D clipPosition;  // After MVP.
     Vector3D ndcPosition;
-    Vector3D screenPosition; // For viewport.
+    Vector3D screenPosition; // For viewport. // TODO: cambiar a 2D.
                              // const Vector3D normal;         // For Phong, Goraud...
     Vector3D worldNormal;
     Colour colour;

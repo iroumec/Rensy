@@ -1,15 +1,13 @@
 module;
 
-export module renderer:pipeline;
+export module renderer:pipeline.rasterization;
 
 // ============================================================================
-// Exports
+// Exports-Import
 // ============================================================================
 
-export import :pipeline.depth_test;
-export import :pipeline.framebuffer;
-export import :pipeline.rasterization;
+export import :pipeline.rasterization.rasterizer;
 
 // ============================================================================
-// EOF
+// Imports
 // ============================================================================

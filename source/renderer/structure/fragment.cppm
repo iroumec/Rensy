@@ -18,13 +18,13 @@ export struct Fragment
 {
     unsigned xScreen;
     unsigned yScreen;
-    double depth;
+    double depth = 0.0;
 
     BarycentricCoordinate barycentricCoordinates;
 
     Vector3D worldPosition;
-    // Vector3 normal;
-    // Vector2 uv;
+    Vector3D normal;
+    // Vector2D uv;
     Colour colour;
 };
 
