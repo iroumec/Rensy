@@ -1,4 +1,4 @@
-# Crasty
+# Rensy
 
 A customizable OBJ model renderer.
 
