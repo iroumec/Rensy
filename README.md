@@ -1,13 +1,17 @@
 # Crasty
 
-A basic OBJ model renderer.
+A highly customizable OBJ model renderer.
 
-## Output
+## Output Examples
 
-An image rendering.
+![Framebuffer Rendering](resources/interesting_outputs/14.png)
 
-![Framebuffer rendering](resources/interesting_outputs/14.png)
+![ZBuffer Rendering](resources/interesting_outputs/11.png)
 
-And its respective depth buffer (z buffer) rendering.
+![Flat Shading Rendering](resources/interesting_outputs/20.png)
 
-![ZBuffer rendering](resources/interesting_outputs/11.png)
+![Gouraud Shading Rendering](resources/interesting_outputs/21.png)
+
+![Phong Shading Rendering](resources/interesting_outputs/22.png)
+
+![Wireframe Shading Rendering](resources/interesting_outputs/24.png)
