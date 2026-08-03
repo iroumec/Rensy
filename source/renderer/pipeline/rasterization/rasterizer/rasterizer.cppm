@@ -10,6 +10,7 @@ export module renderer:pipeline.rasterization.rasterizer;
 
 export import :pipeline.rasterization.rasterizer.base;
 export import :pipeline.rasterization.rasterizer.bbox;
+export import :pipeline.rasterization.rasterizer.vertex;
 export import :pipeline.rasterization.rasterizer.wireframe;
 
 // ============================================================================

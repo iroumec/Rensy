@@ -23,6 +23,9 @@ import :math.matrix;
 ProjectionTransform::ProjectionTransform(const Matrix<double, 4, 4> &matrix)
     : Transform(matrix) {}
 
+NoProjection::NoProjection()
+    : ProjectionTransform(Matrix<double, 4, 4>::getIdentity()) {}
+
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 // Ortographic Projection
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

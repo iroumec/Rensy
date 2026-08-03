@@ -16,8 +16,8 @@ import renderer;
 // SCREEN
 // ============================================================================
 
-export constexpr unsigned WIDTH = 800;
-export constexpr unsigned HEIGHT = 800;
+export constexpr unsigned WIDTH = 1080;
+export constexpr unsigned HEIGHT = 1080;
 
 // ============================================================================
 // SEED
@@ -61,6 +61,18 @@ const FileExtractedNormalCalculator FILE_EXTRACTED_NORMAL_CALCULATOR{};
 export const NormalCalculator &NORMAL_CALCULATOR = ADJACENT_FACES_NORMAL_CALCULATOR;
 
 // ============================================================================
+// PROJECTION TRANSFORM
+// ============================================================================
+
+// DO NOT CHANGE!
+const NoProjection NO_PROJECTION{};
+const PerspectiveProjection PERSPECTIVE_PROJECTION{};
+
+// SELECT ONE:
+// export const ProjectionTransform &PROJECTION_TRANSFORM = NO_PROJECTION;
+export const ProjectionTransform &PROJECTION_TRANSFORM = PERSPECTIVE_PROJECTION;
+
+// ============================================================================
 // MVP Transform
 // ============================================================================
 
@@ -73,7 +85,6 @@ const Vector3D UP(0, 1, 0);   // Camera up vector.
 
 export const ModelTransform MODEL_TRANSFORM{RotationTransform{ROTATION}};
 export const ViewTransform VIEW_TRANSFORM{EYE, GAZE, UP};
-export const PerspectiveProjection PROJECTION_TRANSFORM{};
 
 // ============================================================================
 // COLOURS
@@ -134,11 +145,11 @@ const GouraudShadingFactory GOURAUD_SHADING{LIGHT_POSITION};
 const PhongShadingFactory PHONG_SHADING{LIGHT_POSITION};
 
 // SELECT ONE:
-export const ShadingFactory *SHADING = nullptr;
+// export const ShadingFactory *SHADING = nullptr;
 // export const ShadingFactory *SHADING = &DEPTH_SHADING;
 // export const ShadingFactory *SHADING = &BORDER_SHADING;
 //  export const ShadingFactory *SHADING = &CENTER_SHADING;
-// export const ShadingFactory *SHADING = &FLAT_SHADING;
+export const ShadingFactory *SHADING = &FLAT_SHADING;
 // export const ShadingFactory *SHADING = &GOURAUD_SHADING;
 // export const ShadingFactory *SHADING = &PHONG_SHADING;
 
@@ -160,16 +171,16 @@ export const DrawingPattern *DRAWING_PATTERN = nullptr;
 // ============================================================================
 
 // DO NOT CHANGE!
-// const VertexRasterizer VERTEX_RASTERIZER{};
+const VertexRasterizer VERTEX_RASTERIZER{};
 const WireframeRasterizer WIREFRAME_RASTERIZER{};
 // const ScanlineRasterizer SCANLINE_RASTERIZER{};
 const BoundingBoxRasterizer BOUNDING_BOX_RASTERIZER{DRAWING_PATTERN};
 
 // SELECT ONE:
 // export const Rasterizer &RASTERIZER = VERTEX_RASTERIZER;
-export const Rasterizer &RASTERIZER = WIREFRAME_RASTERIZER;
-// export const Rasterizer &RASTERIZER = SCANLINE_RASTERIZER;
-// export const Rasterizer &RASTERIZER = BOUNDING_BOX_RASTERIZER;
+// export const Rasterizer &RASTERIZER = WIREFRAME_RASTERIZER;
+//  export const Rasterizer &RASTERIZER = SCANLINE_RASTERIZER;
+export const Rasterizer &RASTERIZER = BOUNDING_BOX_RASTERIZER;
 
 // ============================================================================
 // FILTERS

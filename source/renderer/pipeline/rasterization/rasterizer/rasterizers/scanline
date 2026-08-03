@@ -22,11 +22,6 @@ import :structure.vertex_out;
 // ----------------------------------------------------------------------------
 
 /*
-export class VertexRasterizer : public Rasterizer
-{
-public:
-    std::vector<Fragment> rasterize(const Triangle &primitive) const override;
-};
 
 // ----------------------------------------------------------------------------
 // Wireframe Rasterizer

@@ -17,10 +17,21 @@ import :transform.base;
 // Projection Transform
 // ----------------------------------------------------------------------------
 
-class ProjectionTransform : public Transform
+export class ProjectionTransform : public Transform
 {
 protected:
     ProjectionTransform(const Matrix<double, 4, 4> &matrix);
+};
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// No Projection
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// Creates a perspective matrix.
+export class NoProjection : public ProjectionTransform
+{
+public:
+    NoProjection();
 };
 
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
