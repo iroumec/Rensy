@@ -4,9 +4,6 @@ A customizable OBJ model renderer.
 
 ## Showcase
 
-Vertex rendering:
-![Vertex Rendering](resources/interesting_outputs/00.png)
-
 Wireframe rendering with perspective:
 ![Wireframe Rendering](resources/interesting_outputs/01.png)
 
