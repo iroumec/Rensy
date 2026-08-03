@@ -38,11 +38,12 @@ public:
     {
         BarycentricCoordinate coordinates = fragment.barycentricCoordinates;
 
-        fragment.colour =
-            fragment.colour * (ambientLight +
-                               coordinates.alpha * alphaVertexLightIntensity +
-                               coordinates.beta * betaVertexLightIntensity +
-                               coordinates.gamma * gammaVertexLightIntensity);
+        fragment.colour.set(
+            fragment.colour.get() *
+            (ambientLight +
+             coordinates.alpha * alphaVertexLightIntensity +
+             coordinates.beta * betaVertexLightIntensity +
+             coordinates.gamma * gammaVertexLightIntensity));
     }
 };
 

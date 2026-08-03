@@ -50,7 +50,8 @@ public:
         // double lightIntensity = std::max(0.0, n.dot(l));
         double lightIntensity = std::abs(interpolatedNormal.dot(l));
 
-        fragment.colour = fragment.colour * (ambientLight + lightIntensity);
+        fragment.colour.set(
+            fragment.colour.get() * (ambientLight + lightIntensity));
     }
 };
 

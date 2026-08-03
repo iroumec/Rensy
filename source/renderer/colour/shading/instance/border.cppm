@@ -28,7 +28,7 @@ public:
             std::pow(coordinates.beta, 2) +
             std::pow(coordinates.gamma, 2);
 
-        fragment.colour = fragment.colour * intensity;
+        fragment.colour.set(fragment.colour.get() * intensity);
     }
 };
 

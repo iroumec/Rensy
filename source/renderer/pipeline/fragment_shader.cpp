@@ -30,7 +30,7 @@ void FragmentShader::processFragments(std::vector<Fragment> &fragments,
 
     for (Fragment &fragment : fragments)
     {
-        fragment.colour = colourCalculator.calculateColour(fragment, primitive);
+        fragment.colour.set(colourCalculator.calculateColour(fragment, primitive));
 
         if (shading)
             shading->adjustColour(fragment);

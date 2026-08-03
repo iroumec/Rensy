@@ -114,8 +114,8 @@ const CircularColourGenerator CIRCULAR_RANDOM_COLOUR_GENERATOR{
     std::make_shared<RandomColourGenerator>(RANDOM_SEED + 200)};
 
 // SELECT ONE:
-// export const ColourGenerator &COLOUR_GENERATOR = STATIC_COLOUR_GENERATOR;
-export const ColourGenerator &COLOUR_GENERATOR = RANDOM_COLOUR_GENERATOR;
+export const ColourGenerator &COLOUR_GENERATOR = STATIC_COLOUR_GENERATOR;
+// export const ColourGenerator &COLOUR_GENERATOR = RANDOM_COLOUR_GENERATOR;
 // export const ColourGenerator &COLOUR_GENERATOR = CIRCULAR_RANDOM_COLOUR_GENERATOR;
 
 // ============================================================================
@@ -158,13 +158,24 @@ export const ShadingFactory *SHADING = &FLAT_SHADING;
 // ============================================================================
 
 // DO NOT CHANGE!
-// export const BorderDrawingPattern BORDER_DRAWING_PATTERN{};
-// export const CenterDrawingPattern CENTER_DRAWING_PATTERN{};
+// const BorderDrawingPattern BORDER_DRAWING_PATTERN{};
+// const CenterDrawingPattern CENTER_DRAWING_PATTERN{};
 
 // SELECT ONE:
 // export const DrawingPattern *DRAWING_PATTERN = &BORDER_DRAWING_PATTERN;
 // export const DrawingPattern *DRAWING_PATTERN = &CENTER_DRAWING_PATTERN;
 export const DrawingPattern *DRAWING_PATTERN = nullptr;
+
+// ============================================================================
+// NORMAL RASTERIZER
+// ============================================================================
+
+// DO NOT CHANGE!
+const LineNormalRasterizer LINE_NORMAL_RASTERIZER(8, red);
+
+// SELECT ONE:
+// export const NormalRasterizer *NORMAL_RASTERIZER = nullptr;
+export const NormalRasterizer *NORMAL_RASTERIZER = &LINE_NORMAL_RASTERIZER;
 
 // ============================================================================
 // RASTERIZER
@@ -174,7 +185,8 @@ export const DrawingPattern *DRAWING_PATTERN = nullptr;
 const VertexRasterizer VERTEX_RASTERIZER{};
 const WireframeRasterizer WIREFRAME_RASTERIZER{};
 // const ScanlineRasterizer SCANLINE_RASTERIZER{};
-const BoundingBoxRasterizer BOUNDING_BOX_RASTERIZER{DRAWING_PATTERN};
+const BoundingBoxRasterizer BOUNDING_BOX_RASTERIZER(
+    DRAWING_PATTERN, NORMAL_RASTERIZER);
 
 // SELECT ONE:
 // export const Rasterizer &RASTERIZER = VERTEX_RASTERIZER;
@@ -191,6 +203,6 @@ export const FogFilter FOG_FILTER{FOG_COLOUR};
 export const BrightFilter BRIGHT_FILTER{Colour{237, 234, 222, 255}};
 
 // SELECT ONE:
-// export const Filter *FILTER = nullptr;
-export const Filter *FILTER = &FOG_FILTER;
-//   export const Filter *FILTER = &BRIGHT_FILTER;
+export const Filter *FILTER = nullptr;
+// export const Filter *FILTER = &FOG_FILTER;
+//    export const Filter *FILTER = &BRIGHT_FILTER;

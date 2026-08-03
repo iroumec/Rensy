@@ -94,6 +94,9 @@ std::vector<Fragment> BoundingBoxRasterizer::
         }
     }
 
+    if (this->normalRasterizer != nullptr)
+        normalRasterizer->rasterizeNormals(primitive, fragments);
+
     return fragments;
 }
 

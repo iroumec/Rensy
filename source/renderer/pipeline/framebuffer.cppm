@@ -45,7 +45,7 @@ public:
             this->setColour(
                 fragment.xScreen,
                 fragment.yScreen,
-                fragment.colour);
+                fragment.colour.get());
     }
 
     void setColour(unsigned x, unsigned y, const Colour &colour)

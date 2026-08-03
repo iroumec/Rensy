@@ -1,13 +1,13 @@
 module;
 
-export module renderer:normal;
+export module renderer:normal.rasterizer;
 
 // ============================================================================
 // Exports-Imports
 // ============================================================================
 
-export import :normal.calculator;
-export import :normal.rasterizer;
+export import :normal.rasterizer.base;
+export import :normal.rasterizer.line;
 
 // ============================================================================
 // EOF

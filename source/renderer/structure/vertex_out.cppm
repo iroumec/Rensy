@@ -7,6 +7,7 @@ export module renderer:structure.vertex_out;
 // ============================================================================
 
 import :structure.colour;
+import :math.vector.vector_2d;
 import :math.vector.vector_3d;
 import :math.vector.vector_4d;
 
@@ -22,6 +23,7 @@ export struct VertexOut
     Vector3D screenPosition; // For viewport. // TODO: cambiar a 2D.
                              // const Vector3D normal;         // For Phong, Goraud...
     Vector3D worldNormal;
+    Vector3D viewNormal;
     Colour colour;
 };
 

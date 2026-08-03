@@ -42,8 +42,13 @@ std::vector<VertexOut> processVertices(
         VertexOut vertexOut{};
         vertexOut.worldPosition = modelTransform.apply(vertices[i].localPosition);
         vertexOut.clipPosition = mvpTransform.apply(vertices[i].localPosition);
+
         vertexOut.colour = colourGenerator();
-        vertexOut.worldNormal = modelTransform.apply(vertices[i].normal);
+
+        Vector4D normal = vertices[i].normal;
+        normal.w() = 0;                                       // Directions are treated differently than points. They don't have its w value in 1, but 0.
+        vertexOut.worldNormal = modelTransform.apply(normal); // Normals only available in local, world and camera.
+        vertexOut.viewNormal = viewTransform.apply(vertexOut.worldNormal);
 
         processedVertices[i] = vertexOut;
     }

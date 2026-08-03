@@ -45,7 +45,7 @@ public:
             intensity =
                 (currentDepth - this->minZ) / (this->maxZ - this->minZ);
 
-        fragment.colour = fragment.colour * intensity;
+        fragment.colour.set(fragment.colour.get() * intensity);
     }
 };
 

@@ -1,29 +1,29 @@
 module;
 
-#include <array>
+#include <vector>
 
-export module renderer:structure.triangle;
+export module renderer:normal.rasterizer.base;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :structure.vertex_out;
+import :structure.triangle;
+import :structure.fragment;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export struct Triangle
+export class NormalRasterizer
 {
-    VertexOut v0;
-    VertexOut v1;
-    VertexOut v2;
 
-    constexpr std::array<VertexOut, 3> vertices() const
-    {
-        return {v0, v1, v2};
-    }
+public:
+    virtual ~NormalRasterizer() = default;
+
+    virtual constexpr void rasterizeNormals(
+        const Triangle &primitive,
+        std::vector<Fragment> &fragments) const = 0;
 };
 
 // ============================================================================

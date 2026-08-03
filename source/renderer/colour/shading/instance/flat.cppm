@@ -27,8 +27,8 @@ public:
 
     constexpr void adjustColour(Fragment &fragment) const override
     {
-        fragment.colour =
-            fragment.colour * (ambientLight + this->lightIntensity);
+        fragment.colour.set(
+            fragment.colour.get() * (ambientLight + this->lightIntensity));
     }
 };
 
