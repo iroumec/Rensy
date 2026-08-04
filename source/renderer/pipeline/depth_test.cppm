@@ -6,6 +6,7 @@ module;
 #include <string>
 #include <vector>
 #include <cassert>
+#include <iostream>
 
 export module renderer:pipeline.depth_test;
 
@@ -48,8 +49,6 @@ public:
         assert(y >= 0 && y < this->height);
 
         std::size_t index = y * width + x;
-        assert(index < width * height);
-
         return this->buffer[index];
     }
 
@@ -67,6 +66,9 @@ public:
 
     bool testAndSet(unsigned x, unsigned y, double depth)
     {
+        assert(x >= 0 && x < this->width);
+        assert(y >= 0 && y < this->height);
+
         // >= to keep always the last vertex analized.
         if (depth >= this->getDepth(x, y)) // The higher the values, the more close they are to the screen.)
         {

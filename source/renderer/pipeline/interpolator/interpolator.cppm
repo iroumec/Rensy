@@ -1,15 +1,13 @@
 module;
 
-export module renderer:pipeline.rasterization.rasterizer;
+export module renderer:pipeline.interpolator;
 
 // ============================================================================
 // Exports-Imports
 // ============================================================================
 
-export import :pipeline.rasterization.rasterizer.base;
-export import :pipeline.rasterization.rasterizer.bbox;
-export import :pipeline.rasterization.rasterizer.vertex;
-export import :pipeline.rasterization.rasterizer.wireframe;
+export import :pipeline.interpolator.base;
+export import :pipeline.interpolator.barycentric;
 
 // ============================================================================
 // EOF

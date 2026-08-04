@@ -174,8 +174,8 @@ export const DrawingPattern *DRAWING_PATTERN = nullptr;
 const LineNormalRasterizer LINE_NORMAL_RASTERIZER(8, red);
 
 // SELECT ONE:
-// export const NormalRasterizer *NORMAL_RASTERIZER = nullptr;
-export const NormalRasterizer *NORMAL_RASTERIZER = &LINE_NORMAL_RASTERIZER;
+export const NormalRasterizer *NORMAL_RASTERIZER = nullptr;
+// export const NormalRasterizer *NORMAL_RASTERIZER = &LINE_NORMAL_RASTERIZER;
 
 // ============================================================================
 // RASTERIZER

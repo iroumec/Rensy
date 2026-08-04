@@ -15,7 +15,7 @@ CMAKE_SOURCE_DIR = /home/iroumec/Documents/Crasty/source
 
 FILES ?= resources/obj/diablo3_pose/diablo3_pose.obj resources/obj/floor.obj
 
-EXEC  ?= ./build/crasty
+EXEC  ?= ./build/rensy
 
 git-uncache: ## "Descachea" los archivos.
 	@git rm -r --cached .
@@ -25,10 +25,10 @@ compile:
 	@cmake --build build -j
 
 run: compile
-	@./build/crasty $(FILES) 
+	@$(EXEC) $(FILES) 
 
 timed-run: compile ## The program is executed using all optimizations (-O3) and then executed, measuring its runtime.
-	@time ./build/crasty $(FILES)
+	@time $(EXEC) $(FILES)
 
 see-imports:
 	@grep -R "^import " source/*.cppm

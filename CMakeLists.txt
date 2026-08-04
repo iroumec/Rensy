@@ -1,127 +1,114 @@
 # ==============================================================================
-# CMakeLists.txt — proyecto "crasty"
+# CMakeLists.txt
 # ==============================================================================
 
-# Versión mínima de CMake requerida. 3.31 es necesaria porque el soporte
-# "estable" de módulos C++20 (FILE_SET CXX_MODULES) se consolidó recién en
-# versiones recientes de CMake.
+# Minimum CMake version required.
 cmake_minimum_required(VERSION 3.31)
 
 # ------------------------------------------------------------------------------
-# Generador: los módulos C++ con escaneo de dependencias (CXX_SCAN_FOR_MODULES)
-# SOLO funcionan con los generadores Ninja o "Ninja Multi-Config".
-# Si alguien corre "cmake -B build" sin especificar -G Ninja y su generador
-# por defecto es Unix Makefiles, el build fallará de forma confusa más
-# adelante. Lo detectamos acá y cortamos con un mensaje claro.
+# Generator: the C++ modules with dependency scanning (CXX_CAN_FOR_MODULES)
+# inly work with the generators Ninja or "Ninja Multi-Config".
+# If the project is run usign "cmake -B build", without specifying "-G Ninja",
+# the default generator is Unix Makefiles, which will cause the build to fail.
 # ------------------------------------------------------------------------------
 if(NOT CMAKE_GENERATOR MATCHES "Ninja")
     message(FATAL_ERROR
-        "Este proyecto requiere el generador Ninja para soporte de módulos C++20.\n"
-        "Configurá con: cmake -G Ninja -B build")
+        "This project requires Ninja generator for modules support.\n"
+        "Use: cmake -G Ninja -B build")
 endif()
 
-# Detecta si el generador es "multi-config" (como Visual Studio o Ninja
-# Multi-Config), donde el tipo de build (Debug/Release) se elige al compilar
-# y no al configurar.
+# Wether the generator is "multi-config" or not detection.
+# In this case, the build type (Debug/Release) is selected when compiling
+# and not when configuring.
 get_property(is_multi_config GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
 
-# Si el generador es de un solo config (como Ninja normal) y el usuario no
-# especificó CMAKE_BUILD_TYPE (ni por CLI ni por variable de entorno),
-# fijamos Release por defecto para no compilar sin optimizaciones sin querer.
+# If the generator has just one config (like Ninja) and the user didn't specify
+# CMAKE_BUILD_TYPE (neither using CLI or environment variable), the realease
+# is set by default to not compile without optimization.
 if(NOT is_multi_config AND NOT (CMAKE_BUILD_TYPE OR DEFINED ENV{CMAKE_BUILD_TYPE}))
     set(CMAKE_BUILD_TYPE Release CACHE STRING "Release default")
 endif()
 
-# Habilita el escaneo automático de dependencias entre módulos C++.
-# Esto es lo que le permite a CMake/Ninja entender qué módulo importa a
-# cuál, y compilarlos en el orden correcto (las interfaces antes que
-# quienes las importan).
+# The automatic scanning of dependencies between modules in turned on.
+# This allows CMake/Ninja understand what module imports what other module
+# and which one. It also allows the compilation in the correct order (interfaces
+# before their import).
 set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 
-# Declara el proyecto. Debe ir después de la configuración de generador
-# porque algunas de las variables de arriba deben fijarse antes de project().
-project(crasty LANGUAGES CXX)
+# Declares the project.
+project(rensy LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF) # No compiler extensions.
 
 # ------------------------------------------------------------------------------
-# Chequeo de versión mínima de compilador.
-# El soporte de módulos en GCC es frágil/incompleto antes de la versión 14.
-# Si alguien clona el repo con un GCC viejo, preferimos fallar acá con un
-# mensaje claro en vez de los errores crípticos de "failed to read compiled
-# module" que aparecen más adelante en el proceso de build.
+# Minimum compiler version checking.
 # ------------------------------------------------------------------------------
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 14.0)
-    message(FATAL_ERROR "Se requiere GCC 14 o superior para soporte de módulos C++20.")
+    message(FATAL_ERROR "GCC 14 o greater is required for supporting C++20 modules.")
 endif()
 
-# Opción para correr include-what-you-use (analiza si los #include son
-# correctos/necesarios). Se activa con: cmake -B build -Diwyu=ON
+# Analyzes wether the includes are correct/necessaries.
+# It can be activated using `cmake -B build - Diwyu=ON`.
 option(iwyu "Run include-what-you-use")
 
 if(iwyu)
-    # REQUIRED hace que CMake falle si no encuentra el ejecutable, en vez de
-    # seguir silenciosamente sin la herramienta.
+    # REQUIRED. It makes CMake fail if it doesn't found the executable.
+    # Otherwise, it will continue silently.
     find_program(IWYU_EXE NAMES include-what-you-use REQUIRED)
     set(CMAKE_CXX_INCLUDE_WHAT_YOU_USE ${IWYU_EXE})
 endif()
 
-# Habilita warnings extendidos en los compiladores que lo soportan.
+# Extended warnings are turned on for the compiler that support them.
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU|Intel")
     add_compile_options(-Wall)
 endif()
 
-# Busca OpenMP (paralelismo). No es REQUIRED: si no está instalado, el
-# proyecto igual compila, simplemente sin paralelismo (ver target_link_libraries).
+# Searchs for OpenMP (parallelism).
+# It's not required! If it's not installed, the project can compile anyways.
 find_package(OpenMP COMPONENTS CXX)
 
 # ------------------------------------------------------------------------------
-# Recolección automática de archivos fuente.
+# Souce files automatic recolection.
 #
-# CONFIGURE_DEPENDS le indica a CMake que vuelva a evaluar este glob en cada
-# build, y si la lista de archivos cambió, se reconfigura sola. Esto evita
-# tener que editar el CMakeLists.txt a mano cada vez que agregás un .cpp o
-# .cppm nuevo (a costa de un pequeño overhead de chequeo en cada build).
+# CONFIGURE_DEPENDS tells CMake to evaluate again this glob in each build and,
+# if the list of files changes, to reconfigure itself. This avoids editing
+# constantly the CMakeLists.txt file when a new .cpp or .cppm file is added.
+# However, it sums up a little overhead.
 #
-# Usamos ${CMAKE_CURRENT_SOURCE_DIR} en vez de una ruta relativa ("source/")
-# para evitar ambigüedades si este CMakeLists.txt llegara a incluirse desde
-# otro proyecto o se invocara desde un directorio distinto.
+# ${CMAKE_CURRENT_SOURCE_DIR} is used instead of a relative route to avoid
+# problems in case this file was included in another project or was invocated
+# from another directory.
 # ------------------------------------------------------------------------------
-#file(GLOB_RECURSE MODULE_FILES CONFIGURE_DEPENDS
-#    "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cppm")
-#file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS
-#    "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp")
-
-# 1. Buscamos todos los .cppm (siempre son interfaces/módulos)
+# All the .cppm files are searched.
 file(GLOB_RECURSE CPPM_FILES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cppm")
 
-# 2. Buscamos todos los .cpp
+# All the .cpp files are searched.
 file(GLOB_RECURSE CPP_FILES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/source/*.cpp")
 
-# list(SORT ...) asegura un orden determinístico entre distintos sistemas
-# operativos/filesystems, ya que file(GLOB) no garantiza orden estable.
-#list(SORT MODULE_FILES)
-#list(SORT SOURCE_FILES)
+# The files are sorted.
+# This ensured a deterministic order no matter the operating system or the
+# filesystem. This is neccesary because file(GLOB) doesn't ensure a stable
+# ordering.
 list(SORT CPPM_FILES)
 list(SORT CPP_FILES)
 
-# 3. Clasificamos los .cpp en dos listas:
-# - CPP_MODULE_FILES: los que tienen "module nombre..." al principio.
-# - REGULAR_CPP_FILES: los normales (main.cpp, tgaimage.cpp, etc.).
+# In C++ there three types of modules files and CMake treats them differently.
+# - Intergaces (export module A;): Generate a precompiled file that other can read.
+# - Partitions (module A:B;): Generate a partition that the primary module can read.
+# - Implementations units (module A;): They don't export anything nor provide dependencies for
+#    other files. They just contain the code with the functions.
+
+# Considering the previous explanation, the .cpp files are classified in two lists:
 set(CPP_MODULE_FILES "")
 set(REGULAR_CPP_FILES "")
 
-#En C++20 hay tres tipos de archivos de módulos, y CMake los trata diferente:
-# - Interfaces (export module A;): Generan un archivo precompilado que otros leen. Van en CXX_MODULES.
-# - Particiones (module A:B;): Generan una partición que el módulo primario lee. Van en CXX_MODULES.
-# - Unidades de Implementación (module A;): Como tu rasterizer.cpp o model.cpp. No exportan nada ni proveen dependencias para otros archivos, solo contienen el código ejecutable de las funciones. Para CMake, son archivos .cpp comunes y corrientes.
+# We look for those .cpp files which implement modules.
 foreach(cpp_file ${CPP_FILES})
-    # Buscamos 'module' seguido de Nombre:Particion (ej: 'module vector:vector_2d;')
-    # Ignora 'module rasterizer;' porque no tiene los dos puntos (:)
+    # We search for the word 'module' followed by a name.
     file(STRINGS "${cpp_file}" module_line REGEX "^[ \t]*module[ \t]+[a-zA-Z0-9_]+:[a-zA-Z0-9_]+;" LIMIT_COUNT 1)
 
     if(module_line)
@@ -132,38 +119,30 @@ foreach(cpp_file ${CPP_FILES})
 endforeach()
 
 # ------------------------------------------------------------------------------
-# Diagnóstico: si en algún momento el build falla con "No SOURCES given to
-# target", este mensaje te va a mostrar inmediatamente si el problema es que
-# el glob no encontró nada (carpeta "source/" vacía, mal ubicada, o mal
-# nombrada).
+# Messages for debugging.
 # ------------------------------------------------------------------------------
-#message(STATUS "Archivos .cpp encontrados: ${SOURCE_FILES}")
-#message(STATUS "Archivos .cppm encontrados: ${MODULE_FILES}")
-message(STATUS "Archivos .cpp encontrados: ${CPP_FILES}")
-message(STATUS "Archivos .cppm encontrados: ${CPPM_FILES}")
+message(STATUS ".cpp files found: ${CPP_FILES}")
+message(STATUS ".cppm files found: ${CPPM_FILES}")
 
 if(NOT CPP_FILES AND NOT CPPM_FILES)
     message(FATAL_ERROR
-        "No se encontró ningún archivo .cpp ni .cppm en "
-        "'${CMAKE_CURRENT_SOURCE_DIR}/source/'. Verificá que la carpeta "
-        "'source/' exista junto a este CMakeLists.txt y contenga tus fuentes.")
+        "No .cpp nor .cppm file found in "
+        "'${CMAKE_CURRENT_SOURCE_DIR}/source/'. Verify that the folder "
+        "'source/' exists alongside this CMakeLists.txt and contains the sources.")
 endif()
 
-# Crea el target ejecutable SIN fuentes todavía (se las agregamos en el
-# siguiente bloque). Esto es válido siempre y cuando target_sources() se
-# llame antes de que termine la configuración (lo cual hacemos).
+# Creates the executable target without the sources (they are added later).
 add_executable(${PROJECT_NAME})
 
 target_sources(${PROJECT_NAME}
-    # Archivos .cpp "normales": el main, implementaciones de módulos
-    # (unidades "module X;" sin export), y cualquier .cpp que no sea una
-    # interfaz de módulo.
+    # Regular .cpp files: main, modules impleemntations (units with "module X;",
+    # with no export) and any .cpp files that's not a module interface.
     PRIVATE
         ${REGULAR_CPP_FILES}
 
-    # Archivos .cppm: interfaces de módulo (contienen "export module X;").
-    # Se usa PRIVATE (no PUBLIC) porque "crasty" es un ejecutable final:
-    # ningún otro target lo va a linkear ni necesita ver estos módulos.
+    # .cppm files: Module interfaces ("export module X;").
+    # "PRIVATE" is used because Rensy is the final executable. No
+    # other target will link it nor needs to see these modules.
     PRIVATE
         FILE_SET CXX_MODULES
         FILES
@@ -171,14 +150,14 @@ target_sources(${PROJECT_NAME}
             ${CPP_MODULE_FILES}
 )
 
-# Linkea OpenMP solo si find_package lo encontró. El operador $<BOOL:...>
-# es un "generator expression": se evalúa en tiempo de generación de build
-# y se convierte en nada si OpenMP_CXX_FOUND es falso.
+# Links OpenMP only if find_package found it.
+# The operator $<BOOL:...> is a "generator expression": it's evaluated in
+# build generation time and it becomes nothing if OpenMP_CXX_FOUND is false.
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
         $<$<BOOL:${OpenMP_CXX_FOUND}>:OpenMP::OpenMP_CXX>
 )
 
-# Genera un .gitignore con "*" dentro del directorio de build, para que todo
-# lo generado ahí quede ignorado por git automáticamente.
+# Generates a .gitignore with "*" inside so everything in the directory is
+# ignored by git automatically.
 file(GENERATE OUTPUT .gitignore CONTENT "*")

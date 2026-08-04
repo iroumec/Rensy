@@ -1,31 +1,33 @@
 module;
 
-export module renderer:structure.vertex_out;
+export module renderer:pipeline.interpolator.barycentric;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :structure.colour;
-import :math.vector.vector_2d;
+import :math.barycentric;
 import :math.vector.vector_3d;
-import :math.vector.vector_4d;
+import :pipeline.interpolator.base;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export struct VertexOut
+export class BarycentricInterpolator : public Interpolator
 {
-    Vector3D worldPosition; // For lighting / shdadows.
-    Vector3D viewPosition;
-    Vector4D clipPosition; // After MVP.
-    Vector3D ndcPosition;
-    Vector3D screenPosition; // For viewport. // TODO: cambiar a 2D.
-                             // const Vector3D normal;         // For Phong, Goraud...
-    Vector3D worldNormal;
-    Vector3D viewNormal;
-    Colour colour;
+public:
+    Vector3D interpolate(
+        const Vector3D &a,
+        const Vector3D &b,
+        const Vector3D &c,
+        const BarycentricCoordinate &bc) const override;
+
+    double interpolate(
+        const double &a,
+        const double &b,
+        const double &c,
+        const BarycentricCoordinate &bc) const override;
 };
 
 // ============================================================================

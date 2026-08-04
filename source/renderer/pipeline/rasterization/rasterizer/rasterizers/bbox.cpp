@@ -18,6 +18,7 @@ import :math.geometry;
 import :math.barycentric;
 import :structure.triangle;
 import :structure.fragment;
+import :pipeline.interpolator.barycentric;
 import :pipeline.rasterization.rasterizer.bbox;
 
 // ============================================================================
@@ -60,23 +61,22 @@ std::vector<Fragment> BoundingBoxRasterizer::
 
                 Fragment fragment;
 
+                BarycentricInterpolator interpolator;
+
                 fragment.xScreen = x;
                 fragment.yScreen = y;
-                fragment.depth = barycentricCoordinates.alpha * a.z() +
-                                 barycentricCoordinates.beta * b.z() +
-                                 barycentricCoordinates.gamma * c.z();
+                fragment.depth = interpolator.interpolate(
+                    a.z(), b.z(), c.z(), barycentricCoordinates);
 
                 fragment.barycentricCoordinates = barycentricCoordinates;
 
-                fragment.worldPosition =
-                    barycentricCoordinates.alpha * primitive.v0.worldPosition +
-                    barycentricCoordinates.beta * primitive.v1.worldPosition +
-                    barycentricCoordinates.gamma * primitive.v2.worldPosition;
+                fragment.worldPosition = interpolator.interpolate(
+                    primitive.v0.worldPosition, primitive.v1.worldPosition,
+                    primitive.v2.worldPosition, barycentricCoordinates);
 
-                fragment.normal =
-                    barycentricCoordinates.alpha * primitive.v0.worldNormal +
-                    barycentricCoordinates.beta * primitive.v1.worldNormal +
-                    barycentricCoordinates.gamma * primitive.v2.worldNormal;
+                fragment.normal = interpolator.interpolate(
+                    primitive.v0.worldNormal, primitive.v1.worldNormal,
+                    primitive.v2.worldNormal, barycentricCoordinates);
                 /*
 
             fragment.uv =
