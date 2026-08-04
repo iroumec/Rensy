@@ -1,15 +1,12 @@
 module;
 
-export module renderer:pipeline;
+export module renderer:logging;
 
 // ============================================================================
 // Exports
 // ============================================================================
 
-export import :pipeline.shader;
-export import :pipeline.depth_test;
-export import :pipeline.framebuffer;
-export import :pipeline.rasterization;
+export import :logging.level;
 
 // ============================================================================
 // EOF

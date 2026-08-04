@@ -6,7 +6,7 @@ export module renderer:structure.vertex_out;
 // Imports
 // ============================================================================
 
-import :structure.colour;
+import :colour.restricted;
 import :math.vector.vector_2d;
 import :math.vector.vector_3d;
 import :math.vector.vector_4d;
@@ -25,7 +25,7 @@ export struct VertexOut
                              // const Vector3D normal;         // For Phong, Goraud...
     Vector3D worldNormal;
     Vector3D viewNormal;
-    Colour colour;
+    RestrictedColour colour;
 };
 
 // ============================================================================

@@ -1,33 +1,24 @@
 module;
 
-export module renderer:structure.fragment;
+#include <vector>
+
+export module renderer:pipeline.shader.geometry.base;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :math.barycentric;
-import :colour.restricted;
-import :math.vector.vector_3d;
+import :structure.primitive;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export struct Fragment
+export class GeometryShader
 {
-
-    unsigned xScreen;
-    unsigned yScreen;
-    double depth = 0.0;
-
-    BarycentricCoordinate barycentricCoordinates;
-
-    Vector3D worldPosition;
-    Vector3D normal;
-    // Vector2D uv;
-
-    RestrictedColour colour;
+public:
+    virtual std::vector<Primitive>
+    process(const Primitive &primitive) const = 0;
 };
 
 // ============================================================================

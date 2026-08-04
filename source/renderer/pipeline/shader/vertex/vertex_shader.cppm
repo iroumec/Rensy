@@ -2,7 +2,7 @@ module;
 
 #include <vector>
 
-export module renderer:pipeline.vertex_shader;
+export module renderer:pipeline.shader.vertex;
 
 // ============================================================================
 // Imports

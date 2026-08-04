@@ -12,6 +12,7 @@ export import :math;
 export import :model;
 export import :normal;
 export import :colour;
+export import :logging;
 export import :pipeline;
 export import :transform;
 export import :structure;
@@ -27,6 +28,8 @@ export import :drawing_pattern; // TODO: Change this.
 
 export struct RenderingInputData
 {
+    const LogLevel logLevel;
+
     const unsigned screenWidth;
     const unsigned screenHeight;
 

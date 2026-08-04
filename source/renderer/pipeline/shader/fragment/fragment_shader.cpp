@@ -14,7 +14,7 @@ import :structure.colour;
 import :colour.calculator;
 import :structure.fragment;
 import :structure.triangle;
-import :pipeline.fragment_shader;
+import :pipeline.shader.fragment;
 
 // ============================================================================
 // Implementations

@@ -2,7 +2,7 @@ module;
 
 #include <vector>
 
-export module renderer:pipeline.fragment_shader;
+export module renderer:pipeline.shader.fragment;
 
 // ============================================================================
 // Imports

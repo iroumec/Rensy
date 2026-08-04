@@ -1,7 +1,6 @@
 module;
 
 #include <vector>
-#include <iostream>
 
 module renderer;
 
@@ -9,22 +8,18 @@ module renderer;
 // Imports
 // ============================================================================
 
+import :primitive;
+import :logging.logger;
 import :pipeline.clipping;
 import :structure.fragment;
 import :structure.triangle;
 import :pipeline.depth_test;
 import :pipeline.framebuffer;
+import :pipeline.face_culling;
 import :pipeline.vertex_shader;
 import :pipeline.fragment_shader;
-import :pipeline.primitive_assembly;
 import :pipeline.viewport_transform;
 import :pipeline.perspective_divide;
-
-// ============================================================================
-// Constants
-// ============================================================================
-
-constexpr bool VERBOSE = true;
 
 // ============================================================================
 // Declarations and Implementations
@@ -33,19 +28,17 @@ constexpr bool VERBOSE = true;
 RenderingOutputData Renderer::
     render(const RenderingInputData &inputData)
 {
-    if (VERBOSE)
-        std::cout
-            << "\n| RENDERING PROCESS INITIATED |\n\n> Rendering model:"
-            << inputData.fileName << '\n';
+    Logger logger{inputData.logLevel};
+    logger.info(
+        "\n| RENDERING PROCESS INITIATED |\n\n> Rendering model: {}",
+        inputData.fileName);
 
     // 1. Vertex Input.
     auto [vbo, ebo] =
         inputData.modelLoader.load(
             inputData.fileName, inputData.normalCalculator);
 
-    if (VERBOSE)
-        std::cout
-            << "\n> Vertices received: " << vbo.vertices.size() << '\n';
+    logger.debug("\n> Number of vertices loaded: {}", vbo.vertices.size());
 
     // 2. Vertex shader.
     std::vector<VertexOut> processedVertices = processVertices(
@@ -59,9 +52,17 @@ RenderingOutputData Renderer::
     std::vector<Triangle> primitives =
         assemblyPrimitives(processedVertices, ebo.faces);
 
-    if (VERBOSE)
-        std::cout
-            << "\n> Primitives assembled: " << primitives.size() << '\n';
+    logger.debug("\n> Number of primitives assembled: {}", primitives.size());
+
+    // Geometry Shader.
+    primitives = inputData.geometryShader.process(primitives);
+
+    logger.debug("\n> Number of primitives after geometry shader: {}", primitives.size());
+
+    // Face Culling.
+    primitives = applyFaceCulling(primitives, logger);
+
+    logger.debug("\n> Primitives after face culling: {}", primitives.size());
 
     // 4. Clipping.
     // std::vector<Triangle> primitives = applyClipping(primitives);
@@ -93,17 +94,15 @@ RenderingOutputData Renderer::
             primitiveFragments.end());
     }
 
-    if (VERBOSE)
-        std::cout
-            << "\n> Fragments after rasterization: " << fragments.size() << '\n';
+    logger.debug("\n> Fragments after rasterization: {}", fragments.size());
 
     // 9. Depth Test
     DepthBuffer zBuffer(inputData.screenWidth, inputData.screenHeight);
     std::vector<Fragment> processedFragments = zBuffer.process(fragments);
 
-    if (VERBOSE)
-        std::cout << "\n> Fragments after depth test: "
-                  << processedFragments.size() << '\n';
+    logger.debug(
+        "\n> Fragments after depth test: {}",
+        processedFragments.size());
 
     // 10. Stencil test.
     // TODO

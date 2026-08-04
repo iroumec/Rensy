@@ -1,33 +1,26 @@
 module;
 
-export module renderer:structure.fragment;
+#include <vector>
+
+export module renderer:pipeline.shader.geometry.identity;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :math.barycentric;
-import :colour.restricted;
-import :math.vector.vector_3d;
+import :structure.primitive;
+import :pipeline.shader.geometry.base;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export struct Fragment
+export class IdentityGeometryShader : public GeometryShader
 {
-
-    unsigned xScreen;
-    unsigned yScreen;
-    double depth = 0.0;
-
-    BarycentricCoordinate barycentricCoordinates;
-
-    Vector3D worldPosition;
-    Vector3D normal;
-    // Vector2D uv;
-
-    RestrictedColour colour;
+    std::vector<Primitive> process(const Primitive &primitive) const override
+    {
+        // Returns the same primitives received.
+    }
 };
 
 // ============================================================================

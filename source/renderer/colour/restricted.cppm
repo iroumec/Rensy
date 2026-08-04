@@ -1,33 +1,43 @@
 module;
 
-export module renderer:structure.fragment;
+export module renderer:colour.restricted;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :math.barycentric;
-import :colour.restricted;
-import :math.vector.vector_3d;
+import :structure.colour;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export struct Fragment
+class RestrictedColour
 {
+    Colour colour;
+    bool locked = false;
 
-    unsigned xScreen;
-    unsigned yScreen;
-    double depth = 0.0;
+public:
+    void lock()
+    {
+        locked = true;
+    }
 
-    BarycentricCoordinate barycentricCoordinates;
+    void unlock()
+    {
+        locked = false;
+    }
 
-    Vector3D worldPosition;
-    Vector3D normal;
-    // Vector2D uv;
+    void set(const Colour &c)
+    {
+        if (!locked)
+            colour = c;
+    }
 
-    RestrictedColour colour;
+    const Colour &get() const
+    {
+        return colour;
+    }
 };
 
 // ============================================================================

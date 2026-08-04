@@ -29,6 +29,7 @@ int main(int argc, char **argv)
     initializeConfiguration();
 
     RenderingInputData inputData{
+        LOG_LEVEL,
         WIDTH,
         HEIGHT,
         argv[1],
