@@ -41,6 +41,7 @@ int main(int argc, char **argv)
         COLOUR_GENERATOR,
         RASTERIZER,
         COLOUR_CALCULATOR,
+        GEOMETRY_SHADER,
         SHADING,
         BACKGROUND_COLOUR,
         FILTER,

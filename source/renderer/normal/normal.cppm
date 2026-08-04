@@ -7,7 +7,6 @@ export module renderer:normal;
 // ============================================================================
 
 export import :normal.calculator;
-export import :normal.rasterizer;
 
 // ============================================================================
 // EOF

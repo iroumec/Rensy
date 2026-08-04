@@ -44,6 +44,8 @@ export struct RenderingInputData
 
     const ColourGenerator &colourGenerator;
 
+    const GeometryShader &geometryShader;
+
     const Rasterizer &rasterizer;
 
     const ColourCalculator &colourCalculator;

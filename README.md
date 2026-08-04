@@ -4,7 +4,7 @@ A customizable OBJ model renderer.
 
 ## Showcase
 
-Wireframe rendering with perspective:
+Wireframe rendering:
 ![Wireframe Rendering](resources/interesting_outputs/01.png)
 
 Bounding box rendering with random colour generation and fog:
