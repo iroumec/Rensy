@@ -9,7 +9,6 @@ export module renderer:colour.calculator.gradient;
 // ============================================================================
 
 import :structure.colour;
-import :structure.fragment;
 import :colour.calculator.base;
 import :pipeline.interpolation.data;
 
@@ -25,16 +24,12 @@ export class GradientColourCalculator : public ColourCalculator
 
 public:
     constexpr Colour calculateColour(
-        const Fragment &fragment,
         const InterpolationData &interpolationData) const override
     {
         Colour result = Colour();
 
-        for (
-            const AttributeInfluence &influence : interpolationData.influences)
-        {
+        for (const AttributeInfluence &influence : interpolationData)
             result += influence.vertex.colour.get() * influence.weight;
-        }
 
         return result;
     }

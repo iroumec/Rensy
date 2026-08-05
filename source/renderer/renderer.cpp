@@ -18,6 +18,7 @@ import :primitive.topology;
 import :pipeline.depth_test;
 import :pipeline.framebuffer;
 import :pipeline.face_culling;
+import :pipeline.interpolation;
 import :pipeline.vertex_shader;
 import :pipeline.fragment_shader;
 import :pipeline.viewport_transform;
@@ -104,18 +105,23 @@ RenderingOutputData Renderer::
     // RASTERIZATION
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    std::vector<PreFragment> prefragments = inputData.rasterizer.rasterize(
+        primitives,
+        inputData.screenWidth,
+        inputData.screenHeight);
+
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // INTERPOLATION
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    std::vector<Fragment> fragments = interpolate(
+        prefragments, inputData.colourCalculator);
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // FRAGMENT SHADER
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    std::vector<Fragment> fragments;
-    FragmentShader fragmentShader(
-        inputData.colourCalculator,
-        inputData.shadingFactory);
+    FragmentShader fragmentShader(inputData.shadingFactory);
 
     for (auto &primitive : primitives)
     {

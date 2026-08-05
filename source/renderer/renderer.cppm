@@ -16,6 +16,7 @@ export import :logging;
 export import :pipeline;
 export import :transform;
 export import :structure;
+export import :interpolation;
 export import :drawing_pattern; // TODO: Change this.
 
 // ============================================================================

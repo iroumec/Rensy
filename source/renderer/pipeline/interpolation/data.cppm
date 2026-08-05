@@ -27,7 +27,12 @@ export struct AttributeInfluence
 
 export struct InterpolationData
 {
+private:
     std::vector<AttributeInfluence> influences;
+
+public:
+    auto begin() const { return influences.begin(); }
+    auto end() const { return influences.end(); }
 
     const AttributeInfluence *getMaxInfluentialAttribute() const
     {

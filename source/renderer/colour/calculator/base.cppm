@@ -9,7 +9,6 @@ export module renderer:colour.calculator.base;
 // ============================================================================
 
 import :structure.colour;
-import :structure.fragment;
 import :pipeline.interpolation.data;
 
 // ============================================================================
@@ -27,7 +26,6 @@ public:
     virtual ~ColourCalculator() = default;
 
     virtual constexpr Colour calculateColour(
-        const Fragment &fragment,
         const InterpolationData &interpolationData) const = 0;
 };
 

@@ -20,20 +20,15 @@ import :pipeline.shader.fragment;
 // Implementations
 // ============================================================================
 
-void FragmentShader::processFragments(std::vector<Fragment> &fragments,
-                                      const Primitive &primitive)
+void FragmentShader::processFragments(std::vector<Fragment> &fragments)
 {
     std::shared_ptr<Shading> shading = nullptr;
 
-    if (this->shadingFactory != nullptr)
+    if (this->shadingFactory)
+    {
         shading = shadingFactory->instance(primitive);
 
-    for (Fragment &fragment : fragments)
-    {
-        fragment.colour.set(
-            colourCalculator.calculateColour(fragment, primitive));
-
-        if (shading)
+        for (Fragment &fragment : fragments)
             shading->adjustColour(fragment);
     }
 }

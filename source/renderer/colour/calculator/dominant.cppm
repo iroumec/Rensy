@@ -7,7 +7,6 @@ export module renderer:colour.calculator.dominant;
 // ============================================================================
 
 import :structure.colour;
-import :structure.fragment;
 import :colour.calculator.base;
 import :pipeline.interpolation.data;
 
@@ -23,7 +22,6 @@ export class DominantColourCalculator : public ColourCalculator
 
 public:
     constexpr Colour calculateColour(
-        const Fragment &fragment,
         const InterpolationData &interpolationData) const override
     {
         const AttributeInfluence *maxInfluentialAttribute =
