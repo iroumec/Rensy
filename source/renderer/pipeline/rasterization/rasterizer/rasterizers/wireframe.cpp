@@ -34,8 +34,8 @@ std::vector<Fragment> WireframeRasterizer::rasterize(
     unsigned screenWidth,
     unsigned screenHeight) const
 {
-    Vector2D a = primitive.vertexOne().screenPosition;
-    Vector2D b = primitive.vertexTwo().screenPosition;
+    Vector2D a = primitive.getVertexOne().screenPosition;
+    Vector2D b = primitive.getVertexTwo().screenPosition;
 
     std::vector<Vector2D> vectors;
 
@@ -60,9 +60,9 @@ std::vector<Fragment> WireframeRasterizer::
 {
     std::vector<Fragment> fragments;
 
-    Vector2D a = primitive.vertexOne().screenPosition;
-    Vector2D b = primitive.vertexTwo().screenPosition;
-    Vector2D c = primitive.vertexThree().screenPosition;
+    Vector2D a = primitive.getVertexOne().screenPosition;
+    Vector2D b = primitive.getVertexTwo().screenPosition;
+    Vector2D c = primitive.getVertexThree().screenPosition;
 
     std::vector<Vector2D> vectors;
 

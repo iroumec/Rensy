@@ -1,13 +1,13 @@
 module;
 
-export module renderer:pipeline.interpolator;
+export module renderer:pipeline.interpolation.interpolator;
 
 // ============================================================================
 // Exports-Imports
 // ============================================================================
 
-export import :pipeline.interpolator.base;
-export import :pipeline.interpolator.barycentric;
+export import :pipeline.interpolation.interpolator.base;
+export import :pipeline.interpolation.interpolator.barycentric;
 
 // ============================================================================
 // EOF

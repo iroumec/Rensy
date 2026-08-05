@@ -8,7 +8,7 @@ module renderer;
 
 import :math.barycentric;
 import :math.vector.vector_3d;
-import :pipeline.interpolator.barycentric;
+import :pipeline.interpolation.interpolator.barycentric;
 
 // ============================================================================
 // Declarations

@@ -13,7 +13,7 @@ import :colour.shading;
 import :structure.colour;
 import :colour.calculator;
 import :structure.fragment;
-import :structure.triangle;
+import :primitive.topology.base;
 import :pipeline.shader.fragment;
 
 // ============================================================================
@@ -21,7 +21,7 @@ import :pipeline.shader.fragment;
 // ============================================================================
 
 void FragmentShader::processFragments(std::vector<Fragment> &fragments,
-                                      const Triangle &primitive)
+                                      const Primitive &primitive)
 {
     std::shared_ptr<Shading> shading = nullptr;
 
@@ -30,7 +30,8 @@ void FragmentShader::processFragments(std::vector<Fragment> &fragments,
 
     for (Fragment &fragment : fragments)
     {
-        fragment.colour.set(colourCalculator.calculateColour(fragment, primitive));
+        fragment.colour.set(
+            colourCalculator.calculateColour(fragment, primitive));
 
         if (shading)
             shading->adjustColour(fragment);

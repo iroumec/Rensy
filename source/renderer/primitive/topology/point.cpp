@@ -21,7 +21,7 @@ std::vector<VertexOut> Point::vertices() const
     return {vertex};
 }
 
-Vector3D Point::getRepresentativaWorldNormal() const
+Vector3D Point::getRepresentativeWorldNormal() const
 {
     return this->getAverageWorldNormal();
 }

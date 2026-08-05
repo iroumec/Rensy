@@ -1,6 +1,7 @@
 module;
 
 #include <cmath>
+#include <vector>
 
 export module renderer:colour.shading.instance.gouraud;
 
@@ -18,21 +19,14 @@ import :colour.shading.instance.base;
 
 export class GouraudShading : public Shading
 {
-    const double alphaVertexLightIntensity;
-    const double betaVertexLightIntensity;
-    const double gammaVertexLightIntensity;
+    const std::vector<double> lightIntensities;
     const double ambientLight;
 
 public:
     GouraudShading(
-        double alphaVertexLightIntensity, double betaVertexLightIntensity,
-        double gammaVertexLightIntensity, double ambientLight = 0.4)
-        : alphaVertexLightIntensity(alphaVertexLightIntensity),
-          betaVertexLightIntensity(betaVertexLightIntensity),
-          gammaVertexLightIntensity(gammaVertexLightIntensity),
-          ambientLight{ambientLight}
-    {
-    }
+        const std::vector<double> lightIntensities,
+        double ambientLight = 0.4)
+        : lightIntensities{lightIntensities}, ambientLight{ambientLight} {}
 
     constexpr void adjustColour(Fragment &fragment) const override
     {
@@ -41,9 +35,9 @@ public:
         fragment.colour.set(
             fragment.colour.get() *
             (ambientLight +
-             coordinates.alpha * alphaVertexLightIntensity +
-             coordinates.beta * betaVertexLightIntensity +
-             coordinates.gamma * gammaVertexLightIntensity));
+             coordinates.alpha * lightIntensities[0] +
+             coordinates.beta * lightIntensities[1] +
+             coordinates.gamma * lightIntensities[2]));
     }
 };
 

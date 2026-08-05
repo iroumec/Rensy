@@ -1,6 +1,7 @@
 module;
 
 #include <vector>
+#include <memory>
 
 export module renderer:pipeline.shader.geometry.identity;
 
@@ -17,9 +18,11 @@ import :pipeline.shader.geometry.base;
 
 export class IdentityGeometryShader : public GeometryShader
 {
-    std::vector<Primitive> process(const Primitive &primitive) const override
+    std::vector<std::unique_ptr<Primitive>> process(
+        std::vector<std::unique_ptr<Primitive>> primitives) const override
     {
         // Returns the same primitives received.
+        return primitives;
     }
 };
 

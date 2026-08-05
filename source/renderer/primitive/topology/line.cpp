@@ -21,7 +21,7 @@ std::vector<VertexOut> Line::vertices() const
     return {vertexOne, vertexTwo};
 }
 
-Vector3D Line::getRepresentativaWorldNormal() const
+Vector3D Line::getRepresentativeWorldNormal() const
 {
     return this->getAverageWorldNormal();
 }

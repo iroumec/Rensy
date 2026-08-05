@@ -1,6 +1,7 @@
 module;
 
 #include <vector>
+#include <memory>
 
 export module renderer:primitive.topology.base;
 
@@ -19,9 +20,11 @@ export class PrimitiveTopology
 {
 
 public:
+    virtual ~PrimitiveTopology() = default;
+
     virtual std::vector<VertexOut> vertices() const = 0;
     virtual unsigned getVertexCount() const = 0;
-    virtual Vector3D getRepresentativaWorldNormal() const = 0;
+    virtual Vector3D getRepresentativeWorldNormal() const = 0;
 
     virtual Vector3D getAverageWorldNormal() const
     {
@@ -33,7 +36,7 @@ public:
         return worldNormalSum /= this->getVertexCount();
     }
 
-    Vector3D getCentroid()
+    Vector3D getCentroid() const
     {
         Vector3D centroid;
 
@@ -42,6 +45,16 @@ public:
 
         return centroid /= this->getVertexCount();
     }
+
+    // Double dispatch.
+    Colour calculateColour(
+        const Fragment &fragment,
+        const ColourCalculator &calculator) const override
+    {
+        return calculator.calculateColour(fragment, *this);
+    }
+
+    virtual std::unique_ptr<PrimitiveTopology> clone() const = 0;
 };
 
 export using Primitive = PrimitiveTopology;

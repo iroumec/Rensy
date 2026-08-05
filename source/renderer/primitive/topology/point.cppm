@@ -1,6 +1,7 @@
 module;
 
 #include <vector>
+#include <memory>
 
 export module renderer:primitive.topology.point;
 
@@ -29,8 +30,12 @@ public:
     std::vector<VertexOut> vertices() const override;
     unsigned getVertexCount() const override { return 2; }
 
-    Vector3D getAverageWorldNormal() const override;
-    Vector3D getRepresentativaWorldNormal() const override;
+    Vector3D getRepresentativeWorldNormal() const override;
+
+    std::unique_ptr<PrimitiveTopology> clone() const override
+    {
+        return std::make_unique<Point>(*this);
+    }
 };
 
 // ============================================================================

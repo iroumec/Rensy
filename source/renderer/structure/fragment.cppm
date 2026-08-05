@@ -14,9 +14,11 @@ import :math.vector.vector_3d;
 // Declarations
 // ============================================================================
 
+// World position, normal, depth and UV must already be interpolated.
+// Fragment should not know any details about the method of rasterization. So
+// it should not contain barycentric coordinates.
 export struct Fragment
 {
-
     unsigned xScreen;
     unsigned yScreen;
     double depth = 0.0;
@@ -27,6 +29,10 @@ export struct Fragment
     Vector3D normal;
     // Vector2D uv;
 
+    // Where to calculate the colour?
+    // If the fragment colour depends on the fragment itself -> Fragment shader.
+    // If the fragment colour depends on the relationship with
+    // its primitive -> Before fragment shader.
     RestrictedColour colour;
 };
 

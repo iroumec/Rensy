@@ -1,6 +1,7 @@
 module;
 
 #include <vector>
+#include <memory>
 
 module renderer;
 
@@ -50,7 +51,7 @@ RenderingOutputData Renderer::
         inputData.colourGenerator);
 
     // 3. Primitive Assembly.
-    std::vector<Primitive> primitives =
+    std::vector<std::unique_ptr<Primitive>> primitives =
         assemblyPrimitives(processedVertices, ebo.faces);
 
     logger.debug("\n> Number of primitives assembled: {}", primitives.size());
@@ -75,13 +76,13 @@ RenderingOutputData Renderer::
     applyViewportTransform(
         primitives, inputData.screenWidth, inputData.screenHeight);
 
-    // 7&8. Rasterization && Fragment Shader.
+    // Rasterization, Interpolation and Fragment Shader.
     std::vector<Fragment> fragments;
     FragmentShader fragmentShader(
         inputData.colourCalculator,
         inputData.shadingFactory);
 
-    for (Primitive &primitive : primitives)
+    for (auto &primitive : primitives)
     {
         std::vector<Fragment> primitiveFragments =
             inputData.rasterizer.rasterize(

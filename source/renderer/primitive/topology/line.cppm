@@ -1,6 +1,7 @@
 module;
 
 #include <vector>
+#include <memory>
 
 export module renderer:primitive.topology.line;
 
@@ -31,9 +32,14 @@ public:
     constexpr VertexOut &getVertexTwo() { return this->vertexTwo; }
 
     std::vector<VertexOut> vertices() const override;
-    unsigned getVertexCount() const { return 1; }
+    unsigned getVertexCount() const override { return 1; }
 
-    Vector3D getRepresentativaWorldNormal() const override;
+    Vector3D getRepresentativeWorldNormal() const override;
+
+    std::unique_ptr<PrimitiveTopology> clone() const override
+    {
+        return std::make_unique<Line>(*this);
+    }
 };
 
 // ============================================================================

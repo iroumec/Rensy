@@ -1,6 +1,7 @@
 module;
 
 #include <vector>
+#include <memory>
 
 export module renderer:primitive.topology.triangle;
 
@@ -41,7 +42,12 @@ public:
     std::vector<VertexOut> vertices() const override;
     unsigned getVertexCount() const override { return 3; }
 
-    Vector3D getRepresentativaWorldNormal() const override;
+    Vector3D getRepresentativeWorldNormal() const override;
+
+    std::unique_ptr<PrimitiveTopology> clone() const override
+    {
+        return std::make_unique<Triangle>(*this);
+    }
 };
 
 // ============================================================================

@@ -21,7 +21,7 @@ std::vector<VertexOut> Triangle::vertices() const
     return {vertexOne, vertexTwo, vertexThree};
 }
 
-Vector3D Triangle::getRepresentativaWorldNormal() const
+Vector3D Triangle::getRepresentativeWorldNormal() const
 {
     Vector3D a = this->vertexOne.worldPosition;
     Vector3D b = this->vertexTwo.worldPosition;

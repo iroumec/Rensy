@@ -1,6 +1,6 @@
 module;
 
-#include <vector>
+#include <memory>
 
 export module renderer:pipeline.shader.geometry.base;
 
@@ -17,8 +17,9 @@ import :primitive.topology.base;
 export class GeometryShader
 {
 public:
-    virtual std::vector<Primitive>
-    process(const Primitive &primitive) const = 0;
+    // The ownership of the list of primitives is transferred.
+    virtual std::vector<std::unique_ptr<Primitive>> process(
+        std::vector<std::unique_ptr<Primitive>> primitives) const = 0;
 };
 
 // ============================================================================

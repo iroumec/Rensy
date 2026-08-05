@@ -7,10 +7,9 @@ export module renderer:colour.calculator.gradient;
 // ============================================================================
 
 import :structure.colour;
-import :math.barycentric;
 import :structure.fragment;
-import :primitive.topology;
 import :colour.calculator.base;
+import :pipeline.interpolation.data;
 
 // ============================================================================
 // Declarations
@@ -24,25 +23,18 @@ export class GradientColourCalculator : public ColourCalculator
 
 public:
     constexpr Colour calculateColour(
-        const Fragment &fragment, const Point &primitive) const override
+        const Fragment &fragment,
+        const InterpolationData &interpolationData) const override
     {
-        return fragment.colour.get(); // TODO
-    }
+        Colour result = Colour();
 
-    constexpr Colour calculateColour(
-        const Fragment &fragment, const Line &primitive) const override
-    {
-        return fragment.colour.get(); // TODO
-    }
+        for (
+            const AttributeInfluence &influence : interpolationData.influences)
+        {
+            result += influence.vertex.colour.get() * influence.weight;
+        }
 
-    constexpr Colour calculateColour(
-        const Fragment &fragment, const Triangle &primitive) const override
-    {
-        BarycentricCoordinate coordinates = fragment.barycentricCoordinates;
-
-        return coordinates.alpha * primitive.getVertexOne().colour.get() +
-               coordinates.beta * primitive.getVertexTwo().colour.get() +
-               coordinates.gamma * primitive.getVertexThree().colour.get();
+        return result;
     }
 };
 

@@ -24,7 +24,7 @@ export class DepthShading : public Shading
     const double maxDepth;
 
 public:
-    DepthShading(const double &depths, double minDepth, double maxDepth)
+    DepthShading(const std::vector<double> &depths, double minDepth, double maxDepth)
         : depths{depths}, minDepth{minDepth}, maxDepth{maxDepth} {}
 
     constexpr void adjustColour(Fragment &fragment) const override

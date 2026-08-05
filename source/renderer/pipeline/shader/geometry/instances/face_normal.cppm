@@ -1,6 +1,7 @@
 module;
 
 #include <vector>
+#include <memory>
 
 export module renderer:pipeline.shader.geometry.normal.face;
 
@@ -18,9 +19,11 @@ import :pipeline.shader.geometry.base;
 export class FaceNormalGeometryShader : public GeometryShader
 {
     // Returns lines for the normals of the primitive.
-    std::vector<Primitive> process(const Primitive &primitive) const override
+    std::vector<std::unique_ptr<Primitive>> process(
+        std::vector<std::unique_ptr<Primitive>> primitives) const override
     {
-        // Returns the same primitives received.
+        // TODO.
+        return primitives;
     }
 };
 

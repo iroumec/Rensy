@@ -1,6 +1,6 @@
 module;
 
-export module renderer:pipeline.interpolator.base;
+export module renderer:pipeline.interpolation.interpolator.barycentric;
 
 // ============================================================================
 // Imports
@@ -8,25 +8,26 @@ export module renderer:pipeline.interpolator.base;
 
 import :math.barycentric;
 import :math.vector.vector_3d;
+import :pipeline.interpolation.interpolator.base;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export class Interpolator
+export class BarycentricInterpolator : public Interpolator
 {
 public:
-    virtual Vector3D interpolate(
+    Vector3D interpolate(
         const Vector3D &a,
         const Vector3D &b,
         const Vector3D &c,
-        const BarycentricCoordinate &bc) const = 0;
+        const BarycentricCoordinate &bc) const override;
 
-    virtual double interpolate(
+    double interpolate(
         const double &a,
         const double &b,
         const double &c,
-        const BarycentricCoordinate &bc) const = 0;
+        const BarycentricCoordinate &bc) const override;
 };
 
 // ============================================================================

@@ -32,9 +32,10 @@ public:
 
         for (const VertexOut &vertex : primitive.vertices())
         {
-            depths.push_back(vertex.screenPosition);
-            minDepth = std::min(vertex.screenPosition, minDepth);
-            maxDepth = std::max(vertex.screenPosition, maxDepth);
+            double currentZValue = vertex.screenPosition.z();
+            depths.push_back(currentZValue);
+            minDepth = std::min(currentZValue, minDepth);
+            maxDepth = std::max(currentZValue, maxDepth);
         }
 
         return std::make_shared<DepthShading>(depths, minDepth, maxDepth);

@@ -50,9 +50,9 @@ std::vector<Fragment> BoundingBoxRasterizer::
 {
     std::vector<Fragment> fragments;
 
-    VertexOut a = primitive.vertexOne();
-    VertexOut b = primitive.vertexTwo();
-    VertexOut c = primitive.vertexThree();
+    VertexOut a = primitive.getVertexOne();
+    VertexOut b = primitive.getVertexTwo();
+    VertexOut c = primitive.getVertexThree();
 
     BoundingBox bbox = BoundingBox(
         a.screenPosition, b.screenPosition, c.screenPosition);

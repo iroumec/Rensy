@@ -17,7 +17,7 @@ import :primitive.topology.triangle;
 // Declarations
 // ============================================================================
 
-export constexpr std::vector<Primitive> assemblyPrimitives(
+export constexpr std::vector<std::unique_ptr<Primitive>> assemblyPrimitives(
     const std::vector<VertexOut> &vertices,
     const std::vector<int> &faces)
 {

@@ -7,10 +7,9 @@ export module renderer:colour.calculator.subordinate;
 // ============================================================================
 
 import :structure.colour;
-import :math.barycentric;
 import :structure.fragment;
-import :primitive.topology;
 import :colour.calculator.base;
+import :pipeline.interpolation.data;
 
 // ============================================================================
 // Declarations
@@ -24,28 +23,18 @@ export class SubordinateColourCalculator : public ColourCalculator
 
 public:
     constexpr Colour calculateColour(
-        const Fragment &fragment, const Point &primitive) const override
+        const Fragment &fragment,
+        const InterpolationData &interpolationData) const override
     {
-        return fragment.colour.get(); // TODO
-    }
+        AttributeInfluence *minInfluentialAttribute =
+            interpolationData.getMinInfluentialAttribute();
 
-    constexpr Colour calculateColour(
-        const Fragment &fragment, const Line &primitive) const override
-    {
-        return fragment.colour.get(); // TODO
-    }
-
-    constexpr Colour calculateColour(
-        const Fragment &fragment, const Triangle &primitive) const override
-    {
-        BarycentricCoordinate coordinates = fragment.barycentricCoordinates;
-
-        if (coordinates.alpha <= coordinates.beta && coordinates.alpha <= coordinates.gamma)
-            return primitive.getVertexOne().colour.get();
-        else if (coordinates.beta <= coordinates.alpha && coordinates.beta <= coordinates.gamma)
-            return primitive.getVertexTwo().colour.get();
+        if (minInfluentialAttribute != nullptr)
+            return minInfluentialAttribute.vertex.colour.get();
         else
-            return primitive.getVertexThree().colour.get();
+            return Colour();
+
+        Colour result = Colour();
     }
 };
 

@@ -11,7 +11,7 @@ export module renderer:pipeline.shader.fragment;
 import :colour.shading;
 import :colour.calculator;
 import :structure.fragment;
-import :structure.triangle;
+import :primitive.topology.base;
 
 // ============================================================================
 // Declarations
@@ -30,7 +30,7 @@ public:
           shadingFactory(shadingFactory) {}
 
     void processFragments(
-        std::vector<Fragment> &fragments, const Triangle &primitive);
+        std::vector<Fragment> &fragments, const Primitive &primitive);
 };
 
 // ============================================================================

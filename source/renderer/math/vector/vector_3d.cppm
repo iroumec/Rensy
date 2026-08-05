@@ -71,6 +71,8 @@ public:
 
     Vector3D &operator+=(const Vector3D &other);
 
+    Vector3D &operator/=(const Vector3D &other);
+
     friend Vector3D operator*(double value, const Vector3D &vector);
 
     friend std::istream &operator>>(std::istream &is, Vector3D &v);

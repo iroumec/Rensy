@@ -9,9 +9,8 @@ export module renderer:colour.calculator.base;
 // ============================================================================
 
 import :structure.colour;
-import :math.barycentric;
 import :structure.fragment;
-import :primitive.topology;
+import :pipeline.interpolation.data;
 
 // ============================================================================
 // Declarations
@@ -28,13 +27,8 @@ public:
     virtual ~ColourCalculator() = default;
 
     virtual constexpr Colour calculateColour(
-        const Fragment &fragment, const Point &primitive) const = 0;
-
-    virtual constexpr Colour calculateColour(
-        const Fragment &fragment, const Line &primitive) const = 0;
-
-    virtual constexpr Colour calculateColour(
-        const Fragment &fragment, const Triangle &primitive) const = 0;
+        const Fragment &fragment,
+        const InterpolationData &interpolationData) const = 0;
 };
 
 // ============================================================================
