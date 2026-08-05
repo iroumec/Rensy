@@ -8,30 +8,26 @@ export module renderer:pipeline.viewport_transform;
 // Imports
 // ============================================================================
 
-import :structure.triangle;
 import :transform.viewport;
+import :structure.vertex_out;
+import :primitive.topology.base;
 
 // ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
 export constexpr void applyViewportTransform(
-    std::vector<Triangle> &primitives,
+    std::vector<Primitive> &primitives,
     unsigned screenWidth,
     unsigned screenHeight)
 {
     ViewportTransform viewportTransform{screenWidth, screenHeight};
 
     // #pragma omp parallel for
-    for (Triangle &primitive : primitives)
-    {
-        primitive.v0.screenPosition =
-            viewportTransform.apply(primitive.v0.ndcPosition);
-        primitive.v1.screenPosition =
-            viewportTransform.apply(primitive.v1.ndcPosition);
-        primitive.v2.screenPosition =
-            viewportTransform.apply(primitive.v2.ndcPosition);
-    }
+    for (Primitive &primitive : primitives)
+        for (VertexOut &vertex : primitive.vertices())
+            vertex.screenPosition =
+                viewportTransform.apply(vertex.ndcPosition);
 }
 
 // ============================================================================

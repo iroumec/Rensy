@@ -10,14 +10,15 @@ export module renderer:pipeline.face_culling;
 // ============================================================================
 
 import :logging.logger;
-import :structure.triangle;
 import :math.vector.vector_3d;
 import :math.vector.vector_4d;
+import :primitive.topology.base;
 
 // ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
+/*
 bool isVisible(const Triangle &primitive, const Logger &logger)
 {
     Vector3D edge1 =
@@ -59,7 +60,7 @@ bool isVisible(const Triangle &primitive, const Logger &logger)
     return dot > 0;
 }
 
-export std::vector<Triangle> applyFaceCulling(
+export std::vector<Primitive> applyFaceCulling(
     const std::vector<Triangle> &primitives,
     const Logger &logger)
 {
@@ -74,6 +75,7 @@ export std::vector<Triangle> applyFaceCulling(
 
     return visible;
 }
+*/
 
 // ============================================================================
 // EOF

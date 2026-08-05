@@ -9,9 +9,10 @@ export module renderer:pipeline.perspective_divide;
 // Imports
 // ============================================================================
 
-import :structure.triangle;
+import :structure.vertex_out;
 import :math.vector.vector_3d;
 import :math.vector.vector_4d;
+import :primitive.topology.base;
 
 // ============================================================================
 // Declarations and Implementations
@@ -30,15 +31,12 @@ constexpr Vector3D getNDC(const Vector4D &vector)
         vector.z() / w};
 }
 
-export constexpr void applyPerspectiveDivide(std::vector<Triangle> &primitives)
+export constexpr void applyPerspectiveDivide(std::vector<Primitive> &primitives)
 {
     // #pragma omp parallel for
-    for (Triangle &primitive : primitives)
-    {
-        primitive.v0.ndcPosition = getNDC(primitive.v0.clipPosition);
-        primitive.v1.ndcPosition = getNDC(primitive.v1.clipPosition);
-        primitive.v2.ndcPosition = getNDC(primitive.v2.clipPosition);
-    }
+    for (Primitive &primitive : primitives)
+        for (VertexOut &vertex : primitive.vertices())
+            vertex.ndcPosition = getNDC(vertex.clipPosition);
 }
 
 // ============================================================================

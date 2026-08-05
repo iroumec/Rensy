@@ -2,24 +2,26 @@ module;
 
 #include <vector>
 
-export module renderer:structure.primitive;
+export module renderer:primitive.topology.base;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import :structure.vertex_out;
-// import :primitive.topology.base;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-struct Primitive
+export class PrimitiveTopology
 {
-    // PrimitiveTopology topology;
-    std::vector<VertexOut> vertices;
+
+public:
+    virtual std::vector<VertexOut> vertices() const = 0;
 };
+
+export using Primitive = PrimitiveTopology;
 
 // ============================================================================
 // EOF

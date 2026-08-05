@@ -1,10 +1,15 @@
 module;
 
-export module renderer:primitive;
+export module renderer:colour.calculator;
 
 // ============================================================================
-// Exports-Imports
+// Imports and Exports
 // ============================================================================
+
+export import :colour.calculator.base;
+export import :colour.calculator.dominant;
+export import :colour.calculator.gradient;
+export import :colour.calculator.subordinate;
 
 // ============================================================================
 // EOF

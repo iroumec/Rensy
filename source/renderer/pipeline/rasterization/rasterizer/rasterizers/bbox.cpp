@@ -16,14 +16,31 @@ import :math.vector;
 import :math.matrix;
 import :math.geometry;
 import :math.barycentric;
-import :structure.triangle;
 import :structure.fragment;
+import :primitive.topology;
+import :structure.vertex_out;
 import :pipeline.interpolator.barycentric;
 import :pipeline.rasterization.rasterizer.bbox;
 
 // ============================================================================
 // Implementations
 // ============================================================================
+
+std::vector<Fragment> BoundingBoxRasterizer::rasterize(
+    const Point &primitive,
+    unsigned screenWidth,
+    unsigned screenHeight) const
+{
+    throw std::invalid_argument("Bounding box rasterizer doesn't support points.");
+}
+
+std::vector<Fragment> BoundingBoxRasterizer::rasterize(
+    const Line &primitive,
+    unsigned screenWidth,
+    unsigned screenHeight) const
+{
+    throw std::invalid_argument("Wireframe rasterizer doesn't support line.");
+}
 
 std::vector<Fragment> BoundingBoxRasterizer::
     rasterize(
@@ -33,11 +50,12 @@ std::vector<Fragment> BoundingBoxRasterizer::
 {
     std::vector<Fragment> fragments;
 
-    Vector3D a = primitive.v0.screenPosition;
-    Vector3D b = primitive.v1.screenPosition;
-    Vector3D c = primitive.v2.screenPosition;
+    VertexOut a = primitive.vertexOne();
+    VertexOut b = primitive.vertexTwo();
+    VertexOut c = primitive.vertexThree();
 
-    BoundingBox bbox = BoundingBox(a, b, c);
+    BoundingBox bbox = BoundingBox(
+        a.screenPosition, b.screenPosition, c.screenPosition);
 
     int minX = std::max(0, static_cast<int>(bbox.minX));
     int maxX = std::min(static_cast<int>(screenWidth - 1), static_cast<int>(bbox.maxX));
@@ -50,7 +68,9 @@ std::vector<Fragment> BoundingBoxRasterizer::
         {
             // Barycentric coordinates obtention.
             BarycentricCoordinate barycentricCoordinates =
-                BarycentricCoordinate::from(a, b, c, Vector2D(x, y));
+                BarycentricCoordinate::from(
+                    a.screenPosition, b.screenPosition,
+                    c.screenPosition, Vector2D(x, y));
 
             // If the point is not inside the triangle, it is discarded.
             if (barycentricCoordinates.isInsideTriangle())
@@ -66,17 +86,18 @@ std::vector<Fragment> BoundingBoxRasterizer::
                 fragment.xScreen = x;
                 fragment.yScreen = y;
                 fragment.depth = interpolator.interpolate(
-                    a.z(), b.z(), c.z(), barycentricCoordinates);
+                    a.screenPosition.z(), b.screenPosition.z(),
+                    c.screenPosition.z(), barycentricCoordinates);
 
                 fragment.barycentricCoordinates = barycentricCoordinates;
 
                 fragment.worldPosition = interpolator.interpolate(
-                    primitive.v0.worldPosition, primitive.v1.worldPosition,
-                    primitive.v2.worldPosition, barycentricCoordinates);
+                    a.worldPosition, b.worldPosition,
+                    c.worldPosition, barycentricCoordinates);
 
                 fragment.normal = interpolator.interpolate(
-                    primitive.v0.worldNormal, primitive.v1.worldNormal,
-                    primitive.v2.worldNormal, barycentricCoordinates);
+                    a.worldNormal, b.worldNormal,
+                    c.worldNormal, barycentricCoordinates);
                 /*
 
             fragment.uv =

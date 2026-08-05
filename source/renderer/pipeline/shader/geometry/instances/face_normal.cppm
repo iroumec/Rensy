@@ -2,13 +2,13 @@ module;
 
 #include <vector>
 
-export module renderer:pipeline.shader.geometry.normal;
+export module renderer:pipeline.shader.geometry.normal.face;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :structure.primitive;
+import :primitive.topology.base;
 import :pipeline.shader.geometry.base;
 
 // ============================================================================

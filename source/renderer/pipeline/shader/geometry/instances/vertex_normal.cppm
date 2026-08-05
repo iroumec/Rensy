@@ -2,14 +2,14 @@ module;
 
 #include <vector>
 
-export module renderer:pipeline.shader.geometry.normal;
+export module renderer:pipeline.shader.geometry.normal.vertex;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :structure.primitive;
 import :structure.vertex_out;
+import :primitive.topology.base;
 import :pipeline.shader.geometry.base;
 
 // ============================================================================

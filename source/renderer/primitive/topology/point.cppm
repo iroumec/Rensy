@@ -1,29 +1,31 @@
 module;
 
-#include <array>
+#include <vector>
 
-export module renderer:structure.triangle;
+export module renderer:primitive.topology.point;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import :structure.vertex_out;
+import :primitive.topology.base;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export struct Triangle
+export class Point : public PrimitiveTopology
 {
-    VertexOut v0;
-    VertexOut v1;
-    VertexOut v2;
+    VertexOut vertex;
 
-    constexpr std::array<VertexOut, 3> vertices() const
-    {
-        return {v0, v1, v2};
-    }
+public:
+    Point(const VertexOut &vertex) : vertex{vertex} {}
+
+    constexpr VertexOut getVertex() const { return this->vertex; }
+    constexpr VertexOut &getVertex() { return this->vertex; }
+
+    std::vector<VertexOut> vertices() const override;
 };
 
 // ============================================================================

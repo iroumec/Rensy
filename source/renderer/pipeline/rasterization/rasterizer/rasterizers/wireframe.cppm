@@ -20,6 +20,16 @@ export class WireframeRasterizer : public Rasterizer
 {
 public:
     std::vector<Fragment> rasterize(
+        const Point &primitive,
+        unsigned screenWidth,
+        unsigned screenHeight) const override;
+
+    std::vector<Fragment> rasterize(
+        const Line &primitive,
+        unsigned screenWidth,
+        unsigned screenHeight) const override;
+
+    std::vector<Fragment> rasterize(
         const Triangle &primitive,
         unsigned screenWidth,
         unsigned screenHeight) const override;

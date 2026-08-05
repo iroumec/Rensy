@@ -44,7 +44,7 @@ std::vector<VertexOut> processVertices(
         vertexOut.viewPosition = viewTransform.apply(vertexOut.worldPosition);
         vertexOut.clipPosition = mvpTransform.apply(vertices[i].localPosition);
 
-        vertexOut.colour = colourGenerator();
+        vertexOut.colour.set(colourGenerator());
 
         Vector4D normal = vertices[i].normal;
         normal.w() = 0;                                       // Directions are treated differently than points. They don't have its w value in 1, but 0.

@@ -9,9 +9,8 @@ export module renderer:pipeline.rasterization.rasterizer.bbox;
 // ============================================================================
 
 import :drawing_pattern;
-import :structure.triangle;
 import :structure.fragment;
-import :normal.rasterizer.base;
+import :primitive.topology.base;
 import :pipeline.rasterization.rasterizer.base;
 
 // ============================================================================
@@ -21,17 +20,26 @@ import :pipeline.rasterization.rasterizer.base;
 export class BoundingBoxRasterizer : public Rasterizer
 {
     const DrawingPattern *drawingPattern = nullptr;
-    const NormalRasterizer *normalRasterizer = nullptr;
 
 public:
     BoundingBoxRasterizer(
-        const DrawingPattern *drawingPattern = nullptr,
-        const NormalRasterizer *normalRasterizer = nullptr)
-        : drawingPattern(drawingPattern), normalRasterizer(normalRasterizer) {}
+        const DrawingPattern *drawingPattern = nullptr)
+        : drawingPattern(drawingPattern) {}
 
-    std::vector<Fragment> rasterize(const Triangle &primitive,
-                                    unsigned screenWidth,
-                                    unsigned screenHeight) const override;
+    std::vector<Fragment> rasterize(
+        const Point &primitive,
+        unsigned screenWidth,
+        unsigned screenHeight) const override;
+
+    std::vector<Fragment> rasterize(
+        const Line &primitive,
+        unsigned screenWidth,
+        unsigned screenHeight) const override;
+
+    std::vector<Fragment> rasterize(
+        const Triangle &primitive,
+        unsigned screenWidth,
+        unsigned screenHeight) const override;
 };
 
 // ============================================================================

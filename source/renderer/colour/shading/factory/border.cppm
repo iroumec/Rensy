@@ -8,7 +8,7 @@ export module renderer:colour.shading.factory.border;
 // Imports
 // ============================================================================
 
-import :structure.triangle;
+import :primitive.topology.triangle;
 import :colour.shading.factory.base;
 import :colour.shading.instance.base;
 import :colour.shading.instance.border;

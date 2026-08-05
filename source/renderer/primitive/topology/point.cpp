@@ -2,26 +2,23 @@ module;
 
 #include <vector>
 
-export module renderer:pipeline.shader.geometry.identity;
+module renderer;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :primitive.topology.base;
-import :pipeline.shader.geometry.base;
+import :structure.vertex_out;
+import :primitive.topology.point;
 
 // ============================================================================
-// Declarations
+// Implementations
 // ============================================================================
 
-export class IdentityGeometryShader : public GeometryShader
+std::vector<VertexOut> Point::vertices() const
 {
-    std::vector<Primitive> process(const Primitive &primitive) const override
-    {
-        // Returns the same primitives received.
-    }
-};
+    return {vertex};
+}
 
 // ============================================================================
 // EOF

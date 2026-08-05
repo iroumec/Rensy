@@ -8,7 +8,7 @@ export module renderer:pipeline.shader.geometry.base;
 // Imports
 // ============================================================================
 
-import :structure.primitive;
+import :primitive.topology.base;
 
 // ============================================================================
 // Declarations

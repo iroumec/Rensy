@@ -13,6 +13,7 @@ import :logging.logger;
 import :pipeline.clipping;
 import :structure.fragment;
 import :structure.triangle;
+import :primitive.topology;
 import :pipeline.depth_test;
 import :pipeline.framebuffer;
 import :pipeline.face_culling;
@@ -49,7 +50,7 @@ RenderingOutputData Renderer::
         inputData.colourGenerator);
 
     // 3. Primitive Assembly.
-    std::vector<Triangle> primitives =
+    std::vector<Primitive> primitives =
         assemblyPrimitives(processedVertices, ebo.faces);
 
     logger.debug("\n> Number of primitives assembled: {}", primitives.size());
@@ -60,7 +61,7 @@ RenderingOutputData Renderer::
     logger.debug("\n> Number of primitives after geometry shader: {}", primitives.size());
 
     // Face Culling.
-    primitives = applyFaceCulling(primitives, logger);
+    // primitives = applyFaceCulling(primitives, logger);
 
     logger.debug("\n> Primitives after face culling: {}", primitives.size());
 
@@ -80,7 +81,7 @@ RenderingOutputData Renderer::
         inputData.colourCalculator,
         inputData.shadingFactory);
 
-    for (Triangle &primitive : primitives)
+    for (Primitive &primitive : primitives)
     {
         std::vector<Fragment> primitiveFragments =
             inputData.rasterizer.rasterize(
