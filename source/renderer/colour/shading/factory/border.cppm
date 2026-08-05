@@ -8,7 +8,7 @@ export module renderer:colour.shading.factory.border;
 // Imports
 // ============================================================================
 
-import :primitive.topology.triangle;
+import :primitive.topology.base;
 import :colour.shading.factory.base;
 import :colour.shading.instance.base;
 import :colour.shading.instance.border;
@@ -21,7 +21,7 @@ export class BorderShadingFactory : public ShadingFactory
 {
 public:
     std::shared_ptr<Shading> instance(
-        const Triangle &primitive) const override
+        const Primitive &primitive) const override
     {
         static auto staticInstance =
             std::make_shared<BorderShading>();

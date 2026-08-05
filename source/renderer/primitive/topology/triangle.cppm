@@ -9,6 +9,7 @@ export module renderer:primitive.topology.triangle;
 // ============================================================================
 
 import :structure.vertex_out;
+import :math.vector.vector_3d;
 import :primitive.topology.base;
 
 // ============================================================================
@@ -38,6 +39,9 @@ public:
     constexpr VertexOut &getVertexThree() { return this->vertexThree; }
 
     std::vector<VertexOut> vertices() const override;
+    unsigned getVertexCount() const override { return 3; }
+
+    Vector3D getRepresentativaWorldNormal() const override;
 };
 
 // ============================================================================

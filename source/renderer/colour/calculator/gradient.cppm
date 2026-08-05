@@ -26,13 +26,13 @@ public:
     constexpr Colour calculateColour(
         const Fragment &fragment, const Point &primitive) const override
     {
-        return fragment.colour; // TODO
+        return fragment.colour.get(); // TODO
     }
 
     constexpr Colour calculateColour(
         const Fragment &fragment, const Line &primitive) const override
     {
-        return fragment.colour; // TODO
+        return fragment.colour.get(); // TODO
     }
 
     constexpr Colour calculateColour(
@@ -40,9 +40,9 @@ public:
     {
         BarycentricCoordinate coordinates = fragment.barycentricCoordinates;
 
-        return coordinates.alpha * primitive.vertexOne().colour.get() +
-               coordinates.beta * primitive.vertexTwo().colour.get() +
-               coordinates.gamma * primitive.vertexThree().colour.get();
+        return coordinates.alpha * primitive.getVertexOne().colour.get() +
+               coordinates.beta * primitive.getVertexTwo().colour.get() +
+               coordinates.gamma * primitive.getVertexThree().colour.get();
     }
 };
 

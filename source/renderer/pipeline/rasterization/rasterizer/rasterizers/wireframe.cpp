@@ -13,7 +13,7 @@ module renderer;
 // ============================================================================
 
 import :math.bresenham;
-import :structure.triangle;
+import :primitive.topology;
 import :structure.fragment;
 import :pipeline.rasterization.rasterizer.wireframe;
 

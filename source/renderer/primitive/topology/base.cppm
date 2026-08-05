@@ -9,6 +9,7 @@ export module renderer:primitive.topology.base;
 // ============================================================================
 
 import :structure.vertex_out;
+import :math.vector.vector_3d;
 
 // ============================================================================
 // Declarations
@@ -19,6 +20,28 @@ export class PrimitiveTopology
 
 public:
     virtual std::vector<VertexOut> vertices() const = 0;
+    virtual unsigned getVertexCount() const = 0;
+    virtual Vector3D getRepresentativaWorldNormal() const = 0;
+
+    virtual Vector3D getAverageWorldNormal() const
+    {
+        Vector3D worldNormalSum;
+
+        for (const VertexOut &vertex : this->vertices())
+            worldNormalSum += vertex.worldNormal;
+
+        return worldNormalSum /= this->getVertexCount();
+    }
+
+    Vector3D getCentroid()
+    {
+        Vector3D centroid;
+
+        for (const VertexOut &vertex : this->vertices())
+            centroid += vertex.worldPosition;
+
+        return centroid /= this->getVertexCount();
+    }
 };
 
 export using Primitive = PrimitiveTopology;

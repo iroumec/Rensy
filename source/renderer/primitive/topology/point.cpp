@@ -9,6 +9,7 @@ module renderer;
 // ============================================================================
 
 import :structure.vertex_out;
+import :math.vector.vector_3d;
 import :primitive.topology.point;
 
 // ============================================================================
@@ -18,6 +19,11 @@ import :primitive.topology.point;
 std::vector<VertexOut> Point::vertices() const
 {
     return {vertex};
+}
+
+Vector3D Point::getRepresentativaWorldNormal() const
+{
+    return this->getAverageWorldNormal();
 }
 
 // ============================================================================

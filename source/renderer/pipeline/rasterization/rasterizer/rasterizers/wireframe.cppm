@@ -8,7 +8,7 @@ export module renderer:pipeline.rasterization.rasterizer.wireframe;
 // Imports
 // ============================================================================
 
-import :structure.triangle;
+import :primitive.topology;
 import :structure.fragment;
 import :pipeline.rasterization.rasterizer.base;
 

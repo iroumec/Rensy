@@ -9,6 +9,7 @@ export module renderer:primitive.topology.line;
 // ============================================================================
 
 import :structure.vertex_out;
+import :math.vector.vector_3d;
 import :primitive.topology.base;
 
 // ============================================================================
@@ -30,6 +31,9 @@ public:
     constexpr VertexOut &getVertexTwo() { return this->vertexTwo; }
 
     std::vector<VertexOut> vertices() const override;
+    unsigned getVertexCount() const { return 1; }
+
+    Vector3D getRepresentativaWorldNormal() const override;
 };
 
 // ============================================================================

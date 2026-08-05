@@ -28,25 +28,12 @@ public:
         : lightPoint(lightPoint) {}
 
     std::shared_ptr<Shading> instance(
-        const Triangle &primitive) const override
+        const Primitive &primitive) const override
     {
-        Vector3D a = primitive.v0.worldPosition;
-        Vector3D b = primitive.v1.worldPosition;
-        Vector3D c = primitive.v2.worldPosition;
+        Vector3D n = primitive.getRepresentativeWorldNormal();
 
-        // Normal vector calculation.
-        Vector3D ab = b - a;
-        Vector3D ac = c - a;
-        Vector3D n = (ab.cross(ac)).normalize();
-
-        // Midpoint calculation.
-        Vector3D midpoint = Vector3D(
-            (a.x() + b.x() + c.x()) / 3,
-            (a.y() + b.y() + c.y()) / 3,
-            (a.z() + b.z() + c.z()) / 3);
-
-        // Light direction calculation.
-        Vector3D l = (this->lightPoint - midpoint).normalize();
+        // Light direction calculation using the midpoint or centroid.
+        Vector3D l = (this->lightPoint - primitive.getCentroid()).normalize();
 
         // Light intensity calculation.
         // double lightIntensity = std::max(0.0, n.dot(l));

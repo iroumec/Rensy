@@ -1,6 +1,7 @@
 module;
 
 #include <cmath>
+#include <vector>
 
 export module renderer:colour.shading.instance.depth;
 
@@ -18,32 +19,24 @@ import :colour.shading.instance.base;
 
 export class DepthShading : public Shading
 {
-    const double aZ;
-    const double bZ;
-    const double cZ;
-    const double minZ;
-    const double maxZ;
+    const std::vector<double> depths;
+    const double minDepth;
+    const double maxDepth;
 
 public:
-    DepthShading(
-        double aZ = 0, double bZ = 0, double cZ = 0,
-        double minZ = 0, double maxZ = 0)
-        : aZ{aZ}, bZ{bZ}, cZ{cZ}, minZ{minZ}, maxZ{maxZ} {}
+    DepthShading(const double &depths, double minDepth, double maxDepth)
+        : depths{depths}, minDepth{minDepth}, maxDepth{maxDepth} {}
 
     constexpr void adjustColour(Fragment &fragment) const override
     {
-        BarycentricCoordinate coordinates = fragment.barycentricCoordinates;
-
-        double currentDepth =
-            coordinates.alpha * this->aZ +
-            coordinates.beta * this->bZ +
-            coordinates.gamma * this->cZ;
-
         double intensity = 1.0;
 
-        if (maxZ != minZ)
+        if (maxDepth != minDepth)
+        {
             intensity =
-                (currentDepth - this->minZ) / (this->maxZ - this->minZ);
+                (fragment.depth - minDepth) /
+                (maxDepth - minDepth);
+        }
 
         fragment.colour.set(fragment.colour.get() * intensity);
     }

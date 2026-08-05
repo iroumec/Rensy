@@ -2,6 +2,7 @@ module;
 
 #include <cmath>
 #include <memory>
+#include <vector>
 
 export module renderer:colour.shading.factory.gouraud;
 
@@ -10,7 +11,7 @@ export module renderer:colour.shading.factory.gouraud;
 // ============================================================================
 
 import :math.vector;
-import :primitive.topology.triangle;
+import :primitive.topology.base;
 import :colour.shading.factory.base;
 import :colour.shading.instance.base;
 import :colour.shading.instance.gouraud;
@@ -28,28 +29,28 @@ public:
         : lightPoint(lightPoint) {}
 
     std::shared_ptr<Shading> instance(
-        const Triangle &primitive) const override
+        const Primitive &primitive) const override
     {
-        Vector3D a = primitive.v0.worldPosition;
-        Vector3D b = primitive.v1.worldPosition;
-        Vector3D c = primitive.v2.worldPosition;
-        Vector3D an = primitive.v0.worldNormal;
-        Vector3D bn = primitive.v1.worldNormal;
-        Vector3D cn = primitive.v2.worldNormal;
+        std::vector<double> lightIntensities;
 
-        // Light direction calculation.
-        Vector3D al = (this->lightPoint - a).normalize();
-        Vector3D bl = (this->lightPoint - b).normalize();
-        Vector3D cl = (this->lightPoint - c).normalize();
+        for (const VertexOut &vertex : primitive.vertices())
+        {
+            Vector3D worldPosition = vertex.worldPosition;
+            Vector3D worldNormal = vertex.worldNormal;
 
-        // Light intensity calculation.
-        // double lightIntensity = std::max(0.0, n.dot(l));
-        double aLightIntensity = std::abs(an.dot(al)); // Two points of lights.
-        double bLightIntensity = std::abs(bn.dot(bl)); // Two points of lights.
-        double cLightIntensity = std::abs(cn.dot(cl)); // Two points of lights.
+            // Light direction calculation.
+            Vector3D lightDirection =
+                (this->lightPoint - worldPosition).normalize();
 
-        return std::make_shared<GouraudShading>(
-            aLightIntensity, bLightIntensity, cLightIntensity);
+            // Light intensity calculation.
+            // double lightIntensity = std::max(0.0, n.dot(l));
+            double lightIntensity =
+                std::abs(worldNormal.dot(lightDirection)); // Two points of lights.
+
+            lightIntensities.push_back(lightIntensity);
+        }
+
+        return std::make_shared<GouraudShading>(lightIntensities);
     }
 };
 

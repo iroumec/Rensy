@@ -22,7 +22,7 @@ private:
     std::vector<Fragment> rasterizePrimitive(
         const Primitive &primitive,
         unsigned screenWidth,
-        unsigned screenHeight) const override;
+        unsigned screenHeight) const;
 
 public:
     std::vector<Fragment> rasterize(

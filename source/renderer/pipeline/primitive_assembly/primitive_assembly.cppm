@@ -1,6 +1,7 @@
 module;
 
 #include <vector>
+#include <memory>
 
 export module renderer:pipeline.primitive_assembly;
 
@@ -22,7 +23,7 @@ export constexpr std::vector<Primitive> assemblyPrimitives(
 {
     int numberOfFaces = faces.size() / 3;
 
-    std::vector<Primitive> primitives(numberOfFaces);
+    std::vector<std::unique_ptr<Primitive>> primitives(numberOfFaces);
 
     // #pragma omp parallel for
     for (unsigned int i = 0; i < numberOfFaces; ++i)
@@ -36,7 +37,7 @@ export constexpr std::vector<Primitive> assemblyPrimitives(
         VertexOut v0 = vertices[faces[i * 3 + 0]];
         VertexOut v1 = vertices[faces[i * 3 + 1]];
         VertexOut v2 = vertices[faces[i * 3 + 2]];
-        primitives[i] = Triangle(v0, v1, v2);
+        primitives[i] = std::make_unique<Triangle>(v0, v1, v2);
     }
 
     return primitives;

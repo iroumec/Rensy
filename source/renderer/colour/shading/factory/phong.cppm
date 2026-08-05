@@ -2,6 +2,7 @@ module;
 
 #include <cmath>
 #include <memory>
+#include <vector>
 
 export module renderer:colour.shading.factory.phong;
 
@@ -9,8 +10,8 @@ export module renderer:colour.shading.factory.phong;
 // Imports
 // ============================================================================
 
-import :math.vector;
-import :primitive.topology.triangle;
+import :math.vector.vector_3d;
+import :primitive.topology.base;
 import :colour.shading.factory.base;
 import :colour.shading.instance.base;
 import :colour.shading.instance.phong;
@@ -26,14 +27,17 @@ export class PhongShadingFactory : public ShadingFactory
 public:
     PhongShadingFactory(const Vector3D &lightPoint) : lightPoint(lightPoint) {}
 
-    std::shared_ptr<Shading> instance(const Triangle &primitive) const override
+    std::shared_ptr<Shading> instance(
+        const Primitive &primitive) const override
     {
-        Vector3D aNormal = primitive.v0.worldNormal;
-        Vector3D bNormal = primitive.v1.worldNormal;
-        Vector3D cNormal = primitive.v2.worldNormal;
+        std::vector<Vector3D> normals;
 
-        return std::make_shared<PhongShading>(
-            lightPoint, aNormal, bNormal, cNormal);
+        for (const VertexOut &vertex : primitive.vertices())
+        {
+            normals.push_back(vertex.worldNormal);
+        }
+
+        return std::make_shared<PhongShading>(lightPoint, normals);
     }
 };
 
