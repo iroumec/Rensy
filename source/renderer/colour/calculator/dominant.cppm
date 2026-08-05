@@ -26,15 +26,13 @@ public:
         const Fragment &fragment,
         const InterpolationData &interpolationData) const override
     {
-        AttributeInfluence *maxInfluentialAttribute =
+        const AttributeInfluence *maxInfluentialAttribute =
             interpolationData.getMaxInfluentialAttribute();
 
-        if (maxInfluentialAttribute != nullptr)
-            return maxInfluentialAttribute.vertex.colour.get();
+        if (maxInfluentialAttribute)
+            return maxInfluentialAttribute->vertex.colour.get();
         else
             return Colour();
-
-        Colour result = Colour();
     }
 };
 

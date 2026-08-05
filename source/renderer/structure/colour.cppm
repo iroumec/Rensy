@@ -122,6 +122,16 @@ export struct Colour
         return out;
     }
 
+    Colour &operator+=(const Colour &other)
+    {
+        this->r = static_cast<std::uint8_t>(std::clamp(r + other.r, 0, 255));
+        this->g = static_cast<std::uint8_t>(std::clamp(g + other.g, 0, 255));
+        this->b = static_cast<std::uint8_t>(std::clamp(b + other.b, 0, 255));
+        this->a = static_cast<std::uint8_t>(std::clamp(a + other.a, 0, 255));
+
+        return *this;
+    }
+
     operator TGAColour() const // TODO: Move this to TGAColour.
     {
         return TGAColour{{b, g, r, a}};

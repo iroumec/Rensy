@@ -5,45 +5,66 @@ module;
 export module renderer:pipeline.interpolation.data;
 
 // ============================================================================
+// Imports
+// ============================================================================
+
+import :structure.vertex_out;
+
+// ============================================================================
 // Declarations
 // ============================================================================
 
-struct AttributeInfluence
+export struct AttributeInfluence
 {
     const VertexOut vertex;
     double weight;
+
+    VertexOut getPonderatedVertex() const
+    {
+        return this->vertex * this->weight;
+    }
 };
 
-struct InterpolationData
+export struct InterpolationData
 {
     std::vector<AttributeInfluence> influences;
 
-    AttributeInfluence *getMaxInfluentialAttribute()
+    const AttributeInfluence *getMaxInfluentialAttribute() const
     {
-        AttributeInfluence *maxInfluence = nullptr;
+        const AttributeInfluence *maxInfluence = nullptr;
 
         for (const AttributeInfluence &influence : this->influences)
         {
-            if (maxInfluence == nullptr ||
-                (maxInfluence->weight < influence.weight))
+            if (!maxInfluence || maxInfluence->weight < influence.weight)
                 maxInfluence = &influence;
         }
 
         return maxInfluence;
     }
 
-    AttributeInfluence *getMinInfluentialAttribute()
+    const AttributeInfluence *getMinInfluentialAttribute() const
     {
-        AttributeInfluence *minInfluence = nullptr;
+        const AttributeInfluence *minInfluence = nullptr;
 
         for (const AttributeInfluence &influence : this->influences)
         {
-            if (minInfluence == nullptr ||
-                (minInfluence->weight > influence.weight))
+            if (!minInfluence || minInfluence->weight > influence.weight)
                 minInfluence = &influence;
         }
 
         return minInfluence;
+    }
+
+    VertexOut getInterpolatedVertex() const
+    {
+        VertexOut vertex;
+
+        for (const AttributeInfluence &influence : this->influences)
+        {
+            vertex += influence.getPonderatedVertex();
+        }
+
+        return vertex;
     }
 };
 

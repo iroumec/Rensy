@@ -1,38 +1,31 @@
 module;
 
-#include <cmath>
+#include <memory>
 
-export module renderer:colour.shading.instance.center;
+export module renderer:colour.shading.factory.identity;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :math.barycentric;
-import :structure.fragment;
+import :primitive.topology.base;
+import :colour.shading.factory.base;
 import :colour.shading.instance.base;
+import :colour.shading.instance.identity;
 
 // ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
-export class CenterShading : public Shading
+export class IdentityShadingFactory : public ShadingFactory
 {
 public:
-    constexpr void adjustColour(Fragment &fragment) const override
+    std::shared_ptr<Shading> instance(
+        const Primitive &primitive) const override
     {
-        double sum = 0.0;
-
-        for (double weight : fragment.weights)
-        {
-            sum += weight * weight;
-        }
-
-        double intensity = fragment.weights.size() * sum;
-
-        if (intensity > 0.0)
-            fragment.colour.set(
-                fragment.colour.get() * (1.0 / intensity));
+        static auto staticInstance =
+            std::make_shared<IdentityShading>();
+        return staticInstance;
     }
 };
 

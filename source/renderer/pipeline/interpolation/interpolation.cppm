@@ -1,14 +1,18 @@
-module;
 
-export module renderer:pipeline.interpolation;
+Fragment interpolate(const PreFragment &pre)
+{
+    Fragment fragment;
+    fragment.xScreen = pre.x;
+    fragment.yScreen = pre.y;
+    VertexOut interpolatedVertex = pre.interpolationData.getInterpolatedVertex();
 
-// ============================================================================
-// Exports-Imports
-// ============================================================================
+    fragment.depth = interpolatedVertex.screenPosition.z();
+    fragment.worldPosition = interpolatedVertex.worldPosition;
+    fragment.normal = interpolatedVertex.normal;
+    fragment.colour.set(interpolatedVertex.colour.get()); // TODO: Put colour calculator here.
 
-export import :pipeline.interpolation.data;
-export import :pipeline.interpolation.interpolator;
+    for (const AttributeInfluence &influence : pre.interpolationData.influences)
+        fragment.weights.push_back(attribute.weight);
 
-// ============================================================================
-// EOF
-// ============================================================================
+    return fragment;
+}

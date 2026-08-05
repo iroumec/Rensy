@@ -1,15 +1,12 @@
 module;
 
-#include <vector>
-
-export module renderer:structure.fragment;
+export module renderer:structure.prefragment;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :colour.restricted;
-import :math.vector.vector_3d;
+import :pipeline.interpolation.data;
 
 // ============================================================================
 // Declarations
@@ -18,23 +15,15 @@ import :math.vector.vector_3d;
 // World position, normal, depth and UV must already be interpolated.
 // Fragment should not know any details about the method of rasterization. So
 // it should not contain barycentric coordinates.
-export struct Fragment
+export struct PreFragment
 {
+    // A pre-fragment represents a sample created by the rasterizer. It is not yet
+    // a fragment. Its attributes are not complete.
     unsigned xScreen;
     unsigned yScreen;
-    double depth = 0.0;
 
-    Vector3D worldPosition;
-    Vector3D normal;
-    // Vector2D uv;
-
-    // Where to calculate the colour?
-    // If the fragment colour depends on the fragment itself -> Fragment shader.
-    // If the fragment colour depends on the relationship with
-    // its primitive -> Before fragment shader.
-    RestrictedColour colour;
-
-    std::vector<double> weights;
+    // Información necesaria para interpolar
+    InterpolationData interpolationData;
 };
 
 // ============================================================================

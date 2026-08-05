@@ -44,6 +44,8 @@ public:
 
     Vector4D operator-(const Vector4D &other) const;
 
+    Vector4D operator*(double value) const;
+
     double dotProduct(const Vector4D &other) const;
 
     operator Vector3D() const;
@@ -51,6 +53,8 @@ public:
     // Cross product is, strictly, defined only for 3 and 7 dimensions.
 
     Vector4D &operator=(const Vector4D &) = default;
+
+    Vector4D &operator+=(const Vector4D &other);
 
     friend Vector4D operator*(
         const Matrix<double, 4, 4> &matrix, const Vector4D &vector);

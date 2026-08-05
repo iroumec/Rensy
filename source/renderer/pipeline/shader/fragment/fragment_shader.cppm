@@ -23,11 +23,8 @@ export class FragmentShader
     const ShadingFactory *shadingFactory = nullptr;
 
 public:
-    FragmentShader(
-        const ColourCalculator &colourCalculator,
-        const ShadingFactory *shadingFactory = nullptr)
-        : colourCalculator(colourCalculator),
-          shadingFactory(shadingFactory) {}
+    FragmentShader(const ShadingFactory *shadingFactory = nullptr)
+        : shadingFactory(shadingFactory) {}
 
     void processFragments(
         std::vector<Fragment> &fragments, const Primitive &primitive);

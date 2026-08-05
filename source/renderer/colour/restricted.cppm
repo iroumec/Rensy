@@ -12,12 +12,26 @@ import :structure.colour;
 // Declarations
 // ============================================================================
 
-class RestrictedColour
+export class RestrictedColour
 {
     Colour colour;
     bool locked = false;
 
 public:
+    RestrictedColour() = default;
+    ~RestrictedColour() = default;
+
+    RestrictedColour(const Colour &colour, bool locked = false)
+        : colour{colour}, locked{locked} {}
+
+    RestrictedColour clone(const Colour &colour) const
+    {
+        if (locked)
+            return RestrictedColour(this->colour, this->locked);
+        else
+            return RestrictedColour(colour);
+    }
+
     void lock()
     {
         locked = true;

@@ -28,6 +28,15 @@ Vector4D Vector4D::operator-(const Vector4D &other) const
         this->z() - other.z(), this->w() - other.w());
 }
 
+Vector4D Vector4D::operator*(double value) const
+{
+    return Vector4D(
+        this->x() * value,
+        this->y() * value,
+        this->z() * value,
+        this->w() * value);
+}
+
 double Vector4D::dotProduct(const Vector4D &other) const
 {
     return this->x() * other.x() +
@@ -47,6 +56,16 @@ Vector4D operator*(
     const Matrix<double, 4, 4> &matrix, const Vector4D &vector)
 {
     return matrix * vector.data;
+}
+
+Vector4D &Vector4D::operator+=(const Vector4D &other)
+{
+    this->x() += other.x();
+    this->y() += other.y();
+    this->z() += other.z();
+    this->w() += other.w();
+
+    return *this;
 }
 
 std::ostream &operator<<(std::ostream &out, const Vector4D &v)

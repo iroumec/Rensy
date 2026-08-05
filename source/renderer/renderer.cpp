@@ -35,14 +35,20 @@ RenderingOutputData Renderer::
         "\n| RENDERING PROCESS INITIATED |\n\n> Rendering model: {}",
         inputData.fileName);
 
-    // 1. Vertex Input.
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // VERTEX INPUT
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     auto [vbo, ebo] =
         inputData.modelLoader.load(
             inputData.fileName, inputData.normalCalculator);
 
     logger.debug("\n> Number of vertices loaded: {}", vbo.vertices.size());
 
-    // 2. Vertex shader.
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // VERTEX SHADER
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     std::vector<VertexOut> processedVertices = processVertices(
         vbo.vertices,
         inputData.modelTransform,
@@ -50,33 +56,62 @@ RenderingOutputData Renderer::
         inputData.projectionTransform,
         inputData.colourGenerator);
 
-    // 3. Primitive Assembly.
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // PRIMITIVE ASSEMBLY
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     std::vector<std::unique_ptr<Primitive>> primitives =
         assemblyPrimitives(processedVertices, ebo.faces);
 
     logger.debug("\n> Number of primitives assembled: {}", primitives.size());
 
-    // Geometry Shader.
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // GEOMETRY SHADER
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     primitives = inputData.geometryShader.process(primitives);
 
     logger.debug("\n> Number of primitives after geometry shader: {}", primitives.size());
 
-    // Face Culling.
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // FACE CULLING
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     // primitives = applyFaceCulling(primitives, logger);
 
     logger.debug("\n> Primitives after face culling: {}", primitives.size());
 
-    // 4. Clipping.
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // CLIPPING
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     // std::vector<Triangle> primitives = applyClipping(primitives);
 
-    // 5. Perspective Divide.
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // PERSPECTIVE DIVIDE
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     applyPerspectiveDivide(primitives);
 
-    // 6. Viewport Transform.
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // VIEWPORT TRANSFORM
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     applyViewportTransform(
         primitives, inputData.screenWidth, inputData.screenHeight);
 
-    // Rasterization, Interpolation and Fragment Shader.
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // RASTERIZATION
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // INTERPOLATION
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // FRAGMENT SHADER
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     std::vector<Fragment> fragments;
     FragmentShader fragmentShader(
         inputData.colourCalculator,
@@ -98,7 +133,10 @@ RenderingOutputData Renderer::
 
     logger.debug("\n> Fragments after rasterization: {}", fragments.size());
 
-    // 9. Depth Test
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // DEPTH TEST
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     DepthBuffer zBuffer(inputData.screenWidth, inputData.screenHeight);
     std::vector<Fragment> processedFragments = zBuffer.process(fragments);
 
@@ -106,18 +144,30 @@ RenderingOutputData Renderer::
         "\n> Fragments after depth test: {}",
         processedFragments.size());
 
-    // 10. Stencil test.
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // STENCIL TEST
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     // TODO
 
-    // 11. Blending.
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // BLENDING
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     // TODO
 
-    // 12. Framebuffer
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // FRAMEBUFFER
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     FrameBuffer frameBuffer(
         inputData.screenWidth, inputData.screenHeight, inputData.backgroundColour);
     frameBuffer.process(processedFragments);
 
-    // 13. Post-Processing.
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    // POST-PROCESSING
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     if (inputData.filter != nullptr)
         inputData.filter->apply(frameBuffer, zBuffer);
 

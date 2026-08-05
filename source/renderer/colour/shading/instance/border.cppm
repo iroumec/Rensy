@@ -1,14 +1,11 @@
 module;
 
-#include <cmath>
-
 export module renderer:colour.shading.instance.border;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :math.barycentric;
 import :structure.fragment;
 import :colour.shading.instance.base;
 
@@ -21,14 +18,15 @@ export class BorderShading : public Shading
 public:
     constexpr void adjustColour(Fragment &fragment) const override
     {
-        BarycentricCoordinate coordinates = fragment.barycentricCoordinates;
+        double intensity = 0.0;
 
-        double intensity =
-            std::pow(coordinates.alpha, 2) +
-            std::pow(coordinates.beta, 2) +
-            std::pow(coordinates.gamma, 2);
+        for (double weight : fragment.weights)
+        {
+            intensity += weight * weight;
+        }
 
-        fragment.colour.set(fragment.colour.get() * intensity);
+        fragment.colour.set(
+            fragment.colour.get() * intensity);
     }
 };
 

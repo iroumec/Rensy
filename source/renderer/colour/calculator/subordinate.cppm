@@ -26,15 +26,13 @@ public:
         const Fragment &fragment,
         const InterpolationData &interpolationData) const override
     {
-        AttributeInfluence *minInfluentialAttribute =
+        const AttributeInfluence *minInfluentialAttribute =
             interpolationData.getMinInfluentialAttribute();
 
-        if (minInfluentialAttribute != nullptr)
-            return minInfluentialAttribute.vertex.colour.get();
+        if (minInfluentialAttribute)
+            return minInfluentialAttribute->vertex.colour.get();
         else
             return Colour();
-
-        Colour result = Colour();
     }
 };
 

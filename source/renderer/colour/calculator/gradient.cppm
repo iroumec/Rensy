@@ -1,5 +1,7 @@
 module;
 
+#include <vector>
+
 export module renderer:colour.calculator.gradient;
 
 // ============================================================================

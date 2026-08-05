@@ -46,14 +46,6 @@ public:
         return centroid /= this->getVertexCount();
     }
 
-    // Double dispatch.
-    Colour calculateColour(
-        const Fragment &fragment,
-        const ColourCalculator &calculator) const override
-    {
-        return calculator.calculateColour(fragment, *this);
-    }
-
     virtual std::unique_ptr<PrimitiveTopology> clone() const = 0;
 };
 

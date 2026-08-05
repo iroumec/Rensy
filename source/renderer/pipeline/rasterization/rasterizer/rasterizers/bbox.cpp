@@ -16,10 +16,10 @@ import :math.vector;
 import :math.matrix;
 import :math.geometry;
 import :math.barycentric;
-import :structure.fragment;
 import :primitive.topology;
 import :structure.vertex_out;
-import :pipeline.interpolator.barycentric;
+import :structure.prefragment;
+import :pipeline.interpolation.data;
 import :pipeline.rasterization.rasterizer.bbox;
 
 // ============================================================================
@@ -42,13 +42,13 @@ std::vector<Fragment> BoundingBoxRasterizer::rasterize(
     throw std::invalid_argument("Wireframe rasterizer doesn't support line.");
 }
 
-std::vector<Fragment> BoundingBoxRasterizer::
+std::vector<PreFragment> BoundingBoxRasterizer::
     rasterize(
         const Triangle &primitive,
         unsigned screenWidth,
         unsigned screenHeight) const
 {
-    std::vector<Fragment> fragments;
+    std::vector<PreFragment> prefragments;
 
     VertexOut a = primitive.getVertexOne();
     VertexOut b = primitive.getVertexTwo();
@@ -79,46 +79,20 @@ std::vector<Fragment> BoundingBoxRasterizer::
                 if (drawingPattern != nullptr && !drawingPattern->isValid(barycentricCoordinates))
                     continue;
 
-                Fragment fragment;
+                InterpolationData interpolationData;
+                interpolationData.influences.push_back({a, barycentricCoordinates.alpha});
+                interpolationData.influences.push_back({b, barycentricCoordinates.betta});
+                interpolationData.influences.push_back({c, barycentricCoordinates.gamma});
 
-                BarycentricInterpolator interpolator;
+                PreFragment prefragment{
+                    x, y, interpolationData}
 
-                fragment.xScreen = x;
-                fragment.yScreen = y;
-                fragment.depth = interpolator.interpolate(
-                    a.screenPosition.z(), b.screenPosition.z(),
-                    c.screenPosition.z(), barycentricCoordinates);
-
-                fragment.barycentricCoordinates = barycentricCoordinates;
-
-                fragment.worldPosition = interpolator.interpolate(
-                    a.worldPosition, b.worldPosition,
-                    c.worldPosition, barycentricCoordinates);
-
-                fragment.normal = interpolator.interpolate(
-                    a.worldNormal, b.worldNormal,
-                    c.worldNormal, barycentricCoordinates);
-                /*
-
-            fragment.uv =
-                alpha * primitive.v0.uv +
-                beta * primitive.v1.uv +
-                gamma * primitive.v2.uv;
-
-            fragment.colour =
-                alpha * primitive.v0.colour +
-                beta * primitive.v1.colour +
-                gamma * primitive.v2.colour;
-            */
-                fragments.push_back(fragment);
+                prefragments.push_back(prefragment);
             }
         }
     }
 
-    if (this->normalRasterizer != nullptr)
-        normalRasterizer->rasterizeNormals(primitive, fragments);
-
-    return fragments;
+    return prefragments;
 }
 
 // ============================================================================
