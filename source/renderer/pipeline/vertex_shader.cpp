@@ -2,7 +2,7 @@ module;
 
 #include <vector>
 
-export module renderer:pipeline.shader.vertex;
+module renderer;
 
 // ============================================================================
 // Imports
@@ -20,12 +20,11 @@ import :transform.projection;
 // Declarations and Implementations
 // ============================================================================
 
-std::vector<VertexOut> processVertices(
+std::vector<VertexOut> VertexShader::processVertices(
     const std::vector<VertexIn> &vertices,
     const ModelTransform &modelTransform,
     const ViewTransform &viewTransform,
-    const ProjectionTransform &projectionTransform,
-    const ColourGenerator &colourGenerator)
+    const ProjectionTransform &projectionTransform)
 {
     int numberOfVertices = vertices.size();
 
@@ -50,6 +49,9 @@ std::vector<VertexOut> processVertices(
         normal.w() = 0;                                       // Directions are treated differently than points. They don't have its w value in 1, but 0.
         vertexOut.worldNormal = modelTransform.apply(normal); // Normals only available in local, world and camera.
         vertexOut.viewNormal = viewTransform.apply(vertexOut.worldNormal);
+
+        if (this->lightingModel)
+            this->lightingModel->processVertex(vertexOut);
 
         processedVertices[i] = vertexOut;
     }

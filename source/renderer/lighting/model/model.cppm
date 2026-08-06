@@ -1,17 +1,15 @@
 module;
 
-#include <vector>
-
-export module renderer:pipeline.shader.geometry;
+export module renderer:lighting.model;
 
 // ============================================================================
 // Exports-Imports
 // ============================================================================
 
-export import :pipeline.shader.geometry.base;
-export import :pipeline.shader.geometry.identity;
-export import :pipeline.shader.geometry.normal.face;
-export import :pipeline.shader.geometry.normal.vertex;
+export import :lighting.model.base;
+export import :lighting.model.flat;
+export import :lighting.model.phong;
+export import :lighting.model.gouraud;
 
 // ============================================================================
 // EOF

@@ -1,13 +1,14 @@
 module;
 
-export module renderer:colour.lighting.phong;
+export module renderer:lighting.model.phong;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import :structure.fragment;
-import :colour.lighting.base;
+import :lighting.model.base;
+import :math.vector.vector_3d;
 
 // ============================================================================
 // Declarations
@@ -22,7 +23,7 @@ public:
     PhongLightingModel(const Vector3D &lightPoint, double ambientLight)
         : lightPoint{lightPoint}, ambientLight{ambientLight} {}
 
-    void processFragment(Fragment &fragment) override;
+    void processFragment(Fragment &fragment) const override;
 };
 
 // ============================================================================

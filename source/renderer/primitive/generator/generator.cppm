@@ -2,15 +2,15 @@ module;
 
 #include <vector>
 
-export module renderer:pipeline.shader;
+export module renderer:primitive.generator;
 
 // ============================================================================
 // Exports-Imports
 // ============================================================================
 
-export import :pipeline.shader.vertex;
-export import :pipeline.shader.fragment;
-export import :pipeline.shader.geometry;
+export import :primitive.generator.base;
+export import :primitive.generator.normal.face;
+export import :primitive.generator.normal.vertex;
 
 // ============================================================================
 // EOF

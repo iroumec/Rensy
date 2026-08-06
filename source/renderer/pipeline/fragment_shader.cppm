@@ -1,26 +1,30 @@
 module;
 
-export module renderer:colour.lighting.base;
+#include <vector>
+
+export module renderer:pipeline.shader.fragment;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
+import :colour.calculator;
 import :structure.fragment;
-import :structure.vertex_out;
-import :primitive.topology.base;
+import :lighting.model.base;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export class LightingModel
+export class FragmentShader
 {
+    const LightingModel *lightingModel;
+
 public:
-    virtual ~LightingModel() = default;
-    virtual void processVertex(VertexOut &) {}
-    virtual void processPrimitive(Primitive &) {}
-    virtual void processFragment(Fragment &) {}
+    FragmentShader(const LightingModel *lightingModel = nullptr)
+        : lightingModel(lightingModel) {}
+
+    void processFragments(std::vector<Fragment> &fragments);
 };
 
 // ============================================================================

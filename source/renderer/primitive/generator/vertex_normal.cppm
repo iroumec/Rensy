@@ -3,7 +3,7 @@ module;
 #include <vector>
 #include <memory>
 
-export module renderer:pipeline.shader.geometry.normal.vertex;
+export module renderer:primitive.generator.normal.vertex;
 
 // ============================================================================
 // Imports
@@ -18,7 +18,7 @@ import :pipeline.shader.geometry.base;
 // Declarations
 // ============================================================================
 
-export class VertexNormalGeometryShader : public GeometryShader
+export class VertexNormalGeometryShader : public PrimitiveGenerator
 {
     const double normalDistance;
     const Colour normalColour;
@@ -30,7 +30,7 @@ public:
 
     // Returns lines for the normals of the primitive vertices.
     // For example, triangle -> 3 lines.
-    std::vector<std::unique_ptr<Primitive>> process(
+    std::vector<std::unique_ptr<Primitive>> processPrimitives(
         std::vector<std::unique_ptr<Primitive>> primitives) const override
     {
         std::vector<std::unique_ptr<Primitive>> out;

@@ -1,25 +1,30 @@
 module;
 
+#include <vector>
 #include <memory>
 
-export module renderer:pipeline.shader.geometry.base;
+export module renderer:primitive.generator.normal.face;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import :primitive.topology.base;
+import :primitive.generator.base;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export class GeometryShader
+export class FaceNormalPrimitiveGenerator : public PrimitiveGenerator
 {
-public:
-    // The ownership of the list of primitives is transferred.
-    virtual std::vector<std::unique_ptr<Primitive>> process(
-        std::vector<std::unique_ptr<Primitive>> primitives) const = 0;
+    // Returns lines for the normals of the primitive.
+    std::vector<std::unique_ptr<Primitive>> processPrimitives(
+        std::vector<std::unique_ptr<Primitive>> primitives) const override
+    {
+        // TODO.
+        return primitives;
+    }
 };
 
 // ============================================================================

@@ -9,24 +9,28 @@ module renderer;
 // ============================================================================
 
 import :structure.fragment;
-import :colour.lighting.phong;
+import :structure.vertex_out;
+import :math.vector.vector_3d;
+import :colour.lighting.gouraud;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-void PhongLightingModel::processFragment(Fragment &fragment)
+void GouraudLightingModel::processVertex(VertexOut &vertex) const
 {
+    Vector3D worldPosition = vertex.worldPosition;
+    Vector3D worldNormal = vertex.worldNormal;
+
     // Light direction calculation.
-    Vector3D l = (this->lightPoint - fragment.worldPosition).normalize();
+    Vector3D lightDirection =
+        (this->lightPoint - worldPosition).normalize();
 
     // Light intensity calculation.
     // double lightIntensity = std::max(0.0, n.dot(l));
-    // The fragment normal is already interpolated.
-    double lightIntensity = std::abs(fragment.normal.dot(l));
-
-    fragment.colour.set(
-        fragment.colour.get() * (this->ambientLight + lightIntensity));
+    vertex.lightIntensity =
+        this->ambientLight +
+        std::abs(worldNormal.dot(lightDirection)); // Two points of lights.
 }
 
 // ============================================================================

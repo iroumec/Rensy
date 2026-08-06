@@ -1,30 +1,26 @@
 module;
 
-#include <vector>
-#include <memory>
-
-export module renderer:pipeline.shader.geometry.normal.face;
+export module renderer:lighting.model.base;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
+import :structure.fragment;
+import :structure.vertex_out;
 import :primitive.topology.base;
-import :pipeline.shader.geometry.base;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export class FaceNormalGeometryShader : public GeometryShader
+export class LightingModel
 {
-    // Returns lines for the normals of the primitive.
-    std::vector<std::unique_ptr<Primitive>> process(
-        std::vector<std::unique_ptr<Primitive>> primitives) const override
-    {
-        // TODO.
-        return primitives;
-    }
+public:
+    virtual ~LightingModel() = default;
+    virtual void processVertex(VertexOut &) const {}
+    virtual void processPrimitive(Primitive &) const {}
+    virtual void processFragment(Fragment &) const {}
 };
 
 // ============================================================================

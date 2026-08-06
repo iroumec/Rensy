@@ -16,6 +16,10 @@ export module renderer:structure.colour;
 import :output.image.tga;
 
 // ============================================================================
+// Constants
+// ============================================================================
+
+// ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
@@ -128,6 +132,16 @@ export struct Colour
         this->g = static_cast<std::uint8_t>(std::clamp(g + other.g, 0, 255));
         this->b = static_cast<std::uint8_t>(std::clamp(b + other.b, 0, 255));
         this->a = static_cast<std::uint8_t>(std::clamp(a + other.a, 0, 255));
+
+        return *this;
+    }
+
+    Colour &operator*=(double value)
+    {
+        this->r = static_cast<std::uint8_t>(std::clamp(r * value, 0, 255));
+        this->g = static_cast<std::uint8_t>(std::clamp(g * value, 0, 255));
+        this->b = static_cast<std::uint8_t>(std::clamp(b * value, 0, 255));
+        this->a = static_cast<std::uint8_t>(std::clamp(a * value, 0, 255));
 
         return *this;
     }

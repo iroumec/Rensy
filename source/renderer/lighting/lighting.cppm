@@ -1,12 +1,12 @@
 module;
 
-export module renderer:primitive;
+export module renderer:lighting;
 
 // ============================================================================
 // Exports-Imports
 // ============================================================================
 
-export import :primitive.generator;
+export import :lighting.model;
 
 // ============================================================================
 // EOF

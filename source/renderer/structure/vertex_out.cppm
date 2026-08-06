@@ -25,6 +25,7 @@ export struct VertexOut
                              // const Vector3D normal;         // For Phong, Goraud...
     Vector3D worldNormal;
     Vector3D viewNormal;
+    double lightIntensity;
     RestrictedColour colour;
 
     VertexOut() = default;
@@ -37,6 +38,7 @@ export struct VertexOut
         Vector3D screenPosition,
         Vector3D worldNormal,
         Vector3D viewNormal,
+        double lightIntensity,
         RestrictedColour colour)
         : worldPosition{worldPosition},
           viewPosition{viewPosition},
@@ -45,6 +47,7 @@ export struct VertexOut
           screenPosition{screenPosition},
           worldNormal{worldNormal},
           viewNormal{viewNormal},
+          lightIntensity{lightIntensity},
           colour{colour}
     {
     }
@@ -59,6 +62,7 @@ export struct VertexOut
             this->screenPosition * value,
             this->worldNormal * value,
             this->viewNormal * value,
+            this->lightIntensity * value,
             this->colour.clone(this->colour.get() * value));
     }
 
@@ -72,6 +76,7 @@ export struct VertexOut
             this->screenPosition + other.screenPosition,
             this->worldNormal + other.worldNormal,
             this->viewNormal + other.viewNormal,
+            this->lightIntensity + other.lightIntensity,
             this->colour.clone(this->colour.get() + other.colour.get()));
     }
 
@@ -84,6 +89,7 @@ export struct VertexOut
         this->screenPosition += other.screenPosition;
         this->worldNormal += other.worldNormal;
         this->viewNormal += other.viewNormal;
+        this->lightIntensity += other.lightIntensity;
         this->colour.set(this->colour.get() + other.colour.get());
 
         return *this;

@@ -1,26 +1,25 @@
 module;
 
-export module renderer:colour.lighting.flat;
+#include <memory>
+
+export module renderer:primitive.generator.base;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :structure.fragment;
-import :structure.vertex_out;
-import :colour.lighting.base;
 import :primitive.topology.base;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export class FlatLightingModel : public LightingModel
+export class PrimitiveGenerator
 {
 public:
-    virtual void processVertex(VertexOut &) {}
-    virtual void processPrimitive(Primitive &) {}
-    virtual void processFragment(Fragment &) {}
+    // The ownership of the list of primitives is transferred.
+    virtual std::vector<std::unique_ptr<Primitive>> processPrimitives(
+        std::vector<std::unique_ptr<Primitive>> primitives) const = 0;
 };
 
 // ============================================================================

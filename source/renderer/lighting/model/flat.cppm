@@ -1,26 +1,30 @@
 module;
 
-export module renderer:colour.lighting.flat;
+export module renderer:lighting.model.flat;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :structure.fragment;
-import :structure.vertex_out;
-import :colour.lighting.base;
+import :lighting.model.base;
 import :primitive.topology.base;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
+// Calculates the light intensity using the centroid of a primitive.
+// All fragment inside the primitive are asigned that same light intensity.
 export class FlatLightingModel : public LightingModel
 {
+    const Vector3D lightPoint;
+    const double ambientLight;
+
 public:
-    virtual void processVertex(VertexOut &) {}
-    virtual void processPrimitive(Primitive &) {}
-    virtual void processFragment(Fragment &) {}
+    FlatLightingModel(const Vector3D &lightPoint, double ambientLight)
+        : lightPoint{lightPoint}, ambientLight{ambientLight} {}
+
+    void processPrimitive(Primitive &primitive) const override;
 };
 
 // ============================================================================

@@ -1,7 +1,6 @@
 module;
 
 #include <vector>
-#include <memory>
 
 module renderer;
 
@@ -9,10 +8,9 @@ module renderer;
 // Imports
 // ============================================================================
 
-import :colour.shading;
 import :structure.colour;
-import :colour.calculator;
 import :structure.fragment;
+import :lighting.model.base;
 import :primitive.topology.base;
 import :pipeline.shader.fragment;
 
@@ -22,14 +20,14 @@ import :pipeline.shader.fragment;
 
 void FragmentShader::processFragments(std::vector<Fragment> &fragments)
 {
-    std::shared_ptr<Shading> shading = nullptr;
-
-    if (this->shadingFactory)
+    for (Fragment &fragment : fragments)
     {
-        shading = shadingFactory->instance(primitive);
+        if (this->lightingModel)
+            this->lightingModel->processFragment(fragment);
 
-        for (Fragment &fragment : fragments)
-            shading->adjustColour(fragment);
+        // Light intensity should have been previously calculated
+        // by a lighting model.
+        fragment.colour *= fragment.lightIntensity;
     }
 }
 

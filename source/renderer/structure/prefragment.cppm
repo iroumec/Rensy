@@ -22,6 +22,8 @@ export struct PreFragment
     unsigned xScreen;
     unsigned yScreen;
 
+    double lightIntensity;
+
     // Información necesaria para interpolar
     InterpolationData interpolationData;
 };
