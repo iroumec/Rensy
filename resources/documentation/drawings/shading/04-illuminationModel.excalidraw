@@ -1,0 +1,1716 @@
+{
+  "type": "excalidraw",
+  "version": 2,
+  "source": "https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor",
+  "elements": [
+    {
+      "id": "xENbsiXElvZyn09lO7bhs",
+      "type": "text",
+      "x": 314.41015625,
+      "y": 158.00390625,
+      "width": 929.1591186523438,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a0",
+      "roundness": null,
+      "seed": 2086646752,
+      "version": 129,
+      "versionNonce": 470694880,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785960964010,
+      "link": null,
+      "locked": false,
+      "text": "Because of the increase in the renderer complexity and size, I had to refactor a lot of things.",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Because of the increase in the renderer complexity and size, I had to refactor a lot of things.",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "BLAKqB5P44h83qOEznZyO",
+      "type": "text",
+      "x": 338.7837219238281,
+      "y": 231.21484375,
+      "width": 1072.6190185546875,
+      "height": 175,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a1",
+      "roundness": null,
+      "seed": 1961749024,
+      "version": 622,
+      "versionNonce": 687471584,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961063253,
+      "link": null,
+      "locked": false,
+      "text": "Previously, I described flat shading, gouraud shading and phong shading. However, I didn't specify where\nthey were allocated.\n\nAt the start, everywhing was in the rasterizer method. However, I needed to add more options and, for that,\nI found myself in the obligation to the separate every phase in the graphics pipeline.\n\nThe result? Everything broke...",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Previously, I described flat shading, gouraud shading and phong shading. However, I didn't specify where\nthey were allocated.\n\nAt the start, everywhing was in the rasterizer method. However, I needed to add more options and, for that,\nI found myself in the obligation to the separate every phase in the graphics pipeline.\n\nThe result? Everything broke...",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "WQtJ6T6eZ5EPHH9JmKe8b",
+      "type": "text",
+      "x": 292.28125,
+      "y": 482.359375,
+      "width": 955.63916015625,
+      "height": 100,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a2",
+      "roundness": null,
+      "seed": 244197920,
+      "version": 10,
+      "versionNonce": 2101982176,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961092814,
+      "link": null,
+      "locked": false,
+      "text": "Flat, Gouraud, and Phong are indeed three ways of solving the same problem: approximating how a\nsurface reflects light. They are lighting models (or, more precisely, shading techniques).\n\nThe main difference between them is where the lighting is evaluated.",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Flat, Gouraud, and Phong are indeed three ways of solving the same problem: approximating how a\nsurface reflects light. They are lighting models (or, more precisely, shading techniques).\n\nThe main difference between them is where the lighting is evaluated.",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "JQ_h_D-BKY-omFZ7hWGKm",
+      "type": "text",
+      "x": 336.6480000091783,
+      "y": 1507.1602968852612,
+      "width": 535.3595581054688,
+      "height": 75,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a3",
+      "roundness": null,
+      "seed": 559761376,
+      "version": 249,
+      "versionNonce": 681051104,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961539611,
+      "link": null,
+      "locked": false,
+      "text": "The flat shading is evaluated ONCE PER PRIMITIVE.\nIt doens't interpolate anything.\nIts implementation in GLSL would look like this:",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "The flat shading is evaluated ONCE PER PRIMITIVE.\nIt doens't interpolate anything.\nIts implementation in GLSL would look like this:",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "8P4lszXsUI4FtASQNlqem",
+      "type": "text",
+      "x": 458.85268905946214,
+      "y": 1602.2297251845896,
+      "width": 241.99966430664062,
+      "height": 125,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a4",
+      "roundness": null,
+      "seed": 1736609760,
+      "version": 92,
+      "versionNonce": 1209799200,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961387541,
+      "link": null,
+      "locked": false,
+      "text": "flat out vec3 normal;\n\nv0.normal = faceNormal\nv1.normal = faceNormal\nv2.normal = faceNormal",
+      "fontSize": 20,
+      "fontFamily": 8,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "flat out vec3 normal;\n\nv0.normal = faceNormal\nv1.normal = faceNormal\nv2.normal = faceNormal",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "xLEsmN6nrFR6ICTVtUYnn",
+      "type": "text",
+      "x": 243.90225219726562,
+      "y": 688.8828125,
+      "width": 709.4793701171875,
+      "height": 125,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a5",
+      "roundness": null,
+      "seed": 1429373472,
+      "version": 395,
+      "versionNonce": 1637708320,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961445238,
+      "link": null,
+      "locked": false,
+      "text": "The Phong shading is evaluated ONCE PER FRAGMENT.\nSo it's expected to find its implementation in the fragment shader\nand it interpolates the normal. Because of being evaluated per fragment,\nit's so precise.\nIts implementation in GLSL would look like this:",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "The Phong shading is evaluated ONCE PER FRAGMENT.\nSo it's expected to find its implementation in the fragment shader\nand it interpolates the normal. Because of being evaluated per fragment,\nit's so precise.\nIts implementation in GLSL would look like this:",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "H7Bj4Uv6sXOp0-sveBq1o",
+      "type": "text",
+      "x": 356.16796875,
+      "y": 615.109375,
+      "width": 912.5391235351562,
+      "height": 50,
+      "angle": 0,
+      "strokeColor": "#1971c2",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a6",
+      "roundness": null,
+      "seed": 948991968,
+      "version": 201,
+      "versionNonce": 1528336928,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961266820,
+      "link": null,
+      "locked": false,
+      "text": "Illumination models / shadings are not programmed all in the fragment shader,\nbut sometimes they need things in the vertex shader or in the rasterizer or geometry shader",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Illumination models / shadings are not programmed all in the fragment shader,\nbut sometimes they need things in the vertex shader or in the rasterizer or geometry shader",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "TmoymGyna0rH6aS2QPGIB",
+      "type": "text",
+      "x": 224.51953125,
+      "y": 826.7421875,
+      "width": 428.9993896484375,
+      "height": 175,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a7",
+      "roundness": null,
+      "seed": 1824660448,
+      "version": 27,
+      "versionNonce": 278828000,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961344022,
+      "link": null,
+      "locked": false,
+      "text": "out vec3 normal;\n\nvoid main()\n{\n    normal = vertexNormal;\n    gl_Position = MVP * vertexPosition;\n}",
+      "fontSize": 20,
+      "fontFamily": 8,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "out vec3 normal;\n\nvoid main()\n{\n    normal = vertexNormal;\n    gl_Position = MVP * vertexPosition;\n}",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "x2Q2jrb8S44NCh-uC3s2E",
+      "type": "text",
+      "x": 764.8828125,
+      "y": 821.3046875,
+      "width": 549.999267578125,
+      "height": 175,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a8",
+      "roundness": null,
+      "seed": 1107628576,
+      "version": 21,
+      "versionNonce": 1913713632,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961352207,
+      "link": null,
+      "locked": false,
+      "text": "in vec3 normal;\n\nvoid main()\n{\n    float intensity = dot(normal, lightDirection);\n    color = diffuseColor * intensity;\n}",
+      "fontSize": 20,
+      "fontFamily": 8,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "in vec3 normal;\n\nvoid main()\n{\n    float intensity = dot(normal, lightDirection);\n    color = diffuseColor * intensity;\n}",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "VfjP3mlJFUaMERGiIwEMT",
+      "type": "text",
+      "x": 904.5625,
+      "y": 1012.53125,
+      "width": 164.99977111816406,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "a9",
+      "roundness": null,
+      "seed": 1133345760,
+      "version": 17,
+      "versionNonce": 1112044064,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961357852,
+      "link": null,
+      "locked": false,
+      "text": "Fragment shader",
+      "fontSize": 20,
+      "fontFamily": 8,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Fragment shader",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "EMaKEtwmFmtLLD7Q02I4x",
+      "type": "text",
+      "x": 327.71886444091797,
+      "y": 1026.34375,
+      "width": 142.9998016357422,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#2f9e44",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aA",
+      "roundness": null,
+      "seed": 1234708000,
+      "version": 26,
+      "versionNonce": 394980320,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961362877,
+      "link": null,
+      "locked": false,
+      "text": "Vertex shader",
+      "fontSize": 20,
+      "fontFamily": 8,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Vertex shader",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "h-fTWlsBNUiiNIkHavA4N",
+      "type": "text",
+      "x": 206.13117303487138,
+      "y": 1084.1536052072727,
+      "width": 543.6395263671875,
+      "height": 75,
+      "angle": 0,
+      "strokeColor": "#f08c00",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aB",
+      "roundness": null,
+      "seed": 2035518432,
+      "version": 470,
+      "versionNonce": 798740448,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961466481,
+      "link": null,
+      "locked": false,
+      "text": "The Gouraud shading is evaluated ONCE PER VERTEX.\nIt interpolates the intensity.\nIts implementation in GLSL would look like this:",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "The Gouraud shading is evaluated ONCE PER VERTEX.\nIt interpolates the intensity.\nIts implementation in GLSL would look like this:",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "uVg896HBvPOLDFOeX-o0P",
+      "type": "text",
+      "x": 125.03954986108494,
+      "y": 1218.7873051503586,
+      "width": 549.999267578125,
+      "height": 150,
+      "angle": 0,
+      "strokeColor": "#f08c00",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aC",
+      "roundness": null,
+      "seed": 1119293408,
+      "version": 137,
+      "versionNonce": 1282784224,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961477027,
+      "link": null,
+      "locked": false,
+      "text": "out float intensity;\n\nvoid main()\n{\n    intensity = dot(vertexNormal, lightDirection);\n}",
+      "fontSize": 20,
+      "fontFamily": 8,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "out float intensity;\n\nvoid main()\n{\n    intensity = dot(vertexNormal, lightDirection);\n}",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "rBiFQieeD6VCp80ey8DOK",
+      "type": "text",
+      "x": 866.7914208376058,
+      "y": 1407.8020427072727,
+      "width": 164.99977111816406,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#f08c00",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aD",
+      "roundness": null,
+      "seed": 487199712,
+      "version": 105,
+      "versionNonce": 741782048,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961407387,
+      "link": null,
+      "locked": false,
+      "text": "Fragment shader",
+      "fontSize": 20,
+      "fontFamily": 8,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Fragment shader",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "8duyCj4l-l7ujHAsvGeiT",
+      "type": "text",
+      "x": 289.9477852785237,
+      "y": 1421.6145427072727,
+      "width": 142.9998016357422,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#f08c00",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aE",
+      "roundness": null,
+      "seed": 1046255584,
+      "version": 114,
+      "versionNonce": 18578976,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961402151,
+      "link": null,
+      "locked": false,
+      "text": "Vertex shader",
+      "fontSize": 20,
+      "fontFamily": 8,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Vertex shader",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "HO4x5h3SNKcjTFVbQrWRo",
+      "type": "text",
+      "x": 739.6798515055547,
+      "y": 1264.9238434028891,
+      "width": 362.99951171875,
+      "height": 75,
+      "angle": 0,
+      "strokeColor": "#f08c00",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aF",
+      "roundness": null,
+      "seed": 933040096,
+      "version": 112,
+      "versionNonce": 581552672,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961489061,
+      "link": null,
+      "locked": false,
+      "text": "in float intensity;\n\ncolor = diffuseColor * intensity;",
+      "fontSize": 20,
+      "fontFamily": 8,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "in float intensity;\n\ncolor = diffuseColor * intensity;",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "S6RMEu_-rcDlnK3iQVC-3",
+      "type": "freedraw",
+      "x": 718.8024450215801,
+      "y": 1686.3254512582778,
+      "width": 96.22886201219035,
+      "height": 41.64546377389229,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aH",
+      "roundness": null,
+      "seed": 2011879392,
+      "version": 48,
+      "versionNonce": 449918944,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961505124,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          6.013454037712563,
+          -0.5710911692117406
+        ],
+        [
+          19.59726541967916,
+          -0.8668348104106371
+        ],
+        [
+          32.89213186484221,
+          -0.8668348104106371
+        ],
+        [
+          44.11339346941486,
+          -0.27534752801261675
+        ],
+        [
+          57.11251627337879,
+          0.6118833955840728
+        ],
+        [
+          63.31293468196418,
+          0.6118833955840728
+        ],
+        [
+          68.92526516034945,
+          0.6118833955840728
+        ],
+        [
+          75.12908292113252,
+          0.6118833955840728
+        ],
+        [
+          77.7873763397256,
+          0.6118833955840728
+        ],
+        [
+          79.55843883472176,
+          0.6118833955840728
+        ],
+        [
+          81.62524497091681,
+          0.6118833955840728
+        ],
+        [
+          82.19633614012855,
+          0.32973716317587787
+        ],
+        [
+          82.48868042913,
+          -0.23795465383818737
+        ],
+        [
+          81.62524497091681,
+          -1.0503998290857908
+        ],
+        [
+          79.26269519352263,
+          -1.937630752682935
+        ],
+        [
+          73.94610835633648,
+          -3.708693247678866
+        ],
+        [
+          65.37974081815946,
+          -6.07464237727072
+        ],
+        [
+          53.566991931188795,
+          -9.32102372606414
+        ],
+        [
+          49.42998030660101,
+          -10.799741932059078
+        ],
+        [
+          47.36317417040573,
+          -11.391229214456871
+        ],
+        [
+          45.29636803421067,
+          -12.275060785856112
+        ],
+        [
+          44.76946844356894,
+          -12.275060785856112
+        ],
+        [
+          45.15019588970995,
+          -12.275060785856112
+        ],
+        [
+          47.492349553918075,
+          -11.979317144657216
+        ],
+        [
+          51.03787389610807,
+          -11.095485573257974
+        ],
+        [
+          57.534035945892356,
+          -8.732935795863796
+        ],
+        [
+          65.21317256047269,
+          -5.778898736071824
+        ],
+        [
+          75.25825830464464,
+          -1.6418871114838112
+        ],
+        [
+          80.2791015006319,
+          0.42491902471124376
+        ],
+        [
+          85.59568833781805,
+          2.7874688021054226
+        ],
+        [
+          88.54972539761002,
+          3.970443366901236
+        ],
+        [
+          90.9122751750042,
+          5.741505861897394
+        ],
+        [
+          92.97908131119925,
+          7.512568356893553
+        ],
+        [
+          95.0458874473943,
+          10.170861775486628
+        ],
+        [
+          95.93311837099122,
+          12.536810905078482
+        ],
+        [
+          96.22886201219035,
+          14.899360682472661
+        ],
+        [
+          95.34163108859343,
+          19.03297295486277
+        ],
+        [
+          93.86631223479617,
+          21.691266373455846
+        ],
+        [
+          92.09185038760234,
+          24.053816150850025
+        ],
+        [
+          90.32078789260618,
+          26.124021639242756
+        ],
+        [
+          88.25398175641112,
+          27.895084134238914
+        ],
+        [
+          87.07100719161508,
+          28.78231505783583
+        ],
+        [
+          86.47951990921729,
+          29.370402988036176
+        ],
+        [
+          86.2109710855998,
+          29.370402988036176
+        ],
+        [
+          86.2109710855998,
+          29.173240560570093
+        ],
+        [
+          86.2109710855998,
+          29.173240560570093
+        ]
+      ],
+      "pressures": [],
+      "simulatePressure": true,
+      "lastCommittedPoint": null
+    },
+    {
+      "id": "xENkMjVwow_L8xU9soDP4",
+      "type": "freedraw",
+      "x": 713.5130530019755,
+      "y": 1617.4681731418823,
+      "width": 85.18096736969983,
+      "height": 31.556186451150325,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aI",
+      "roundness": null,
+      "seed": 2045440544,
+      "version": 51,
+      "versionNonce": 856433632,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961506784,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          14.294275991283712,
+          -1.1557797472144102
+        ],
+        [
+          36.44785426362523,
+          -2.3387543120102237
+        ],
+        [
+          47.08102793799753,
+          -2.63449795320912
+        ],
+        [
+          55.643996123976876,
+          -3.2259852356071406
+        ],
+        [
+          62.73504480835686,
+          -3.5183295246083617
+        ],
+        [
+          71.30141234653411,
+          -3.5183295246083617
+        ],
+        [
+          76.32225554252136,
+          -3.5183295246083617
+        ],
+        [
+          79.56863689131455,
+          -3.5183295246083617
+        ],
+        [
+          82.52267395110675,
+          -3.5183295246083617
+        ],
+        [
+          83.70564851590257,
+          -3.5183295246083617
+        ],
+        [
+          84.59287943949948,
+          -3.2259852356071406
+        ],
+        [
+          85.18096736969983,
+          -2.63449795320912
+        ],
+        [
+          85.18096736969983,
+          -1.879841765322226
+        ],
+        [
+          84.91921725047769,
+          -1.3699389356688698
+        ],
+        [
+          84.03538567907844,
+          -0.7818510054685248
+        ],
+        [
+          82.8558104664803,
+          -0.19376307526817982
+        ],
+        [
+          80.19751704788723,
+          0.6934678483285097
+        ],
+        [
+          78.4230552006934,
+          1.2849551307265301
+        ],
+        [
+          76.65199270569724,
+          1.8764424131245505
+        ],
+        [
+          74.88093021070108,
+          2.760273984523792
+        ],
+        [
+          73.10646836350725,
+          3.647504908120709
+        ],
+        [
+          72.222636792108,
+          4.534735831717626
+        ],
+        [
+          71.63114950970999,
+          5.122823761917971
+        ],
+        [
+          71.03966222731196,
+          5.989658572328608
+        ],
+        [
+          71.03966222731196,
+          6.2344119305623735
+        ],
+        [
+          71.23342530258037,
+          6.2344119305623735
+        ],
+        [
+          71.69913655366372,
+          5.96586310694488
+        ],
+        [
+          72.88211111845976,
+          4.782888542149067
+        ],
+        [
+          74.0616863310579,
+          3.307569688351805
+        ],
+        [
+          75.24466089585371,
+          1.533107841157971
+        ],
+        [
+          76.71997974965097,
+          -0.23795465383818737
+        ],
+        [
+          78.78678588584603,
+          -2.8962480724312627
+        ],
+        [
+          79.96976045064207,
+          -4.3749662784262
+        ],
+        [
+          81.14933566324021,
+          -5.554541491024338
+        ],
+        [
+          82.03656658683713,
+          -6.737516055820379
+        ],
+        [
+          82.92379751043404,
+          -8.50857855081631
+        ],
+        [
+          83.51528479283206,
+          -9.69155311561235
+        ],
+        [
+          84.10337272303218,
+          -10.871128328210489
+        ],
+        [
+          84.3991163642313,
+          -12.3396484776124
+        ],
+        [
+          84.10337272303218,
+          -13.209882640220712
+        ],
+        [
+          83.51528479283206,
+          -14.097113563817857
+        ],
+        [
+          80.56124773303986,
+          -16.16391970001291
+        ],
+        [
+          75.83274882605406,
+          -18.526469477406863
+        ],
+        [
+          69.92807405866756,
+          -21.77625017839796
+        ],
+        [
+          65.49531879288065,
+          -23.843056314593014
+        ],
+        [
+          61.953193802888336,
+          -25.32177452058795
+        ],
+        [
+          60.474475596893626,
+          -25.32177452058795
+        ],
+        [
+          59.29490038429526,
+          -24.730287238190158
+        ],
+        [
+          59.29490038429526,
+          -24.730287238190158
+        ]
+      ],
+      "pressures": [],
+      "simulatePressure": true,
+      "lastCommittedPoint": null
+    },
+    {
+      "id": "n_oFAsPQ-1l6tnObqCHs9",
+      "type": "text",
+      "x": 826.3035589213082,
+      "y": 1599.4380090853379,
+      "width": 163.099853515625,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aJ",
+      "roundness": null,
+      "seed": 58502112,
+      "version": 25,
+      "versionNonce": 176693792,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961515373,
+      "link": null,
+      "locked": false,
+      "text": "Modern approach",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Modern approach",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "Bk1W8VBBkdZ1qwY1jkdXB",
+      "type": "text",
+      "x": 842.2810467152033,
+      "y": 1689.0171562297514,
+      "width": 166.63983154296875,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#e03131",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aK",
+      "roundness": null,
+      "seed": 196466208,
+      "version": 64,
+      "versionNonce": 550026208,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1785961523426,
+      "link": null,
+      "locked": false,
+      "text": "Antique approach",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Antique approach",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "3Rz7pC2M0H8uerVN96qPc",
+      "type": "text",
+      "x": 335.90661621280003,
+      "y": 1827.6009717186357,
+      "width": 854.8591918945312,
+      "height": 200,
+      "angle": 0,
+      "strokeColor": "#1e1e1e",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aL",
+      "roundness": null,
+      "seed": 947298848,
+      "version": 18,
+      "versionNonce": 804962218,
+      "isDeleted": false,
+      "boundElements": [],
+      "updated": 1786030474914,
+      "link": null,
+      "locked": false,
+      "text": "Flat, Gouraud, and Phong are three strategies for determining when to evaluate\nlighting. The fragment shader is simply the place where the final color of a fragment\nis produced.\n\nReal-world renderers allow for the simulation of each of these lighting models by having\nthe user program separate shaders, rather than by creating classes. However, for the\npurpose of the renderer, we must create classes that pass through various stages and\nperform tasks at the appropriate stages.",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Flat, Gouraud, and Phong are three strategies for determining when to evaluate\nlighting. The fragment shader is simply the place where the final color of a fragment\nis produced.\n\nReal-world renderers allow for the simulation of each of these lighting models by having\nthe user program separate shaders, rather than by creating classes. However, for the\npurpose of the renderer, we must create classes that pass through various stages and\nperform tasks at the appropriate stages.",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "1F8cFTrKjqn_rkz__ZJw8",
+      "type": "freedraw",
+      "x": 770.3856399034929,
+      "y": 2037.9919213504377,
+      "width": 88.73537181486358,
+      "height": 202.18896997600268,
+      "angle": 0,
+      "strokeColor": "#f08c00",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aM",
+      "roundness": null,
+      "seed": 417933290,
+      "version": 82,
+      "versionNonce": 213690538,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1786030515063,
+      "link": null,
+      "locked": false,
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          4.3893435000529735,
+          3.5081113184332935
+        ],
+        [
+          21.63391371060584,
+          18.99694412896497
+        ],
+        [
+          32.15488418429595,
+          30.685042721059745
+        ],
+        [
+          40.33823493956709,
+          41.7912589947573
+        ],
+        [
+          46.180602494810046,
+          53.77534396846477
+        ],
+        [
+          50.56658251325371,
+          70.72392779740494
+        ],
+        [
+          51.14846483165161,
+          82.41538987110926
+        ],
+        [
+          50.27395961325021,
+          94.10685194481357
+        ],
+        [
+          46.180602494810046,
+          108.71781605533488
+        ],
+        [
+          42.67585465798618,
+          116.31592101059869
+        ],
+        [
+          38.5824975395459,
+          123.62476654746843
+        ],
+        [
+          34.78512680271854,
+          129.7597570027151
+        ],
+        [
+          30.399146784274762,
+          137.3578619579789
+        ],
+        [
+          28.061527065855785,
+          142.03646487642618
+        ],
+        [
+          25.723907347436807,
+          146.71170431326436
+        ],
+        [
+          23.093664729014222,
+          154.89505506853538
+        ],
+        [
+          22.508418929007235,
+          161.90791422379243
+        ],
+        [
+          23.38628762901783,
+          169.5060191790567
+        ],
+        [
+          26.0165302474403,
+          176.81486471592643
+        ],
+        [
+          33.61463520270445,
+          185.87272068959874
+        ],
+        [
+          39.7529891395601,
+          190.2587007080424
+        ],
+        [
+          46.76584829481715,
+          193.7634485448666
+        ],
+        [
+          54.36395325008118,
+          196.39369116328908
+        ],
+        [
+          64.5923008237678,
+          198.14942856331027
+        ],
+        [
+          71.02327766062695,
+          198.44205146331387
+        ],
+        [
+          75.69851709746501,
+          197.85680566330666
+        ],
+        [
+          79.20662841589808,
+          196.97893696329584
+        ],
+        [
+          80.66637943430658,
+          196.68631406329268
+        ],
+        [
+          81.53415768948946,
+          196.39369116328908
+        ],
+        [
+          81.79650925500982,
+          196.1313395977686
+        ],
+        [
+          79.82550903199751,
+          195.59318254029085
+        ],
+        [
+          75.73551539516654,
+          195.30055964028725
+        ],
+        [
+          69.3045385583074,
+          195.30055964028725
+        ],
+        [
+          56.445948366198195,
+          195.30055964028725
+        ],
+        [
+          47.67735181092007,
+          195.30055964028725
+        ],
+        [
+          38.912118737251035,
+          195.30055964028725
+        ],
+        [
+          30.143522181972912,
+          195.59318254029085
+        ],
+        [
+          19.329928808279192,
+          195.88580544029446
+        ],
+        [
+          13.776820671430642,
+          195.88580544029446
+        ],
+        [
+          9.101581234592572,
+          195.88580544029446
+        ],
+        [
+          5.008224116152405,
+          196.17506485868853
+        ],
+        [
+          -0.2522611206926513,
+          196.46768775869214
+        ],
+        [
+          -2.5898808391117427,
+          196.76031065869574
+        ],
+        [
+          -4.3422547575236194,
+          197.05293355869935
+        ],
+        [
+          -5.512746357537708,
+          197.34555645870296
+        ],
+        [
+          -6.649603141459465,
+          197.9072578874452
+        ],
+        [
+          -6.93886255985376,
+          198.45886887135975
+        ],
+        [
+          -6.93886255985376,
+          198.93984674148078
+        ],
+        [
+          -6.93886255985376,
+          199.41746112999226
+        ],
+        [
+          -6.4343403184684576,
+          199.92198337137734
+        ],
+        [
+          -5.916364150646132,
+          199.92198337137734
+        ],
+        [
+          -5.694374364436499,
+          200.14060967597788
+        ],
+        [
+          -5.240304347189635,
+          200.14060967597788
+        ],
+        [
+          -4.52388276442241,
+          200.14060967597788
+        ],
+        [
+          -3.713283696596477,
+          200.14060967597788
+        ],
+        [
+          -1.9609097781846003,
+          200.14060967597788
+        ],
+        [
+          5.637195177079548,
+          200.14060967597788
+        ],
+        [
+          16.15816565076966,
+          200.4332325759815
+        ],
+        [
+          28.14225062447747,
+          201.01847837598825
+        ],
+        [
+          39.53772631656898,
+          201.31110127599186
+        ],
+        [
+          53.859431008695765,
+          201.89634707599907
+        ],
+        [
+          62.0427817639669,
+          202.18896997600268
+        ],
+        [
+          68.76301801922045,
+          202.18896997600268
+        ],
+        [
+          75.7792406560867,
+          201.89634707599907
+        ],
+        [
+          77.82423747450218,
+          201.31110127599186
+        ],
+        [
+          79.57661139291406,
+          200.7258554759851
+        ],
+        [
+          80.74710299292815,
+          200.14060967597788
+        ],
+        [
+          81.32898531132605,
+          198.6808586575694
+        ],
+        [
+          81.32898531132605,
+          196.63586183915413
+        ],
+        [
+          80.45448009292465,
+          192.24988182071047
+        ],
+        [
+          78.99136559290707,
+          182.02153424702374
+        ],
+        [
+          76.94636877449159,
+          163.60983591806598
+        ],
+        [
+          76.36112297448449,
+          153.96673414438646
+        ],
+        [
+          76.65374587448798,
+          144.90551468910462
+        ],
+        [
+          78.11686037450568,
+          133.2174160970094
+        ],
+        [
+          78.99136559290707,
+          128.24619027855897
+        ],
+        [
+          79.57661139291406,
+          125.6159476601365
+        ],
+        [
+          80.16185719292116,
+          124.156196641728
+        ],
+        [
+          81.32898531132605,
+          121.81857692330868
+        ],
+        [
+          81.32898531132605,
+          121.81857692330868
+        ]
+      ],
+      "pressures": [],
+      "simulatePressure": true,
+      "lastCommittedPoint": [
+        81.32898531132605,
+        121.81857692330868
+      ]
+    },
+    {
+      "id": "SYooRrPhSzvQoA0dSNbrZ",
+      "type": "text",
+      "x": 898.3459342452666,
+      "y": 2229.6969191504513,
+      "width": 752.25927734375,
+      "height": 250,
+      "angle": 0,
+      "strokeColor": "#f08c00",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aN",
+      "roundness": null,
+      "seed": 1798702634,
+      "version": 203,
+      "versionNonce": 65358250,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1786030573212,
+      "link": null,
+      "locked": false,
+      "text": "For that purpose, I plan to replace the current (at the date of writing this)\nshading factory/instance for just a lighting model like the following one:\n\nclass LightingModel\n{\npublic:\n    virtual void processVertex(VertexOut&) {}\n    virtual void processPrimitive(Primitive&) {}\n    virtual void processFragment(Fragment&) {}\n};",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "For that purpose, I plan to replace the current (at the date of writing this)\nshading factory/instance for just a lighting model like the following one:\n\nclass LightingModel\n{\npublic:\n    virtual void processVertex(VertexOut&) {}\n    virtual void processPrimitive(Primitive&) {}\n    virtual void processFragment(Fragment&) {}\n};",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "j0H_4M-0vE5Tfwgd8KM22",
+      "type": "text",
+      "x": 898.7764598912488,
+      "y": 2527.338133714962,
+      "width": 769.3993530273438,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#f08c00",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aO",
+      "roundness": null,
+      "seed": 1466591018,
+      "version": 92,
+      "versionNonce": 360345718,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1786030642666,
+      "link": null,
+      "locked": false,
+      "text": "Each shading or lighting model will implement the things that it needs. That is:",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "Each shading or lighting model will implement the things that it needs. That is:",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "quBQ6_FL6DiMs9s7Fa7fH",
+      "type": "text",
+      "x": 1072.2379334427667,
+      "y": 2582.805308932873,
+      "width": 626.9991455078125,
+      "height": 400,
+      "angle": 0,
+      "strokeColor": "#f08c00",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aP",
+      "roundness": null,
+      "seed": 312822518,
+      "version": 37,
+      "versionNonce": 860650794,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1786030654193,
+      "link": null,
+      "locked": false,
+      "text": "class FlatLighting : public LightingModel\n{\n    void processPrimitive(Primitive& primitive) override;\n};\n\n\nclass GouraudLighting : public LightingModel\n{\n    void processVertex(VertexOut& vertex) override;\n};\n\n\nclass PhongLighting : public LightingModel\n{\n    void processFragment(Fragment& fragment) override;\n};",
+      "fontSize": 20,
+      "fontFamily": 8,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "class FlatLighting : public LightingModel\n{\n    void processPrimitive(Primitive& primitive) override;\n};\n\n\nclass GouraudLighting : public LightingModel\n{\n    void processVertex(VertexOut& vertex) override;\n};\n\n\nclass PhongLighting : public LightingModel\n{\n    void processFragment(Fragment& fragment) override;\n};",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "t_9BKjNZ0P6re9k0Pe_Vk",
+      "type": "text",
+      "x": 92.41121855303061,
+      "y": 3248.877992002117,
+      "width": 621.3594360351562,
+      "height": 100,
+      "angle": 0,
+      "strokeColor": "#f08c00",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aR",
+      "roundness": null,
+      "seed": 947729194,
+      "version": 197,
+      "versionNonce": 1371430442,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1786032050098,
+      "link": null,
+      "locked": false,
+      "text": "The hardware modelling is not a business domain.\n\nA lot of rules about the OOP design stop being a priority when\nwe want to represent with a lot of fidelity something.",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "The hardware modelling is not a business domain.\n\nA lot of rules about the OOP design stop being a priority when\nwe want to represent with a lot of fidelity something.",
+      "autoResize": true,
+      "lineHeight": 1.25
+    },
+    {
+      "id": "d2RhUeeEyrg6NKize-j-s",
+      "type": "text",
+      "x": 608.4875330858001,
+      "y": 3479.767822637856,
+      "width": 790.7592163085938,
+      "height": 25,
+      "angle": 0,
+      "strokeColor": "#f08c00",
+      "backgroundColor": "transparent",
+      "fillStyle": "solid",
+      "strokeWidth": 2,
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "opacity": 100,
+      "groupIds": [],
+      "frameId": null,
+      "index": "aS",
+      "roundness": null,
+      "seed": 936442154,
+      "version": 218,
+      "versionNonce": 1897414250,
+      "isDeleted": false,
+      "boundElements": null,
+      "updated": 1786032420455,
+      "link": null,
+      "locked": false,
+      "text": "I have to stop thinking in objects and start thinking in work flow or data flow...",
+      "fontSize": 20,
+      "fontFamily": 5,
+      "textAlign": "left",
+      "verticalAlign": "top",
+      "containerId": null,
+      "originalText": "I have to stop thinking in objects and start thinking in work flow or data flow...",
+      "autoResize": true,
+      "lineHeight": 1.25
+    }
+  ],
+  "appState": {
+    "gridSize": 20,
+    "gridStep": 5,
+    "gridModeEnabled": false,
+    "viewBackgroundColor": "#ffffff"
+  },
+  "files": {}
+}
