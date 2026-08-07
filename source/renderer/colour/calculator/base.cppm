@@ -9,7 +9,7 @@ export module renderer:colour.calculator.base;
 // ============================================================================
 
 import :structure.colour;
-import :pipeline.interpolation.data;
+import :interpolation.data;
 
 // ============================================================================
 // Declarations

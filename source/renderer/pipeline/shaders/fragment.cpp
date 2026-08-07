@@ -27,7 +27,7 @@ void FragmentShader::processFragments(std::vector<Fragment> &fragments)
 
         // Light intensity should have been previously calculated
         // by a lighting model.
-        fragment.colour *= fragment.lightIntensity;
+        fragment.colour.set(fragment.colour.get() * fragment.lightIntensity);
     }
 }
 

@@ -3,7 +3,7 @@ module;
 #include <vector>
 #include <memory>
 
-export module renderer:pipeline.shader.vertex;
+export module renderer:pipeline.shader.geometry;
 
 // ============================================================================
 // Imports
@@ -13,9 +13,11 @@ import :transform.mvp;
 import :transform.view;
 import :transform.model;
 import :colour.generator;
+import :lighting.model.base;
 import :structure.vertex_in;
 import :structure.vertex_out;
 import :transform.projection;
+import :primitive.generator.base;
 
 // ============================================================================
 // Declarations
@@ -45,7 +47,8 @@ public:
 
     std::vector<std::unique_ptr<Primitive>> processPrimitives(
         std::vector<std::unique_ptr<Primitive>> primitives) const;
+};
 
-    // ============================================================================
-    // EOF
-    // ============================================================================
+// ============================================================================
+// EOF
+// ============================================================================

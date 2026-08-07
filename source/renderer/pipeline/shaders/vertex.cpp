@@ -15,6 +15,7 @@ import :colour.generator;
 import :structure.vertex_in;
 import :structure.vertex_out;
 import :transform.projection;
+import :pipeline.shader.vertex;
 
 // ============================================================================
 // Declarations and Implementations
@@ -41,7 +42,7 @@ std::vector<VertexOut> VertexShader::processVertices(
         vertexOut.viewPosition =
             this->viewTransform.apply(vertexOut.worldPosition);
         vertexOut.clipPosition =
-            this->mvpTransform.apply(vertices[i].localPosition);
+            mvpTransform.apply(vertices[i].localPosition);
 
         vertexOut.colour.set(this->colourGenerator());
 

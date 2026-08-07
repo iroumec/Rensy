@@ -9,15 +9,22 @@ module renderer;
 // Implementations
 // ============================================================================
 
+import :primitive.topology.base;
+import :pipeline.shader.geometry;
+
+// ============================================================================
+// Implementations
+// ============================================================================
+
 std::vector<std::unique_ptr<Primitive>> GeometryShader::processPrimitives(
     std::vector<std::unique_ptr<Primitive>> primitives) const
 {
     if (this->primitiveGenerator)
-        this->primitiveGenerator->processPrimitives(primitives);
+        primitives = this->primitiveGenerator->processPrimitives(primitives);
 
     if (this->lightingModel)
-        for (Primitive &primitive : primitives)
-            this->lightingModel->processPrimitive(primitives);
+        for (auto &primitive : primitives)
+            this->lightingModel->processPrimitive(primitive);
 
     return primitives;
 }

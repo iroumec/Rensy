@@ -9,7 +9,7 @@ export module renderer:pipeline.rasterization.rasterizer.wireframe;
 // ============================================================================
 
 import :primitive.topology;
-import :structure.fragment;
+import :structure.prefragment;
 import :pipeline.rasterization.rasterizer.base;
 
 // ============================================================================
@@ -19,17 +19,17 @@ import :pipeline.rasterization.rasterizer.base;
 export class WireframeRasterizer : public Rasterizer
 {
 public:
-    std::vector<Fragment> rasterize(
+    std::vector<PreFragment> rasterize(
         const Point &primitive,
         unsigned screenWidth,
         unsigned screenHeight) const override;
 
-    std::vector<Fragment> rasterize(
+    std::vector<PreFragment> rasterize(
         const Line &primitive,
         unsigned screenWidth,
         unsigned screenHeight) const override;
 
-    std::vector<Fragment> rasterize(
+    std::vector<PreFragment> rasterize(
         const Triangle &primitive,
         unsigned screenWidth,
         unsigned screenHeight) const override;

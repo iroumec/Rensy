@@ -12,7 +12,7 @@ export module renderer:primitive.generator.normal.vertex;
 import :structure.vertex_out;
 import :primitive.topology.base;
 import :primitive.topology.line;
-import :pipeline.shader.geometry.base;
+import :primitive.generator.base;
 
 // ============================================================================
 // Declarations

@@ -9,7 +9,7 @@ export module renderer:pipeline.rasterization.rasterizer.bbox;
 // ============================================================================
 
 import :drawing_pattern;
-import :structure.fragment;
+import :structure.prefragment;
 import :primitive.topology.base;
 import :pipeline.rasterization.rasterizer.base;
 
@@ -26,17 +26,17 @@ public:
         const DrawingPattern *drawingPattern = nullptr)
         : drawingPattern(drawingPattern) {}
 
-    std::vector<Fragment> rasterize(
+    std::vector<PreFragment> rasterize(
         const Point &primitive,
         unsigned screenWidth,
         unsigned screenHeight) const override;
 
-    std::vector<Fragment> rasterize(
+    std::vector<PreFragment> rasterize(
         const Line &primitive,
         unsigned screenWidth,
         unsigned screenHeight) const override;
 
-    std::vector<Fragment> rasterize(
+    std::vector<PreFragment> rasterize(
         const Triangle &primitive,
         unsigned screenWidth,
         unsigned screenHeight) const override;

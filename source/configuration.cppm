@@ -140,16 +140,15 @@ export const ColourCalculator &COLOUR_CALCULATOR = GRADIENT_COLOUR_CALCULATOR;
 // export const ColourCalculator &COLOUR_CALCULATOR = SUBORDINATE_COLOUR_CALCULATOR;
 
 // ============================================================================
-// GEOMETRY SHADER
+// PRIMITIVE GENERATOR
 // ============================================================================
 
 // DO NOT CHANGE!
-const IdentityGeometryShader IDENTITY_GEOMETRY_SHADER{};
-const VertexNormalGeometryShader VERTEX_NORMAL_GEOMETRY_SHADER(8, red);
+const VertexNormalPrimitiveGenerator VERTEX_NORMAL_PRIMITIVE_GENERATOR(8, red);
 
 // SELECT ONE:
-export const GeometryShader &GEOMETRY_SHADER = IDENTITY_GEOMETRY_SHADER;
-// export const GeometryShader &GEOMETRY_SHADER = VERTEX_NORMAL_GEOMETRY_SHADER;
+export const PrimitiveGenerator *PRIMITIVE_GENERATOR = nullptr;
+// export const PrimitiveGenerator *PRIMITIVE_GENERATOR = &VERTEX_NORMAL_PRIMITIVE_GENERATOR;
 
 // ============================================================================
 // SHADING

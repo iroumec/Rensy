@@ -1,13 +1,17 @@
 module;
 
-export module renderer:pipeline.interpolation.interpolator.base;
+#include <vector>
+
+export module renderer:pipeline.interpolator;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :math.barycentric;
-import :math.vector.vector_3d;
+import :colour.calculator;
+import :structure.fragment;
+import :interpolation.data;
+import :structure.prefragment;
 
 // ============================================================================
 // Declarations
@@ -15,18 +19,16 @@ import :math.vector.vector_3d;
 
 export class Interpolator
 {
-public:
-    virtual Vector3D interpolate(
-        const Vector3D &a,
-        const Vector3D &b,
-        const Vector3D &c,
-        const BarycentricCoordinate &bc) const = 0;
+    const ColourCalculator &colourCalculator;
 
-    virtual double interpolate(
-        const double &a,
-        const double &b,
-        const double &c,
-        const BarycentricCoordinate &bc) const = 0;
+    Fragment interpolate(const PreFragment &prefragment);
+
+public:
+    Interpolator(const ColourCalculator &colourCalculator)
+        : colourCalculator(colourCalculator) {}
+
+    std::vector<Fragment> interpolate(
+        const std::vector<PreFragment> &prefragments);
 };
 
 // ============================================================================

@@ -14,14 +14,14 @@ module renderer;
 
 import :math.bresenham;
 import :primitive.topology;
-import :structure.fragment;
+import :structure.prefragment;
 import :pipeline.rasterization.rasterizer.wireframe;
 
 // ============================================================================
 // Implementations
 // ============================================================================
 
-std::vector<Fragment> WireframeRasterizer::rasterize(
+std::vector<PreFragment> WireframeRasterizer::rasterize(
     const Point &primitive,
     unsigned screenWidth,
     unsigned screenHeight) const
@@ -29,7 +29,7 @@ std::vector<Fragment> WireframeRasterizer::rasterize(
     throw std::invalid_argument("Wireframe rasterizer doesn't support points.");
 }
 
-std::vector<Fragment> WireframeRasterizer::rasterize(
+std::vector<PreFragment> WireframeRasterizer::rasterize(
     const Line &primitive,
     unsigned screenWidth,
     unsigned screenHeight) const
@@ -41,24 +41,28 @@ std::vector<Fragment> WireframeRasterizer::rasterize(
 
     drawLine(a, b, vectors);
 
+    std::vector<PreFragment> prefragments;
+
     for (Vector2D vector : vectors)
     {
-        Fragment fragment;
+        PreFragment prefragment;
 
-        fragment.xScreen = vector.x();
-        fragment.yScreen = vector.y();
+        prefragment.xScreen = vector.x();
+        prefragment.yScreen = vector.y();
 
-        fragments.push_back(fragment);
+        prefragments.push_back(prefragment);
     }
+
+    return prefragments;
 }
 
-std::vector<Fragment> WireframeRasterizer::
+std::vector<PreFragment> WireframeRasterizer::
     rasterize(
         const Triangle &primitive,
         unsigned screenWidth,
         unsigned screenHeight) const
 {
-    std::vector<Fragment> fragments;
+    std::vector<PreFragment> prefragments;
 
     Vector2D a = primitive.getVertexOne().screenPosition;
     Vector2D b = primitive.getVertexTwo().screenPosition;
@@ -73,15 +77,15 @@ std::vector<Fragment> WireframeRasterizer::
 
     for (Vector2D vector : vectors)
     {
-        Fragment fragment;
+        PreFragment prefragment;
 
-        fragment.xScreen = vector.x();
-        fragment.yScreen = vector.y();
+        prefragment.xScreen = vector.x();
+        prefragment.yScreen = vector.y();
 
-        fragments.push_back(fragment);
+        prefragments.push_back(prefragment);
     }
 
-    return fragments;
+    return prefragments;
 }
 
 // ============================================================================

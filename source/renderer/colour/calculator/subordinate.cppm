@@ -7,8 +7,8 @@ export module renderer:colour.calculator.subordinate;
 // ============================================================================
 
 import :structure.colour;
+import :interpolation.data;
 import :colour.calculator.base;
-import :pipeline.interpolation.data;
 
 // ============================================================================
 // Declarations

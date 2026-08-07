@@ -2,7 +2,7 @@ module;
 
 #include <vector>
 
-export module renderer:pipeline.interpolation;
+module renderer;
 
 // ============================================================================
 // Imports
@@ -10,16 +10,16 @@ export module renderer:pipeline.interpolation;
 
 import :colour.calculator;
 import :structure.fragment;
+import :interpolation.data;
 import :structure.prefragment;
-import :pipeline.interpolation.data;
+import :pipeline.interpolator;
 
 // ============================================================================
-// Declarations
+// Implementations
 // ============================================================================
 
-std::vector<Fragment> interpolate(
-    const std::vector<PreFragment> prefragments,
-    const ColourCalculator &colourCalculator)
+std::vector<Fragment> Interpolator::interpolate(
+    const std::vector<PreFragment> &prefragments)
 {
     std::vector<Fragment> out;
     out.reserve(prefragments.size());
@@ -32,13 +32,11 @@ std::vector<Fragment> interpolate(
     return out;
 }
 
-Fragment interpolate(
-    const PreFragment &prefragment,
-    const ColourCalculator &colourCalculator)
+Fragment Interpolator::interpolate(const PreFragment &prefragment)
 {
     Fragment fragment;
-    fragment.xScreen = prefragment.x;
-    fragment.yScreen = prefragment.y;
+    fragment.xScreen = prefragment.xScreen;
+    fragment.yScreen = prefragment.yScreen;
     VertexOut interpolatedVertex =
         prefragment.interpolationData.getInterpolatedVertex();
 

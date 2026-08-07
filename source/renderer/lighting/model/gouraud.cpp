@@ -11,7 +11,7 @@ module renderer;
 import :structure.fragment;
 import :structure.vertex_out;
 import :math.vector.vector_3d;
-import :colour.lighting.gouraud;
+import :lighting.model.gouraud;
 
 // ============================================================================
 // Declarations

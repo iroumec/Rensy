@@ -2,7 +2,7 @@ module;
 
 #include <vector>
 
-export module renderer:pipeline.interpolation.data;
+export module renderer:interpolation.data;
 
 // ============================================================================
 // Imports
@@ -27,10 +27,8 @@ export struct AttributeInfluence
 
 export struct InterpolationData
 {
-private:
     std::vector<AttributeInfluence> influences;
 
-public:
     auto begin() const { return influences.begin(); }
     auto end() const { return influences.end(); }
 

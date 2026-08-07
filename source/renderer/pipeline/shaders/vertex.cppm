@@ -12,6 +12,7 @@ import :transform.mvp;
 import :transform.view;
 import :transform.model;
 import :colour.generator;
+import :lighting.model.base;
 import :structure.vertex_in;
 import :structure.vertex_out;
 import :transform.projection;
@@ -41,7 +42,8 @@ public:
 
     std::vector<VertexOut> processVertices(
         const std::vector<VertexIn> &vertices);
+};
 
-    // ============================================================================
-    // EOF
-    // ============================================================================
+// ============================================================================
+// EOF
+// ============================================================================

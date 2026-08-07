@@ -9,8 +9,8 @@ export module renderer:colour.calculator.gradient;
 // ============================================================================
 
 import :structure.colour;
+import :interpolation.data;
 import :colour.calculator.base;
-import :pipeline.interpolation.data;
 
 // ============================================================================
 // Declarations

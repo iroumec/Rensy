@@ -16,17 +16,17 @@ import :math.vector;
 import :math.matrix;
 import :math.geometry;
 import :math.barycentric;
+import :interpolation.data;
 import :primitive.topology;
 import :structure.vertex_out;
 import :structure.prefragment;
-import :pipeline.interpolation.data;
 import :pipeline.rasterization.rasterizer.bbox;
 
 // ============================================================================
 // Implementations
 // ============================================================================
 
-std::vector<Fragment> BoundingBoxRasterizer::rasterize(
+std::vector<PreFragment> BoundingBoxRasterizer::rasterize(
     const Point &primitive,
     unsigned screenWidth,
     unsigned screenHeight) const
@@ -34,7 +34,7 @@ std::vector<Fragment> BoundingBoxRasterizer::rasterize(
     throw std::invalid_argument("Bounding box rasterizer doesn't support points.");
 }
 
-std::vector<Fragment> BoundingBoxRasterizer::rasterize(
+std::vector<PreFragment> BoundingBoxRasterizer::rasterize(
     const Line &primitive,
     unsigned screenWidth,
     unsigned screenHeight) const
@@ -81,7 +81,7 @@ std::vector<PreFragment> BoundingBoxRasterizer::
 
                 InterpolationData interpolationData;
                 interpolationData.influences.push_back({a, barycentricCoordinates.alpha});
-                interpolationData.influences.push_back({b, barycentricCoordinates.betta});
+                interpolationData.influences.push_back({b, barycentricCoordinates.beta});
                 interpolationData.influences.push_back({c, barycentricCoordinates.gamma});
 
                 PreFragment prefragment{

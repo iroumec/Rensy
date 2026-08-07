@@ -30,6 +30,7 @@ public:
 
     constexpr void adjustColour(Fragment &fragment) const override
     {
+        /*
         BarycentricCoordinate coordinates = fragment.barycentricCoordinates;
 
         fragment.colour.set(
@@ -38,6 +39,8 @@ public:
              coordinates.alpha * lightIntensities[0] +
              coordinates.beta * lightIntensities[1] +
              coordinates.gamma * lightIntensities[2]));
+             */
+        fragment.lightIntensity = ambientLight;
     }
 };
 

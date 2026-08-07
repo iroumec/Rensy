@@ -8,8 +8,8 @@ export module renderer:pipeline.rasterization.rasterizer.vertex;
 // Imports
 // ============================================================================
 
-import :structure.fragment;
 import :primitive.topology;
+import :structure.prefragment;
 import :pipeline.rasterization.rasterizer.base;
 
 // ============================================================================
@@ -19,13 +19,13 @@ import :pipeline.rasterization.rasterizer.base;
 export class VertexRasterizer : public Rasterizer
 {
 private:
-    std::vector<Fragment> rasterizePrimitive(
+    std::vector<PreFragment> rasterizePrimitive(
         const Primitive &primitive,
         unsigned screenWidth,
         unsigned screenHeight) const;
 
 public:
-    std::vector<Fragment> rasterize(
+    std::vector<PreFragment> rasterize(
         const Point &primitive,
         unsigned screenWidth,
         unsigned screenHeight) const override
@@ -33,7 +33,7 @@ public:
         return this->rasterizePrimitive(primitive, screenWidth, screenHeight);
     }
 
-    std::vector<Fragment> rasterize(
+    std::vector<PreFragment> rasterize(
         const Line &primitive,
         unsigned screenWidth,
         unsigned screenHeight) const override
@@ -41,7 +41,7 @@ public:
         return this->rasterizePrimitive(primitive, screenWidth, screenHeight);
     }
 
-    std::vector<Fragment> rasterize(
+    std::vector<PreFragment> rasterize(
         const Triangle &primitive,
         unsigned screenWidth,
         unsigned screenHeight) const override

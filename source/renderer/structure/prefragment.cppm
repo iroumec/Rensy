@@ -6,7 +6,7 @@ export module renderer:structure.prefragment;
 // Imports
 // ============================================================================
 
-import :pipeline.interpolation.data;
+import :interpolation.data;
 
 // ============================================================================
 // Declarations
