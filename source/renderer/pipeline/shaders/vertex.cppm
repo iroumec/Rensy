@@ -22,20 +22,25 @@ import :transform.projection;
 
 export class VertexShader
 {
-    const LightingModel *lightingModel;
+    const ModelTransform &modelTransform;
+    const ViewTransform &viewTransform;
+    const ProjectionTransform &projectionTransform;
     const ColourGenerator &colourGenerator;
+    const LightingModel *lightingModel;
 
 public:
-    FragmentShader(
-        const ColourGenerator &colourGenerator,
-        const LightingModel *lightingModel = nullptr)
-        : colourGenerator{colourGenerator}, lightingModel{lightingModel} {}
-
-    std::vector<VertexOut> processVertices(
-        const std::vector<VertexIn> &vertices,
+    VertexShader(
         const ModelTransform &modelTransform,
         const ViewTransform &viewTransform,
-        const ProjectionTransform &projectionTransform);
+        const ProjectionTransform &projectionTransform,
+        const ColourGenerator &colourGenerator,
+        const LightingModel *lightingModel = nullptr)
+        : modelTransform{modelTransform}, viewTransform{viewTransform},
+          projectionTransform{projectionTransform},
+          colourGenerator{colourGenerator}, lightingModel{lightingModel} {}
+
+    std::vector<VertexOut> processVertices(
+        const std::vector<VertexIn> &vertices);
 
     // ============================================================================
     // EOF

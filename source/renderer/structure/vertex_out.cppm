@@ -25,7 +25,7 @@ export struct VertexOut
                              // const Vector3D normal;         // For Phong, Goraud...
     Vector3D worldNormal;
     Vector3D viewNormal;
-    double lightIntensity;
+    double lightIntensity = 1.0;
     RestrictedColour colour;
 
     VertexOut() = default;

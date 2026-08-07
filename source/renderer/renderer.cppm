@@ -14,6 +14,8 @@ export import :normal;
 export import :colour;
 export import :logging;
 export import :pipeline;
+export import :lighting;
+export import :primitive;
 export import :transform;
 export import :structure;
 export import :interpolation;
@@ -37,7 +39,6 @@ export struct RenderingInputData
     const std::string &fileName;
 
     const ModelLoader &modelLoader;
-    const NormalCalculator &normalCalculator;
 
     const ModelTransform modelTransform;
     const ViewTransform viewTransform;
@@ -45,7 +46,9 @@ export struct RenderingInputData
 
     const ColourGenerator &colourGenerator;
 
-    const GeometryShader &geometryShader;
+    const LightingModel *lightingModel;
+
+    const PrimitiveGenerator *primitiveGenerator;
 
     const Rasterizer &rasterizer;
 

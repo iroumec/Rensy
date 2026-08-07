@@ -50,12 +50,13 @@ RenderingOutputData Renderer::
     // VERTEX SHADER
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    std::vector<VertexOut> processedVertices = processVertices(
-        vbo.vertices,
-        inputData.modelTransform,
-        inputData.viewTransform,
-        inputData.projectionTransform,
-        inputData.colourGenerator);
+    VertexShader vertexShader(
+        inputData.modelTransform, inputData.viewTransform,
+        inputData.projectionTransform, inputData.colourGenerator,
+        inputData.lightingModel);
+
+    std::vector<VertexOut> processedVertices =
+        vertexShader.processVertices(vbo.vertices);
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // PRIMITIVE ASSEMBLY
@@ -70,9 +71,13 @@ RenderingOutputData Renderer::
     // GEOMETRY SHADER
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    primitives = inputData.geometryShader.process(primitives);
+    GeometryShader geometryShader(inputData.primitiveGenerator);
 
-    logger.debug("\n> Number of primitives after geometry shader: {}", primitives.size());
+    primitives = geometryShader.processPrimitives(primitives);
+
+    logger.debug(
+        "\n> Number of primitives after geometry shader: {}",
+        primitives.size());
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // FACE CULLING
@@ -121,21 +126,9 @@ RenderingOutputData Renderer::
     // FRAGMENT SHADER
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    FragmentShader fragmentShader(inputData.shadingFactory);
+    FragmentShader fragmentShader(inputData.lightingModel);
 
-    for (auto &primitive : primitives)
-    {
-        std::vector<Fragment> primitiveFragments =
-            inputData.rasterizer.rasterize(
-                primitive, inputData.screenWidth, inputData.screenHeight);
-
-        fragmentShader.processFragments(primitiveFragments, primitive);
-
-        fragments.insert(
-            fragments.end(),
-            primitiveFragments.begin(),
-            primitiveFragments.end());
-    }
+    fragmentShader.processFragments(primitiveFragments, primitive);
 
     logger.debug("\n> Fragments after rasterization: {}", fragments.size());
 

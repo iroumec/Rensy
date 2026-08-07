@@ -14,6 +14,10 @@ import :primitive.topology.base;
 // Declarations
 // ============================================================================
 
+/**
+ * A lighting model changes the light intensity of a vertex, primitive (and,
+ * hence, its vertices) or fragment.
+ */
 export class LightingModel
 {
 public:

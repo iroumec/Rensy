@@ -28,7 +28,7 @@ export struct Fragment
     Vector3D normal;
     // Vector2D uv;
 
-    double lightIntensity;
+    double lightIntensity = 1.0;
 
     // Where to calculate the colour?
     // If the fragment colour depends on the fragment itself -> Fragment shader.

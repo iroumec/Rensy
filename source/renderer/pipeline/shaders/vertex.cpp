@@ -21,29 +21,29 @@ import :transform.projection;
 // ============================================================================
 
 std::vector<VertexOut> VertexShader::processVertices(
-    const std::vector<VertexIn> &vertices,
-    const ModelTransform &modelTransform,
-    const ViewTransform &viewTransform,
-    const ProjectionTransform &projectionTransform)
+    const std::vector<VertexIn> &vertices)
 {
     int numberOfVertices = vertices.size();
 
     std::vector<VertexOut> processedVertices(numberOfVertices);
 
     MVPTransform mvpTransform = MVPTransform(
-        modelTransform,
-        viewTransform,
-        projectionTransform);
+        this->modelTransform,
+        this->viewTransform,
+        this->projectionTransform);
 
     // #pragma omp parallel for
     for (unsigned i = 0; i < numberOfVertices; ++i)
     {
         VertexOut vertexOut{};
-        vertexOut.worldPosition = modelTransform.apply(vertices[i].localPosition);
-        vertexOut.viewPosition = viewTransform.apply(vertexOut.worldPosition);
-        vertexOut.clipPosition = mvpTransform.apply(vertices[i].localPosition);
+        vertexOut.worldPosition =
+            this->modelTransform.apply(vertices[i].localPosition);
+        vertexOut.viewPosition =
+            this->viewTransform.apply(vertexOut.worldPosition);
+        vertexOut.clipPosition =
+            this->mvpTransform.apply(vertices[i].localPosition);
 
-        vertexOut.colour.set(colourGenerator());
+        vertexOut.colour.set(this->colourGenerator());
 
         Vector4D normal = vertices[i].normal;
         normal.w() = 0;                                       // Directions are treated differently than points. They don't have its w value in 1, but 0.
