@@ -2,39 +2,34 @@ module;
 
 #include <vector>
 
-export module renderer:pipeline.rasterization.rasterizer.bbox;
+export module renderer:rasterization.algorithm.bbox;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :drawing_pattern;
-import :structure.prefragment;
-import :primitive.topology.base;
-import :pipeline.rasterization.rasterizer.base;
+import :structure.prefragment; // Because vector needs to know all this things.
+import :rasterization.rasterizer.triangle;
+
+// ============================================================================
+// Forward Declarations
+// ============================================================================
+
+class Triangle;
+class DrawingPattern;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export class BoundingBoxRasterizer : public Rasterizer
+export class BoundingBoxAlgorithm : public TriangleRasterizer
 {
     const DrawingPattern *drawingPattern = nullptr;
 
 public:
-    BoundingBoxRasterizer(
+    BoundingBoxAlgorithm(
         const DrawingPattern *drawingPattern = nullptr)
         : drawingPattern(drawingPattern) {}
-
-    std::vector<PreFragment> rasterize(
-        const Point &primitive,
-        unsigned screenWidth,
-        unsigned screenHeight) const override;
-
-    std::vector<PreFragment> rasterize(
-        const Line &primitive,
-        unsigned screenWidth,
-        unsigned screenHeight) const override;
 
     std::vector<PreFragment> rasterize(
         const Triangle &primitive,

@@ -15,21 +15,13 @@ module renderer;
 import :math.bresenham;
 import :primitive.topology;
 import :structure.prefragment;
-import :pipeline.rasterization.rasterizer.wireframe;
+import :rasterization.algorithm.wireframe;
 
 // ============================================================================
 // Implementations
 // ============================================================================
 
-std::vector<PreFragment> WireframeRasterizer::rasterize(
-    const Point &primitive,
-    unsigned screenWidth,
-    unsigned screenHeight) const
-{
-    throw std::invalid_argument("Wireframe rasterizer doesn't support points.");
-}
-
-std::vector<PreFragment> WireframeRasterizer::rasterize(
+std::vector<PreFragment> WireframeAlgorithm::rasterize(
     const Line &primitive,
     unsigned screenWidth,
     unsigned screenHeight) const
@@ -52,7 +44,7 @@ std::vector<PreFragment> WireframeRasterizer::rasterize(
     return prefragments;
 }
 
-std::vector<PreFragment> WireframeRasterizer::
+std::vector<PreFragment> WireframeAlgorithm::
     rasterize(
         const Triangle &primitive,
         unsigned screenWidth,

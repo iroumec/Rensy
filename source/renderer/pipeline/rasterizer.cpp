@@ -2,48 +2,29 @@ module;
 
 #include <vector>
 
-export module renderer:primitive.topology.point;
+module renderer;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :rasterization.context;
+import :pipeline.rasterizer;
 import :primitive.topology.base;
 
 // ============================================================================
 // Forward Declarations
 // ============================================================================
 
-class Vector3D;
-struct VertexOut;
-struct PreFragment;
+class PreFragment;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export class Point : public PrimitiveTopology
+std::vector<PreFragment> Rasterizer::rasterize(const Primitive &primitive)
 {
-    VertexOut vertex;
-
-public:
-    Point(const VertexOut &vertex) : vertex{vertex} {}
-
-    constexpr VertexOut getVertex() const { return this->vertex; }
-    constexpr VertexOut &getVertex() { return this->vertex; }
-
-    std::vector<VertexOut> vertices() const override;
-    unsigned getVertexCount() const override { return 2; }
-
-    Vector3D getRepresentativeWorldNormal() const override;
-
-    std::vector<PreFragment> Point::rasterizeWith(
-        const RasterizationContext &context) const override
-    {
-        return context.rasterizePoint(*this);
-    }
-};
+    return primitive.rasterizeWith(this->context);
+}
 
 // ============================================================================
 // EOF

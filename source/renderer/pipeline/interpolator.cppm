@@ -1,7 +1,5 @@
 module;
 
-#include <vector>
-
 export module renderer:pipeline.interpolator;
 
 // ============================================================================
@@ -21,14 +19,11 @@ export class Interpolator
 {
     const ColourCalculator &colourCalculator;
 
-    Fragment interpolate(const PreFragment &prefragment);
-
 public:
     Interpolator(const ColourCalculator &colourCalculator)
         : colourCalculator(colourCalculator) {}
 
-    std::vector<Fragment> interpolate(
-        const std::vector<PreFragment> &prefragments);
+    Fragment interpolate(const PreFragment &prefragments);
 };
 
 // ============================================================================

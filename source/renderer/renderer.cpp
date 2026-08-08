@@ -17,6 +17,7 @@ import :pipeline.depth_test;
 import :pipeline.framebuffer;
 import :pipeline.interpolator;
 import :pipeline.face_culling;
+import :pipeline.rasterizer;
 import :pipeline.shader.vertex;
 import :primitive.topology.base;
 import :pipeline.shader.fragment;
@@ -110,29 +111,29 @@ RenderingOutputData Renderer::
     // RASTERIZATION
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    std::vector<PreFragment> prefragments = inputData.rasterizer.rasterize(
-        primitives,
+    Rasterizer rasterizer(
+        inputData.pointRasterizer,
+        inputData.lineRasterizer,
+        inputData.triangleRasterizer,
         inputData.screenWidth,
         inputData.screenHeight);
 
     std::vector<PreFragment> prefragments;
 
     for (const auto &primitive : primitives)
-    {
-        PreFragment generated = inputData.rasterizer.rasterize(
-            *primitive,
-            screenWidth,
-            screenHeight);
-
-        prefragments.push_back(generated);
-    }
+        prefragments.append_range(rasterizer.rasterize(*primitive));
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // INTERPOLATION
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    std::vector<Fragment> fragments = interpolate(
-        prefragments, inputData.colourCalculator);
+    Interpolator interpolator(inputData.colourCalculator);
+
+    std::vector<Fragment> fragments;
+    fragments.reserve(prefragments.size());
+
+    for (const PreFragment &prefragment : prefragments)
+        fragments.push_back(interpolator.interpolate(prefragment));
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // FRAGMENT SHADER

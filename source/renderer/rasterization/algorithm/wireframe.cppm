@@ -1,47 +1,42 @@
 module;
 
 #include <vector>
-#include <memory>
-#include <utility>
 
-export module renderer:pipeline.rasterization.rasterizer.base;
+export module renderer:rasterization.algorithm.wireframe;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :drawing_pattern;
-import :primitive.topology;
-import :structure.prefragment;
+import :structure.prefragment; // Because vector needs to know all this things.
+import :rasterization.rasterizer.line;
+import :rasterization.rasterizer.triangle;
+
+// ============================================================================
+// Forward Declarations
+// ============================================================================
+
+class Line;
+class Triangle;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export class Rasterizer
+export class WireframeAlgorithm
+    : public LineRasterizer,
+      public TriangleRasterizer
 {
 public:
-    virtual ~Rasterizer() = default;
-
     std::vector<PreFragment> rasterize(
-        std::vector<std::unique_ptr<Primitive>> &primitives,
-        unsigned screenWidth,
-        unsigned screenHeight) const = 0;
-
-    virtual std::vector<PreFragment> rasterize(
-        const Point &primitive,
-        unsigned screenWidth,
-        unsigned screenHeight) const = 0;
-
-    virtual std::vector<PreFragment> rasterize(
         const Line &primitive,
         unsigned screenWidth,
-        unsigned screenHeight) const = 0;
+        unsigned screenHeight) const override;
 
-    virtual std::vector<PreFragment> rasterize(
+    std::vector<PreFragment> rasterize(
         const Triangle &primitive,
         unsigned screenWidth,
-        unsigned screenHeight) const = 0;
+        unsigned screenHeight) const override;
 };
 
 // ============================================================================

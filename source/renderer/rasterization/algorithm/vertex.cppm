@@ -2,21 +2,30 @@ module;
 
 #include <vector>
 
-export module renderer:pipeline.rasterization.rasterizer.vertex;
+export module renderer:rasterization.algorithm.vertex;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :primitive.topology;
-import :structure.prefragment;
-import :pipeline.rasterization.rasterizer.base;
+import :structure.prefragment; // Because vector needs to know all this things.
+// Because of the conversion in the private method.
+import :primitive.topology.base;
+import :primitive.topology.line;
+import :primitive.topology.point;
+import :primitive.topology.triangle;
+import :rasterization.rasterizer.line;
+import :rasterization.rasterizer.point;
+import :rasterization.rasterizer.triangle;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export class VertexRasterizer : public Rasterizer
+export class VertexAlgorithm
+    : public PointRasterizer,
+      public LineRasterizer,
+      public TriangleRasterizer
 {
 private:
     std::vector<PreFragment> rasterizePrimitive(

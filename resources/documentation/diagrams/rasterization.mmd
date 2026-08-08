@@ -1,0 +1,86 @@
+classDiagram
+
+    %% Uses the visitor pattern (which uses double dispatch).
+    class Rasterizer {
+        - context: RasterizationContext
+
+        + rasterize(Primitive) vector~PreFragment~
+    }
+
+    %% This context has the objective of the "rasterization" submodule
+    %% not knowing about the pipeline.
+    class RasterizationContext {
+        - screenWidth: unsigned
+        - screenHeight: unsigned
+        - pointRasterizer: PointRasterizer
+        - lineRasterizer: LineRasterizer
+        - triangleRasterizer: TriangleRasterizer
+
+        + rasterizePoint(Point) vector~PreFragment~
+        + rasterizeLine(Line) vector~PreFragment~
+        + rasterizeTriangle(Triangle) vector~PreFragment~
+    }
+
+    %% Primitive rasterizers.
+    class PointRasterizer {
+        <<interface>>
+        +rasterize(Point, unsigned, unsigned) vector~PreFragment~
+    }
+
+    class LineRasterizer {
+        <<interface>>
+    }
+
+    class TriangleRasterizer {
+        <<interface>>
+    }
+
+    %% Algorithms.
+    %% Vertex algorithm.
+    class VertexAlgorithm {
+    }
+
+    PointRasterizer <|-- VertexAlgorithm
+    LineRasterizer <|-- VertexAlgorithm
+    TriangleRasterizer <|-- VertexAlgorithm
+
+    %% Wireframe algorithm.
+    class WireframeAlgorithm {
+    }
+
+    LineRasterizer <|-- WireframeAlgorithm
+    TriangleRasterizer <|-- WireframeAlgorithm
+
+    %% Bounding box algorithm.
+    class BoundingBoxAlgorithm {
+    }
+
+    TriangleRasterizer <|-- BoundingBoxAlgorithm
+
+    %% Primitive hierarchy.
+    %% Only the part of interest is shown.
+    class Primitive {
+        <<abstract>>
+        +rasterizeWith(RasterizationContext): vector~PreFragment~
+    }
+
+    class Point {
+    }
+
+    class Line {
+    }
+
+    class Triangle {
+    }
+
+    Primitive <|-- Point
+    Primitive <|-- Line
+    Primitive <|-- Triangle
+
+    %% Dependencies.
+    Rasterizer --> PointRasterizer
+    Rasterizer --> LineRasterizer
+    Rasterizer --> TriangleRasterizer
+    Rasterizer --> RasterizationContext
+    Primitive --> RasterizationContext
+    Rasterizer --> Primitive

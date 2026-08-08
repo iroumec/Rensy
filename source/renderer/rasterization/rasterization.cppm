@@ -1,12 +1,14 @@
 module;
 
-export module renderer:pipeline.rasterization;
+export module renderer:rasterization;
 
 // ============================================================================
 // Exports-Import
 // ============================================================================
 
-export import :pipeline.rasterization.rasterizer;
+export import :rasterization.context;
+export import :rasterization.algorithm;
+export import :rasterization.rasterizer;
 
 // ============================================================================
 // Imports

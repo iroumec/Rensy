@@ -14,14 +14,14 @@ module renderer;
 import :structure.vertex_out;
 import :structure.prefragment;
 import :primitive.topology.base;
-import :pipeline.rasterization.rasterizer.vertex;
+import :rasterization.algorithm.vertex;
 
 // ============================================================================
 // Implementations
 // ============================================================================
 
 std::vector<PreFragment>
-VertexRasterizer::
+VertexAlgorithm::
     rasterizePrimitive(
         const Primitive &primitive,
         unsigned screenWidth,

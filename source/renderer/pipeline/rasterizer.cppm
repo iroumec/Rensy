@@ -2,47 +2,46 @@ module;
 
 #include <vector>
 
-export module renderer:primitive.topology.point;
+export module renderer:pipeline.rasterizer;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
 import :rasterization.context;
-import :primitive.topology.base;
 
 // ============================================================================
 // Forward Declarations
 // ============================================================================
 
-class Vector3D;
-struct VertexOut;
-struct PreFragment;
+class Primitive;
+class PreFragment;
+class LineRasterizer;
+class PointRasterizer;
+class TriangleRasterizer;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export class Point : public PrimitiveTopology
+export class Rasterizer
 {
-    VertexOut vertex;
+    const RasterizationContext context;
 
 public:
-    Point(const VertexOut &vertex) : vertex{vertex} {}
+    Rasterizer(
+        const PointRasterizer &pointRasterizer,
+        const LineRasterizer &lineRasterizer,
+        const TriangleRasterizer &triangleRasterizer,
+        unsigned screenWidth, unsigned screenHeight)
+        : context(
+              pointRasterizer,
+              lineRasterizer,
+              triangleRasterizer,
+              screenWidth,
+              screenHeight) {}
 
-    constexpr VertexOut getVertex() const { return this->vertex; }
-    constexpr VertexOut &getVertex() { return this->vertex; }
-
-    std::vector<VertexOut> vertices() const override;
-    unsigned getVertexCount() const override { return 2; }
-
-    Vector3D getRepresentativeWorldNormal() const override;
-
-    std::vector<PreFragment> Point::rasterizeWith(
-        const RasterizationContext &context) const override
-    {
-        return context.rasterizePoint(*this);
-    }
+    std::vector<PreFragment> rasterize(const Primitive &primitive);
 };
 
 // ============================================================================

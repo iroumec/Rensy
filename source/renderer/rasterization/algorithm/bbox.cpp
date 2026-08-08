@@ -20,29 +20,13 @@ import :interpolation.data;
 import :primitive.topology;
 import :structure.vertex_out;
 import :structure.prefragment;
-import :pipeline.rasterization.rasterizer.bbox;
+import :rasterization.algorithm.bbox;
 
 // ============================================================================
 // Implementations
 // ============================================================================
 
-std::vector<PreFragment> BoundingBoxRasterizer::rasterize(
-    const Point &primitive,
-    unsigned screenWidth,
-    unsigned screenHeight) const
-{
-    throw std::invalid_argument("Bounding box rasterizer doesn't support points.");
-}
-
-std::vector<PreFragment> BoundingBoxRasterizer::rasterize(
-    const Line &primitive,
-    unsigned screenWidth,
-    unsigned screenHeight) const
-{
-    throw std::invalid_argument("Wireframe rasterizer doesn't support line.");
-}
-
-std::vector<PreFragment> BoundingBoxRasterizer::
+std::vector<PreFragment> BoundingBoxAlgorithm::
     rasterize(
         const Triangle &primitive,
         unsigned screenWidth,

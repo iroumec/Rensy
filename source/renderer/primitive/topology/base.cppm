@@ -1,7 +1,6 @@
 module;
 
 #include <vector>
-#include <memory>
 
 export module renderer:primitive.topology.base;
 
@@ -11,6 +10,13 @@ export module renderer:primitive.topology.base;
 
 import :structure.vertex_out;
 import :math.vector.vector_3d;
+
+// ============================================================================
+// Forward Declarations
+// ============================================================================
+
+class PreFragment;
+class RasterizationContext;
 
 // ============================================================================
 // Declarations
@@ -45,6 +51,9 @@ public:
 
         return centroid /= this->getVertexCount();
     }
+
+    virtual std::vector<PreFragment> rasterizeWith(
+        const RasterizationContext &context) const = 0;
 };
 
 export using Primitive = PrimitiveTopology;

@@ -1,0 +1,24 @@
+classDiagram
+
+    %% Primitives.
+    class Primitive{
+    }
+
+    class Point{
+        -vertex: VertexOut
+    }
+
+    class Line{
+        -vertexOne: VertexOut
+        -vertexTwo: VertexOut
+    }
+
+    class Triangle{
+        +vertexOne: VertexOut
+        +vertexTwo: VertexOut
+        +vertexThree: VertexOut
+    }
+
+    Primitive <|-- Point
+    Primitive <|-- Line
+    Primitive <|-- Triangle

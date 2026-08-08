@@ -1,7 +1,6 @@
 module;
 
 #include <vector>
-#include <memory>
 
 export module renderer:primitive.topology.triangle;
 
@@ -11,6 +10,7 @@ export module renderer:primitive.topology.triangle;
 
 import :structure.vertex_out;
 import :math.vector.vector_3d;
+import :rasterization.context;
 import :primitive.topology.base;
 
 // ============================================================================
@@ -44,9 +44,10 @@ public:
 
     Vector3D getRepresentativeWorldNormal() const override;
 
-    std::unique_ptr<PrimitiveTopology> clone() const override
+    std::vector<PreFragment> Triangle::rasterizeWith(
+        const RasterizationContext &context) const override
     {
-        return std::make_unique<Triangle>(*this);
+        return context.rasterizeTriangle(*this);
     }
 };
 
