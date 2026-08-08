@@ -1,5 +1,8 @@
 module;
 
+#include <string>
+#include <format>
+
 export module renderer:structure.vertex_out;
 
 // ============================================================================
@@ -93,6 +96,27 @@ export struct VertexOut
         this->colour.set(this->colour.get() + other.colour.get());
 
         return *this;
+    }
+
+    std::string toString() const
+    {
+        return std::format(
+            "worldPosition: {}\n"
+            "viewPosition: {}\n"
+            "clipPosition: {}\n"
+            "ndcPosition: {}\n"
+            "screenPosition: {}\n"
+            "worldNormal: {}\n"
+            "viewNormal: {}\n"
+            "lightIntensity: {}",
+            worldPosition.toString(),
+            viewPosition.toString(),
+            clipPosition.toString(),
+            ndcPosition.toString(),
+            screenPosition.toString(),
+            worldNormal.toString(),
+            viewNormal.toString(),
+            lightIntensity);
     }
 };
 

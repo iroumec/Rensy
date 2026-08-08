@@ -41,14 +41,14 @@ std::vector<std::unique_ptr<Primitive>> PrimitiveAssembler::assemblyPrimitives(
         // in [0, 2] gives us the vertex.
         const std::size_t index = i * 3;
 
-        this->logger.trace(
-            "Triangle {} composed of indices in range: [{}, {}]",
-            i, index, index + 2);
-
         primitives[i] = std::make_unique<Triangle>(
             vertices[faces[index]],
             vertices[faces[index + 1]],
             vertices[faces[index + 2]]);
+
+        this->logger.trace(
+            "\nTriangle {} composed of indices in range: [{}, {}]\n{}\n",
+            i, index, index + 2, primitives[i]->toString());
     }
 
     return primitives;

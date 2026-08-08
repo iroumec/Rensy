@@ -1,6 +1,7 @@
 module;
 
 #include <vector>
+#include <string>
 
 export module renderer:primitive.topology.base;
 
@@ -54,6 +55,8 @@ public:
 
     virtual std::vector<PreFragment> rasterizeWith(
         const RasterizationContext &context) const = 0;
+
+    virtual std::string toString() const = 0;
 };
 
 export using Primitive = PrimitiveTopology;

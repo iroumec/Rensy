@@ -1,6 +1,8 @@
 module;
 
 #include <vector>
+#include <string>
+#include <format>
 
 module renderer;
 
@@ -30,6 +32,16 @@ std::vector<PreFragment> Line::rasterizeWith(
     const RasterizationContext &context) const
 {
     return context.rasterizeLine(*this);
+}
+
+std::string Line::toString() const
+{
+    return std::format(
+        "Line:\n"
+        "Vertex 1:\n{}\n"
+        "Vertex 2:\n{}",
+        vertexOne.toString(),
+        vertexTwo.toString());
 }
 
 // ============================================================================

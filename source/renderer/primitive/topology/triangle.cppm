@@ -1,6 +1,7 @@
 module;
 
 #include <vector>
+#include <string>
 
 export module renderer:primitive.topology.triangle;
 
@@ -52,6 +53,8 @@ public:
 
     std::vector<PreFragment> rasterizeWith(
         const RasterizationContext &context) const override;
+
+    std::string toString() const override;
 };
 
 // ============================================================================

@@ -1,6 +1,8 @@
 module;
 
 #include <mutex>
+#include <ctime>
+#include <chrono>
 #include <format>
 #include <fstream>
 #include <string_view>
@@ -17,6 +19,31 @@ import :logging.level;
 // Declarations
 // ============================================================================
 
+static std::string timestampedFileName(const std::string &fileName)
+{
+    const auto now = std::chrono::system_clock::now();
+    const auto date = std::chrono::system_clock::to_time_t(now);
+
+    const std::tm localTime = *std::localtime(&date);
+
+    char timestamp[32];
+
+    std::strftime(
+        timestamp,
+        sizeof(timestamp),
+        "%Y-%m-%d_%H-%M-%S",
+        &localTime);
+
+    const auto dot = fileName.find_last_of('.');
+
+    if (dot == std::string::npos)
+    {
+        return fileName + "_" + timestamp;
+    }
+
+    return fileName.substr(0, dot) + "_" + timestamp + fileName.substr(dot);
+}
+
 export class Logger
 {
     LogLevel currentLevel;
@@ -28,7 +55,7 @@ public:
         LogLevel level = LogLevel::Info,
         const std::string &fileName = "renderer.log")
         : currentLevel{level},
-          file{fileName, std::ios::app} {}
+          file{timestampedFileName(fileName), std::ios::app} {}
 
     constexpr bool enabled(LogLevel level) const
     {
