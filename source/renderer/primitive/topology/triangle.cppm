@@ -8,10 +8,16 @@ export module renderer:primitive.topology.triangle;
 // Imports
 // ============================================================================
 
-import :structure.vertex_out;
-import :math.vector.vector_3d;
-import :rasterization.context;
 import :primitive.topology.base;
+
+// ============================================================================
+// Forward Declarations
+// ============================================================================
+
+class Vector3D;
+struct VertexOut;
+struct PreFragment;
+class RasterizationContext;
 
 // ============================================================================
 // Declarations
@@ -44,11 +50,8 @@ public:
 
     Vector3D getRepresentativeWorldNormal() const override;
 
-    std::vector<PreFragment> Triangle::rasterizeWith(
-        const RasterizationContext &context) const override
-    {
-        return context.rasterizeTriangle(*this);
-    }
+    std::vector<PreFragment> rasterizeWith(
+        const RasterizationContext &context) const override;
 };
 
 // ============================================================================

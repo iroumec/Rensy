@@ -1,30 +1,37 @@
 module;
 
 #include <vector>
+#include <memory>
 
-export module renderer:pipeline.primitive_assembly.assemblers.triangle;
+module renderer;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :structure.triangle;
+import :logging.logger;
 import :structure.vertex_out;
+import :primitive.topology.base;
+import :pipeline.primitive_assembly;
+import :primitive.topology.triangle;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export constexpr std::vector<Triangle> assemblyLinePrimitives(
+std::vector<std::unique_ptr<Primitive>> PrimitiveAssembler::assemblyPrimitives(
     const std::vector<VertexOut> &vertices,
-    const std::vector<int> &faces)
+    const std::vector<int> &faces) const // TODO: vector de unsigned.
 {
-    int numberOfFaces = faces.size() / 3;
+    if (faces.size() % 3 != 0)
+        throw std::invalid_argument("Face index count must be a multiple of 3.");
 
-    std::vector<Triangle> primitives(numberOfFaces);
+    const std::size_t numberOfFaces = faces.size() / 3;
+
+    std::vector<std::unique_ptr<Primitive>> primitives(numberOfFaces);
 
     // #pragma omp parallel for
-    for (unsigned int i = 0; i < numberOfFaces; ++i)
+    for (std::size_t i = 0; i < numberOfFaces; ++i)
     {
         // Each face is stored as three consecutive indices into the vertices array.
         // faceNumber * 3 gives the first index of the face, and vertexNumber (0-2)
@@ -32,10 +39,16 @@ export constexpr std::vector<Triangle> assemblyLinePrimitives(
 
         // If faceNumber = 0, we are placed in the first face. Increasing vertexNumber
         // in [0, 2] gives us the vertex.
-        VertexOut v0 = vertices[faces[i * 3 + 0]];
-        VertexOut v1 = vertices[faces[i * 3 + 1]];
-        VertexOut v2 = vertices[faces[i * 3 + 2]];
-        primitives[i] = Triangle{v0, v1, v2};
+        const std::size_t index = i * 3;
+
+        this->logger.trace(
+            "Triangle {} composed of indices in range: [{}, {}]",
+            i, index, index + 2);
+
+        primitives[i] = std::make_unique<Triangle>(
+            vertices[faces[index]],
+            vertices[faces[index + 1]],
+            vertices[faces[index + 2]]);
     }
 
     return primitives;

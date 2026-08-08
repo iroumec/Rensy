@@ -4,6 +4,7 @@ module;
 #include <memory>
 #include <vector>
 #include <algorithm>
+#include <iostream>
 
 module renderer;
 
@@ -46,6 +47,12 @@ std::vector<PreFragment> BoundingBoxAlgorithm::
     int minY = std::max(0, static_cast<int>(bbox.minY));
     int maxY = std::min(static_cast<int>(screenHeight - 1), static_cast<int>(bbox.maxY));
 
+    /*
+    logger.debug(
+        "Triangle bbox: ({}, {}) -> ({}, {})",
+        minX, minY, maxX, maxY);
+        */
+
     for (int y = minY; y <= maxY; y++)
     {
         for (int x = minX; x <= maxX; x++)
@@ -55,6 +62,14 @@ std::vector<PreFragment> BoundingBoxAlgorithm::
                 BarycentricCoordinate::from(
                     a.screenPosition, b.screenPosition,
                     c.screenPosition, Vector2D(x, y));
+
+            /*
+    logger.debug(
+        "Barycentric: {}, {}, {}",
+        barycentricCoordinates.alpha,
+        barycentricCoordinates.beta,
+        barycentricCoordinates.gamma);
+        */
 
             // If the point is not inside the triangle, it is discarded.
             if (barycentricCoordinates.isInsideTriangle())

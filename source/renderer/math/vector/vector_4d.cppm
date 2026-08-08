@@ -60,6 +60,8 @@ public:
         const Matrix<double, 4, 4> &matrix, const Vector4D &vector);
 
     friend std::ostream &operator<<(std::ostream &out, const Vector4D &v);
+
+    std::string toString() const;
 };
 
 // ============================================================================

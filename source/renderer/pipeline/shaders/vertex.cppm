@@ -10,6 +10,7 @@ export module renderer:pipeline.shader.vertex;
 
 import :transform.mvp;
 import :transform.view;
+import :logging.logger;
 import :transform.model;
 import :colour.generator;
 import :lighting.model.base;
@@ -27,6 +28,7 @@ export class VertexShader
     const ViewTransform &viewTransform;
     const ProjectionTransform &projectionTransform;
     const ColourGenerator &colourGenerator;
+    const Logger &logger;
     const LightingModel *lightingModel;
 
 public:
@@ -35,10 +37,12 @@ public:
         const ViewTransform &viewTransform,
         const ProjectionTransform &projectionTransform,
         const ColourGenerator &colourGenerator,
+        const Logger &logger,
         const LightingModel *lightingModel = nullptr)
         : modelTransform{modelTransform}, viewTransform{viewTransform},
           projectionTransform{projectionTransform},
-          colourGenerator{colourGenerator}, lightingModel{lightingModel} {}
+          colourGenerator{colourGenerator}, logger{logger},
+          lightingModel{lightingModel} {}
 
     std::vector<VertexOut> processVertices(
         const std::vector<VertexIn> &vertices);

@@ -1,30 +1,39 @@
 module;
 
 #include <vector>
+#include <memory>
 
-module renderer;
+export module renderer:pipeline.primitive_assembly;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :pipeline.rasterizer;
 import :primitive.topology.base;
 
 // ============================================================================
 // Forward Declarations
 // ============================================================================
 
-struct PreFragment;
+class Logger;
+struct VertexOut;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-std::vector<PreFragment> Rasterizer::rasterize(const Primitive &primitive)
+export class PrimitiveAssembler
 {
-    return primitive.rasterizeWith(this->context);
-}
+    const Logger &logger;
+
+public:
+    PrimitiveAssembler(const Logger &logger)
+        : logger{logger} {}
+
+    std::vector<std::unique_ptr<Primitive>> assemblyPrimitives(
+        const std::vector<VertexOut> &vertices,
+        const std::vector<int> &faces) const;
+};
 
 // ============================================================================
 // EOF

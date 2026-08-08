@@ -19,6 +19,7 @@ export import :primitive;
 export import :transform;
 export import :structure;
 export import :interpolation;
+export import :rasterization;
 export import :drawing_pattern; // TODO: Change this.
 
 // ============================================================================
@@ -51,7 +52,9 @@ export struct RenderingInputData
 
     const PrimitiveGenerator *primitiveGenerator;
 
-    const Rasterizer &rasterizer;
+    const PointRasterizer &pointRasterizer;
+    const LineRasterizer &lineRasterizer;
+    const TriangleRasterizer &triangleRasterizer;
 
     const ColourCalculator &colourCalculator;
 

@@ -9,13 +9,13 @@ export module renderer:pipeline.rasterizer;
 // ============================================================================
 
 import :rasterization.context;
+import :primitive.topology.base;
 
 // ============================================================================
 // Forward Declarations
 // ============================================================================
 
-class Primitive;
-class PreFragment;
+struct PreFragment;
 class LineRasterizer;
 class PointRasterizer;
 class TriangleRasterizer;

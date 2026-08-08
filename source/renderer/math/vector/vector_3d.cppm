@@ -1,5 +1,6 @@
 module;
 
+#include <string>
 #include <istream>
 #include <ostream>
 
@@ -78,6 +79,8 @@ public:
     friend std::istream &operator>>(std::istream &is, Vector3D &v);
 
     friend std::ostream &operator<<(std::ostream &out, const Vector3D &v);
+
+    std::string toString() const;
 };
 
 // ============================================================================

@@ -10,6 +10,7 @@ module renderer;
 
 import :transform.mvp;
 import :transform.view;
+import :logging.logger;
 import :transform.model;
 import :colour.generator;
 import :structure.vertex_in;
@@ -53,6 +54,16 @@ std::vector<VertexOut> VertexShader::processVertices(
 
         if (this->lightingModel)
             this->lightingModel->processVertex(vertexOut);
+
+        this->logger.trace(
+            "Vertex {} world position: {}",
+            i, vertexOut.worldPosition.toString());
+        this->logger.trace(
+            "Vertex {} view position: {}",
+            i, vertexOut.viewPosition.toString());
+        this->logger.trace(
+            "Vertex {} clip position: {}",
+            i, vertexOut.clipPosition.toString());
 
         processedVertices[i] = vertexOut;
     }

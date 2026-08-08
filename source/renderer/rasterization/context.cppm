@@ -44,21 +44,21 @@ public:
           triangleRasterizer{triangleRasterizer}, screenWidth{screenWidth},
           screenHeight{screenHeight} {}
 
-    std::vector<PreFragment> rasterizePoint(const Point &point)
+    std::vector<PreFragment> rasterizePoint(const Point &point) const
     {
-        this->pointRasterizer.rasterize(
+        return this->pointRasterizer.rasterize(
             point, this->screenWidth, this->screenHeight);
     }
 
-    std::vector<PreFragment> rasterizeLine(const Line &line)
+    std::vector<PreFragment> rasterizeLine(const Line &line) const
     {
-        this->lineRasterizer.rasterize(
+        return this->lineRasterizer.rasterize(
             line, this->screenWidth, this->screenHeight);
     }
 
-    std::vector<PreFragment> rasterizeTriangle(const Triangle &triangle)
+    std::vector<PreFragment> rasterizeTriangle(const Triangle &triangle) const
     {
-        this->triangleRasterizer.rasterize(
+        return this->triangleRasterizer.rasterize(
             triangle, this->screenWidth, this->screenHeight);
     }
 };

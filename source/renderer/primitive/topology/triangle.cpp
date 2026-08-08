@@ -34,6 +34,12 @@ Vector3D Triangle::getRepresentativeWorldNormal() const
     return (ab.cross(ac)).normalize();
 }
 
+std::vector<PreFragment> Triangle::rasterizeWith(
+    const RasterizationContext &context) const
+{
+    return context.rasterizeTriangle(*this);
+}
+
 // ============================================================================
 // EOF
 // ============================================================================

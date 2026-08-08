@@ -8,7 +8,6 @@ export module renderer:primitive.topology.point;
 // Imports
 // ============================================================================
 
-import :rasterization.context;
 import :primitive.topology.base;
 
 // ============================================================================
@@ -18,6 +17,7 @@ import :primitive.topology.base;
 class Vector3D;
 struct VertexOut;
 struct PreFragment;
+class RasterizationContext;
 
 // ============================================================================
 // Declarations
@@ -38,11 +38,8 @@ public:
 
     Vector3D getRepresentativeWorldNormal() const override;
 
-    std::vector<PreFragment> Point::rasterizeWith(
-        const RasterizationContext &context) const override
-    {
-        return context.rasterizePoint(*this);
-    }
+    std::vector<PreFragment> rasterizeWith(
+        const RasterizationContext &context) const override;
 };
 
 // ============================================================================

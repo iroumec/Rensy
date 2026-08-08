@@ -2,8 +2,7 @@ module;
 
 #include <mutex>
 #include <format>
-#include <string>
-#include <iostream>
+#include <fstream>
 #include <string_view>
 
 export module renderer:logging.logger;
@@ -22,10 +21,14 @@ export class Logger
 {
     LogLevel currentLevel;
     mutable std::mutex mutex;
+    mutable std::ofstream file;
 
 public:
-    constexpr Logger(LogLevel level = LogLevel::Info)
-        : currentLevel(level) {}
+    Logger(
+        LogLevel level = LogLevel::Info,
+        const std::string &fileName = "renderer.log")
+        : currentLevel{level},
+          file{fileName, std::ios::app} {}
 
     constexpr bool enabled(LogLevel level) const
     {
@@ -47,7 +50,8 @@ public:
         {
             std::lock_guard lock(mutex);
 
-            std::cout << message << '\n'; // TODO: Take this '\n' out of here.
+            file << message << '\n';
+            file.flush();
         }
     }
 

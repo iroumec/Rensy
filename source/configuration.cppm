@@ -163,13 +163,13 @@ const GouraudLightingModel GOURAUD_LIGHTING(LIGHT_POSITION);
 const PhongLightingModel PHONG_LIGHTING(LIGHT_POSITION);
 
 // SELECT ONE:
-// export const ShadingFactory *SHADING = nullptr;
-// export const ShadingFactory *SHADING = &DEPTH_SHADING;
-// export const ShadingFactory *SHADING = &BORDER_SHADING;
-//  export const ShadingFactory *SHADING = &CENTER_SHADING;
-export const LightingModel *LIGHTING_MODEL = &FLAT_LIGHTING;
-// export const ShadingFactory *SHADING = &GOURAUD_SHADING;
-// export const ShadingFactory *SHADING = &PHONG_SHADING;
+export const LightingModel *LIGHTING_MODEL = nullptr;
+// export const LightingModel *LIGHTING_MODEL = &DEPTH_SHADING;
+// export const LightingModel *LIGHTING_MODEL = &BORDER_SHADING;
+//  export const LightingModel *SHADLIGHTING_MODELING = &CENTER_SHADING;
+// export const LightingModel *LIGHTING_MODEL = &FLAT_LIGHTING;
+// export const LightingModel *SHADILIGHTING_MODELNG = &GOURAUD_SHADING;
+// export const LightingModel *LIGHTING_MODEL = &PHONG_SHADING;
 
 // ============================================================================
 // DRAWING PATTERN
@@ -185,20 +185,37 @@ export const LightingModel *LIGHTING_MODEL = &FLAT_LIGHTING;
 export const DrawingPattern *DRAWING_PATTERN = nullptr;
 
 // ============================================================================
-// RASTERIZER
+// RASTERIZERS
 // ============================================================================
 
 // DO NOT CHANGE!
-const VertexRasterizer VERTEX_RASTERIZER{};
-const WireframeRasterizer WIREFRAME_RASTERIZER{};
-// const ScanlineRasterizer SCANLINE_RASTERIZER{};
-const BoundingBoxRasterizer BOUNDING_BOX_RASTERIZER(DRAWING_PATTERN);
+const VertexAlgorithm VERTEX_ALGORITHM{};
+const WireframeAlgorithm WIREFRAME_ALGORITHM{};
+const BoundingBoxAlgorithm BOUNDING_BOX_ALGORITHM{DRAWING_PATTERN};
 
-// SELECT ONE:
-// export const Rasterizer &RASTERIZER = VERTEX_RASTERIZER;
-// export const Rasterizer &RASTERIZER = WIREFRAME_RASTERIZER;
-//  export const Rasterizer &RASTERIZER = SCANLINE_RASTERIZER;
-export const Rasterizer &RASTERIZER = BOUNDING_BOX_RASTERIZER;
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// POINT RASTERIZER
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// SELECTE ONE:
+export const PointRasterizer &POINT_RASTERIZER = VERTEX_ALGORITHM;
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// LINE RASTERIZER
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// SELECTE ONE:
+// export const LineRasterizer &LINE_RASTERIZER = VERTEX_ALGORITHM;
+export const LineRasterizer &LINE_RASTERIZER = WIREFRAME_ALGORITHM;
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// TRIANGLE RASTERIZER
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+// SELECTE ONE:
+// const TriangleRasterizer &TRIANGLE_RASTERIZER = VERTEX_ALGORITHM;
+// const TriangleRasterizer &TRIANGLE_RASTERIZER = WIREFRAME_ALGORITHM;
+export const TriangleRasterizer &TRIANGLE_RASTERIZER = BOUNDING_BOX_ALGORITHM;
 
 // ============================================================================
 // FILTERS
@@ -211,4 +228,4 @@ export const BrightFilter BRIGHT_FILTER{Colour{237, 234, 222, 255}};
 // SELECT ONE:
 export const Filter *FILTER = nullptr;
 // export const Filter *FILTER = &FOG_FILTER;
-//    export const Filter *FILTER = &BRIGHT_FILTER;
+// export const Filter *FILTER = &BRIGHT_FILTER;

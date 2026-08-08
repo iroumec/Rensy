@@ -10,26 +10,33 @@ export module renderer:pipeline.viewport_transform;
 // ============================================================================
 
 import :transform.viewport;
-import :structure.vertex_out;
 import :primitive.topology.base;
 
 // ============================================================================
-// Declarations and Implementations
+// Forward Declarations
 // ============================================================================
 
-export constexpr void applyViewportTransform(
-    std::vector<std::unique_ptr<Primitive>> &primitives,
-    unsigned screenWidth,
-    unsigned screenHeight)
-{
-    ViewportTransform viewportTransform{screenWidth, screenHeight};
+class Logger;
 
-    // #pragma omp parallel for
-    for (auto &primitive : primitives)
-        for (VertexOut &vertex : primitive->vertices())
-            vertex.screenPosition =
-                viewportTransform.apply(vertex.ndcPosition);
-}
+// ============================================================================
+// Declarations
+// ============================================================================
+
+export class ViewportTransformPhase
+{
+    const ViewportTransform viewportTransform;
+    const Logger &logger;
+
+public:
+    ViewportTransformPhase(
+        unsigned screenWidth,
+        unsigned screenHeight,
+        const Logger &logger)
+        : viewportTransform(screenWidth, screenHeight), logger{logger} {}
+
+    void processPrimitives(
+        std::vector<std::unique_ptr<Primitive>> &primitives) const;
+};
 
 // ============================================================================
 // EOF

@@ -15,7 +15,7 @@ import :math.vector.vector_3d;
 // Forward Declarations
 // ============================================================================
 
-class PreFragment;
+struct PreFragment;
 class RasterizationContext;
 
 // ============================================================================
