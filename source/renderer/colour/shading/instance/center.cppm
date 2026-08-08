@@ -21,6 +21,7 @@ export class CenterShading : public Shading
 public:
     constexpr void adjustColour(Fragment &fragment) const override
     {
+        /*
         double sum = 0.0;
 
         for (double weight : fragment.weights)
@@ -33,6 +34,7 @@ public:
         if (intensity > 0.0)
             fragment.colour.set(
                 fragment.colour.get() * (1.0 / intensity));
+                */
     }
 };
 

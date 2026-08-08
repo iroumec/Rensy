@@ -1,6 +1,7 @@
 module;
 
 #include <vector>
+#include <memory>
 
 export module renderer:pipeline.viewport_transform;
 
@@ -17,15 +18,15 @@ import :primitive.topology.base;
 // ============================================================================
 
 export constexpr void applyViewportTransform(
-    std::vector<Primitive> &primitives,
+    std::vector<std::unique_ptr<Primitive>> &primitives,
     unsigned screenWidth,
     unsigned screenHeight)
 {
     ViewportTransform viewportTransform{screenWidth, screenHeight};
 
     // #pragma omp parallel for
-    for (Primitive &primitive : primitives)
-        for (VertexOut &vertex : primitive.vertices())
+    for (auto &primitive : primitives)
+        for (VertexOut &vertex : primitive->vertices())
             vertex.screenPosition =
                 viewportTransform.apply(vertex.ndcPosition);
 }

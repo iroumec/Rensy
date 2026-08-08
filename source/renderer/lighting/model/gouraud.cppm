@@ -9,6 +9,7 @@ export module renderer:lighting.model.gouraud;
 import :structure.fragment;
 import :lighting.model.base;
 import :structure.vertex_out;
+import :math.vector.vector_3d;
 import :primitive.topology.base;
 
 // ============================================================================
@@ -24,7 +25,7 @@ export class GouraudLightingModel : public LightingModel
     const double ambientLight;
 
 public:
-    GouraudLightingModel(const Vector3D &lightPoint, double ambientLight)
+    GouraudLightingModel(const Vector3D &lightPoint, double ambientLight = 0.0)
         : lightPoint{lightPoint}, ambientLight{ambientLight} {}
 
     void processVertex(VertexOut &vertex) const override;

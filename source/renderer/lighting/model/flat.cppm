@@ -7,6 +7,7 @@ export module renderer:lighting.model.flat;
 // ============================================================================
 
 import :lighting.model.base;
+import :math.vector.vector_3d;
 import :primitive.topology.base;
 
 // ============================================================================
@@ -21,7 +22,7 @@ export class FlatLightingModel : public LightingModel
     const double ambientLight;
 
 public:
-    FlatLightingModel(const Vector3D &lightPoint, double ambientLight)
+    FlatLightingModel(const Vector3D &lightPoint, double ambientLight = 0.0)
         : lightPoint{lightPoint}, ambientLight{ambientLight} {}
 
     void processPrimitive(Primitive &primitive) const override;

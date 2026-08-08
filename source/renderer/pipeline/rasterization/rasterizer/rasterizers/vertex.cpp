@@ -32,9 +32,9 @@ VertexRasterizer::
     for (const VertexOut &vertex : primitive.vertices())
     {
         Vector2D screenPosition = vertex.screenPosition;
-        PreFragment prefragment;
-        prefragment.xScreen = screenPosition.x();
-        prefragment.yScreen = screenPosition.y();
+        PreFragment prefragment(
+            screenPosition.x(),
+            screenPosition.y());
         prefragments.push_back(prefragment);
     }
 

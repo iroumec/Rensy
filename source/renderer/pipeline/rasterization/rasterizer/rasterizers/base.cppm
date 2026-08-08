@@ -1,6 +1,8 @@
 module;
 
 #include <vector>
+#include <memory>
+#include <utility>
 
 export module renderer:pipeline.rasterization.rasterizer.base;
 
@@ -20,6 +22,11 @@ export class Rasterizer
 {
 public:
     virtual ~Rasterizer() = default;
+
+    std::vector<PreFragment> rasterize(
+        std::vector<std::unique_ptr<Primitive>> &primitives,
+        unsigned screenWidth,
+        unsigned screenHeight) const = 0;
 
     virtual std::vector<PreFragment> rasterize(
         const Point &primitive,

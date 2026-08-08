@@ -151,23 +151,23 @@ export const PrimitiveGenerator *PRIMITIVE_GENERATOR = nullptr;
 // export const PrimitiveGenerator *PRIMITIVE_GENERATOR = &VERTEX_NORMAL_PRIMITIVE_GENERATOR;
 
 // ============================================================================
-// SHADING
+// LIGHTING
 // ============================================================================
 
 // DO NOT CHANGE!
-const DepthShadingFactory DEPTH_SHADING{};
-const BorderShadingFactory BORDER_SHADING{};
-const CenterShadingFactory CENTER_SHADING{};
-const FlatShadingFactory FLAT_SHADING{LIGHT_POSITION};
-const GouraudShadingFactory GOURAUD_SHADING{LIGHT_POSITION};
-const PhongShadingFactory PHONG_SHADING{LIGHT_POSITION};
+// const DepthShadingFactory DEPTH_SHADING{};
+// const BorderShadingFactory BORDER_SHADING{};
+// const CenterShadingFactory CENTER_SHADING{};
+const FlatLightingModel FLAT_LIGHTING(LIGHT_POSITION);
+const GouraudLightingModel GOURAUD_LIGHTING(LIGHT_POSITION);
+const PhongLightingModel PHONG_LIGHTING(LIGHT_POSITION);
 
 // SELECT ONE:
 // export const ShadingFactory *SHADING = nullptr;
 // export const ShadingFactory *SHADING = &DEPTH_SHADING;
 // export const ShadingFactory *SHADING = &BORDER_SHADING;
 //  export const ShadingFactory *SHADING = &CENTER_SHADING;
-export const ShadingFactory *SHADING = &FLAT_SHADING;
+export const LightingModel *LIGHTING_MODEL = &FLAT_LIGHTING;
 // export const ShadingFactory *SHADING = &GOURAUD_SHADING;
 // export const ShadingFactory *SHADING = &PHONG_SHADING;
 
@@ -192,8 +192,7 @@ export const DrawingPattern *DRAWING_PATTERN = nullptr;
 const VertexRasterizer VERTEX_RASTERIZER{};
 const WireframeRasterizer WIREFRAME_RASTERIZER{};
 // const ScanlineRasterizer SCANLINE_RASTERIZER{};
-const BoundingBoxRasterizer BOUNDING_BOX_RASTERIZER(
-    DRAWING_PATTERN, NORMAL_RASTERIZER);
+const BoundingBoxRasterizer BOUNDING_BOX_RASTERIZER(DRAWING_PATTERN);
 
 // SELECT ONE:
 // export const Rasterizer &RASTERIZER = VERTEX_RASTERIZER;

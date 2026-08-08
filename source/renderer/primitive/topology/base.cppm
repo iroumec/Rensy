@@ -45,8 +45,6 @@ public:
 
         return centroid /= this->getVertexCount();
     }
-
-    virtual std::unique_ptr<PrimitiveTopology> clone() const = 0;
 };
 
 export using Primitive = PrimitiveTopology;

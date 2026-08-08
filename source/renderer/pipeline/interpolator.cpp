@@ -11,6 +11,7 @@ module renderer;
 import :colour.calculator;
 import :structure.fragment;
 import :interpolation.data;
+import :structure.vertex_out;
 import :structure.prefragment;
 import :pipeline.interpolator;
 
@@ -26,7 +27,7 @@ std::vector<Fragment> Interpolator::interpolate(
 
     for (const PreFragment &prefragment : prefragments)
     {
-        out.push_back(interpolate(prefragment, colourCalculator));
+        out.push_back(interpolate(prefragment));
     }
 
     return out;
@@ -42,12 +43,9 @@ Fragment Interpolator::interpolate(const PreFragment &prefragment)
 
     fragment.depth = interpolatedVertex.screenPosition.z();
     fragment.worldPosition = interpolatedVertex.worldPosition;
-    fragment.normal = interpolatedVertex.normal;
+    fragment.normal = interpolatedVertex.worldNormal;
     fragment.colour.set(
         colourCalculator.calculateColour(prefragment.interpolationData));
-
-    for (const AttributeInfluence &influence : prefragment.interpolationData)
-        fragment.weights.push_back(attribute.weight);
 
     return fragment;
 }

@@ -2,6 +2,7 @@ module;
 
 #include <vector>
 #include <memory>
+#include <iterator>
 
 export module renderer:primitive.generator.normal.vertex;
 
@@ -18,25 +19,24 @@ import :primitive.generator.base;
 // Declarations
 // ============================================================================
 
-export class VertexNormalGeometryShader : public PrimitiveGenerator
+export class VertexNormalPrimitiveGenerator : public PrimitiveGenerator
 {
     const double normalDistance;
     const Colour normalColour;
 
 public:
-    VertexNormalGeometryShader(
+    VertexNormalPrimitiveGenerator(
         double normalDistance, const Colour &normalColour)
         : normalDistance(normalDistance), normalColour(normalColour) {}
 
     // Returns lines for the normals of the primitive vertices.
     // For example, triangle -> 3 lines.
-    std::vector<std::unique_ptr<Primitive>> processPrimitives(
-        std::vector<std::unique_ptr<Primitive>> primitives) const override
+    void processPrimitives(
+        std::vector<std::unique_ptr<Primitive>> &primitives) const override
     {
-        std::vector<std::unique_ptr<Primitive>> out;
+        std::vector<std::unique_ptr<Primitive>> generated;
 
         for (const auto &primitive : primitives)
-        {
             for (const VertexOut &vertex : primitive->vertices())
             {
                 // See resources/documentation/drawings/normalDrawing.
@@ -53,13 +53,16 @@ public:
                 start.colour.lock();
                 end.colour.lock();
 
-                out.push_back(std::make_unique<Line>(start, end));
+                generated.push_back(std::make_unique<Line>(start, end));
             }
 
-            out.push_back(primitive->clone());
-        }
+        // The space is reserved so reallocations are avoided.
+        primitives.reserve(primitives.size() + generated.size());
 
-        return out;
+        primitives.insert(
+            primitives.end(),
+            std::make_move_iterator(generated.begin()),
+            std::make_move_iterator(generated.end()));
     }
 };
 

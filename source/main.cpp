@@ -39,10 +39,10 @@ int main(int argc, char **argv)
         VIEW_TRANSFORM,
         PROJECTION_TRANSFORM,
         COLOUR_GENERATOR,
+        LIGHTING_MODEL,
+        PRIMITIVE_GENERATOR,
         RASTERIZER,
         COLOUR_CALCULATOR,
-        GEOMETRY_SHADER,
-        SHADING,
         BACKGROUND_COLOUR,
         FILTER,
     };

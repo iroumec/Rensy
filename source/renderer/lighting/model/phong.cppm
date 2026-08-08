@@ -20,7 +20,7 @@ export class PhongLightingModel : public LightingModel
     const double ambientLight;
 
 public:
-    PhongLightingModel(const Vector3D &lightPoint, double ambientLight)
+    PhongLightingModel(const Vector3D &lightPoint, double ambientLight = 0.0)
         : lightPoint{lightPoint}, ambientLight{ambientLight} {}
 
     void processFragment(Fragment &fragment) const override;

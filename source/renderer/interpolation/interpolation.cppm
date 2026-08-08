@@ -6,7 +6,7 @@ export module renderer:interpolation;
 // Exports-Imports
 // ============================================================================
 
-export import :interpolation.interpolator;
+export import :interpolation.data;
 
 // ============================================================================
 // EOF

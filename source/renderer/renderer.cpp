@@ -19,7 +19,9 @@ import :pipeline.interpolator;
 import :pipeline.face_culling;
 import :pipeline.shader.vertex;
 import :primitive.topology.base;
-import :pipeline.fragment_shader;
+import :pipeline.shader.fragment;
+import :pipeline.shader.geometry;
+import :pipeline.primitive_assembly;
 import :pipeline.viewport_transform;
 import :pipeline.perspective_divide;
 
@@ -71,8 +73,7 @@ RenderingOutputData Renderer::
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     GeometryShader geometryShader(inputData.primitiveGenerator);
-
-    primitives = geometryShader.processPrimitives(primitives);
+    geometryShader.processPrimitives(primitives);
 
     logger.debug(
         "\n> Number of primitives after geometry shader: {}",
@@ -113,6 +114,18 @@ RenderingOutputData Renderer::
         primitives,
         inputData.screenWidth,
         inputData.screenHeight);
+
+    std::vector<PreFragment> prefragments;
+
+    for (const auto &primitive : primitives)
+    {
+        PreFragment generated = inputData.rasterizer.rasterize(
+            *primitive,
+            screenWidth,
+            screenHeight);
+
+        prefragments.push_back(generated);
+    }
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // INTERPOLATION

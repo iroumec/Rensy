@@ -20,6 +20,7 @@ export class BorderShading : public Shading
 public:
     constexpr void adjustColour(Fragment &fragment) const override
     {
+        /*
         double intensity = 0.0;
 
         for (double weight : fragment.weights)
@@ -29,6 +30,7 @@ public:
 
         fragment.colour.set(
             fragment.colour.get() * intensity);
+            */
     }
 };
 

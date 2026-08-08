@@ -45,11 +45,7 @@ std::vector<PreFragment> WireframeRasterizer::rasterize(
 
     for (Vector2D vector : vectors)
     {
-        PreFragment prefragment;
-
-        prefragment.xScreen = vector.x();
-        prefragment.yScreen = vector.y();
-
+        PreFragment prefragment(vector.x(), vector.y());
         prefragments.push_back(prefragment);
     }
 
@@ -77,12 +73,8 @@ std::vector<PreFragment> WireframeRasterizer::
 
     for (Vector2D vector : vectors)
     {
-        PreFragment prefragment;
-
-        prefragment.xScreen = vector.x();
-        prefragment.yScreen = vector.y();
-
-        prefragments.push_back(prefragment);
+        // PreFragment prefragment(vector.x(), vector.y());
+        prefragments.push_back(PreFragment(vector.x(), vector.y()));
     }
 
     return prefragments;

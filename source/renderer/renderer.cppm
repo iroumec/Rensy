@@ -39,6 +39,7 @@ export struct RenderingInputData
     const std::string &fileName;
 
     const ModelLoader &modelLoader;
+    const NormalCalculator &normalCalculator;
 
     const ModelTransform modelTransform;
     const ViewTransform viewTransform;
@@ -53,7 +54,6 @@ export struct RenderingInputData
     const Rasterizer &rasterizer;
 
     const ColourCalculator &colourCalculator;
-    const ShadingFactory *shadingFactory;
 
     const Colour backgroundColour;
 

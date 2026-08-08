@@ -84,8 +84,7 @@ std::vector<PreFragment> BoundingBoxRasterizer::
                 interpolationData.influences.push_back({b, barycentricCoordinates.beta});
                 interpolationData.influences.push_back({c, barycentricCoordinates.gamma});
 
-                PreFragment prefragment{
-                    x, y, interpolationData}
+                PreFragment prefragment(x, y, interpolationData);
 
                 prefragments.push_back(prefragment);
             }

@@ -35,8 +35,6 @@ export struct Fragment
     // If the fragment colour depends on the relationship with
     // its primitive -> Before fragment shader.
     RestrictedColour colour;
-
-    std::vector<double> weights;
 };
 
 // ============================================================================

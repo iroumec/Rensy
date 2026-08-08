@@ -45,8 +45,8 @@ public:
         const LightingModel *lightingModel = nullptr)
         : primitiveGenerator{primitiveGenerator}, lightingModel{lightingModel} {}
 
-    std::vector<std::unique_ptr<Primitive>> processPrimitives(
-        std::vector<std::unique_ptr<Primitive>> primitives) const;
+    void processPrimitives(
+        std::vector<std::unique_ptr<Primitive>> &primitives) const;
 };
 
 // ============================================================================

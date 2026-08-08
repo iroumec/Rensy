@@ -19,11 +19,10 @@ import :primitive.generator.base;
 export class FaceNormalPrimitiveGenerator : public PrimitiveGenerator
 {
     // Returns lines for the normals of the primitive.
-    std::vector<std::unique_ptr<Primitive>> processPrimitives(
-        std::vector<std::unique_ptr<Primitive>> primitives) const override
+    void processPrimitives(
+        std::vector<std::unique_ptr<Primitive>> &primitives) const override
     {
         // TODO.
-        return primitives;
     }
 };
 

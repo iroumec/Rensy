@@ -26,6 +26,14 @@ export struct PreFragment
 
     // Información necesaria para interpolar
     InterpolationData interpolationData;
+
+    PreFragment(unsigned xScreen, unsigned yScreen)
+        : xScreen{xScreen}, yScreen{yScreen} {}
+
+    PreFragment(unsigned xScreen, unsigned yScreen,
+                const InterpolationData &interpolationData)
+        : xScreen{xScreen}, yScreen{yScreen},
+          interpolationData{interpolationData} {}
 };
 
 // ============================================================================

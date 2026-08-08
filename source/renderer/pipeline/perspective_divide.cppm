@@ -1,6 +1,7 @@
 module;
 
 #include <vector>
+#include <memory>
 #include <stdexcept>
 
 export module renderer:pipeline.perspective_divide;
@@ -31,11 +32,12 @@ constexpr Vector3D getNDC(const Vector4D &vector)
         vector.z() / w};
 }
 
-export constexpr void applyPerspectiveDivide(std::vector<Primitive> &primitives)
+export constexpr void applyPerspectiveDivide(
+    std::vector<std::unique_ptr<Primitive>> &primitives)
 {
     // #pragma omp parallel for
-    for (Primitive &primitive : primitives)
-        for (VertexOut &vertex : primitive.vertices())
+    for (auto &primitive : primitives)
+        for (VertexOut &vertex : primitive->vertices())
             vertex.ndcPosition = getNDC(vertex.clipPosition);
 }
 
