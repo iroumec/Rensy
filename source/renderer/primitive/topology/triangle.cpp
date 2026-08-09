@@ -31,6 +31,19 @@ Vector3D Triangle::getRepresentativeWorldNormal() const
     return (ab.cross(ac)).normalize();
 }
 
+Vector3D Triangle::getRepresentativeViewNormal() const
+{
+    Vector3D a = this->getVertexOne().viewPosition;
+    Vector3D b = this->getVertexTwo().viewPosition;
+    Vector3D c = this->getVertexThree().viewPosition;
+
+    // Normal vector calculation.
+    Vector3D ab = b - a;
+    Vector3D ac = c - a;
+
+    return (ab.cross(ac)).normalize();
+}
+
 std::vector<PreFragment> Triangle::rasterizeWith(
     const RasterizationContext &context) const
 {

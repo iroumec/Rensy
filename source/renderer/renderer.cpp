@@ -87,7 +87,10 @@ RenderingOutputData Renderer::
     // FACE CULLING
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    // primitives = applyFaceCulling(primitives, logger);
+    FaceCuller faceCuller(logger);
+
+    std::erase_if(primitives, [&](const auto &primitive)
+                  { return !faceCuller.isVisible(*primitive); });
 
     logger.debug("\n> Primitives after face culling: {}", primitives.size());
 

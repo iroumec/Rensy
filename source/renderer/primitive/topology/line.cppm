@@ -51,6 +51,7 @@ public:
     unsigned getVertexCount() const override { return this->vertices.size(); }
 
     Vector3D getRepresentativeWorldNormal() const override;
+    Vector3D getRepresentativeViewNormal() const override;
 
     std::vector<PreFragment> rasterizeWith(
         const RasterizationContext &context) const override;

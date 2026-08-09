@@ -22,6 +22,11 @@ Vector3D Line::getRepresentativeWorldNormal() const
     return this->getAverageWorldNormal();
 }
 
+Vector3D Line::getRepresentativeViewNormal() const
+{
+    return this->getAverageViewNormal();
+}
+
 std::vector<PreFragment> Line::rasterizeWith(
     const RasterizationContext &context) const
 {

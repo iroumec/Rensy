@@ -23,6 +23,11 @@ Vector3D Point::getRepresentativeWorldNormal() const
     return this->getAverageWorldNormal();
 }
 
+Vector3D Point::getRepresentativeViewNormal() const
+{
+    return this->getAverageViewNormal();
+}
+
 std::vector<PreFragment> Point::rasterizeWith(
     const RasterizationContext &context) const
 {
