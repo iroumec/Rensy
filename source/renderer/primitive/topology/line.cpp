@@ -1,6 +1,5 @@
 module;
 
-#include <vector>
 #include <string>
 #include <format>
 
@@ -17,11 +16,6 @@ import :primitive.topology.line;
 // ============================================================================
 // Implementations
 // ============================================================================
-
-std::vector<VertexOut> Line::vertices() const
-{
-    return {vertexOne, vertexTwo};
-}
 
 Vector3D Line::getRepresentativeWorldNormal() const
 {
@@ -40,8 +34,8 @@ std::string Line::toString() const
         "Line:\n"
         "Vertex 1:\n{}\n"
         "Vertex 2:\n{}",
-        vertexOne.toString(),
-        vertexTwo.toString());
+        getVertexOne().toString(),
+        getVertexTwo().toString());
 }
 
 // ============================================================================

@@ -75,8 +75,9 @@ RenderingOutputData Renderer::
     // GEOMETRY SHADER
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    // GeometryShader geometryShader(inputData.primitiveGenerator);
-    // geometryShader.processPrimitives(primitives);
+    GeometryShader geometryShader(
+        logger, inputData.primitiveGenerator, inputData.lightingModel);
+    geometryShader.processPrimitives(primitives);
 
     logger.debug(
         "\n> Number of primitives after geometry shader: {}",
@@ -100,7 +101,10 @@ RenderingOutputData Renderer::
     // PERSPECTIVE DIVIDE
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    applyPerspectiveDivide(primitives);
+    PerspectiveDivider perspectiveDivider(logger);
+
+    for (auto &primitive : primitives)
+        perspectiveDivider.applyPerspectiveDivision(*primitive);
 
     logger.debug("\n> Primitives after perspective divide: {}", primitives.size());
 
@@ -110,7 +114,9 @@ RenderingOutputData Renderer::
 
     ViewportTransformPhase viewportTransform(
         inputData.screenWidth, inputData.screenHeight, logger);
-    viewportTransform.processPrimitives(primitives);
+
+    for (auto &primitive : primitives)
+        viewportTransform.processPrimitive(*primitive);
 
     logger.debug("\n> Primitives after viewport transform: {}", primitives.size());
 
@@ -143,7 +149,7 @@ RenderingOutputData Renderer::
     // INTERPOLATION
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    Interpolator interpolator(inputData.colourCalculator);
+    Interpolator interpolator(inputData.colourCalculator, logger);
 
     std::vector<Fragment> fragments;
     fragments.reserve(prefragments.size());
@@ -157,7 +163,7 @@ RenderingOutputData Renderer::
     // FRAGMENT SHADER
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    FragmentShader fragmentShader(inputData.lightingModel);
+    FragmentShader fragmentShader(logger, inputData.lightingModel);
 
     fragmentShader.processFragments(fragments);
 

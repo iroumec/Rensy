@@ -1,5 +1,6 @@
 module;
 
+#include <span>
 #include <vector>
 #include <string>
 
@@ -29,15 +30,16 @@ export class PrimitiveTopology
 public:
     virtual ~PrimitiveTopology() = default;
 
-    virtual std::vector<VertexOut> vertices() const = 0;
     virtual unsigned getVertexCount() const = 0;
+    virtual std::span<VertexOut> getVertices() = 0;
+    virtual std::span<const VertexOut> getVertices() const = 0;
     virtual Vector3D getRepresentativeWorldNormal() const = 0;
 
     virtual Vector3D getAverageWorldNormal() const
     {
         Vector3D worldNormalSum;
 
-        for (const VertexOut &vertex : this->vertices())
+        for (const VertexOut &vertex : this->getVertices())
             worldNormalSum += vertex.worldNormal;
 
         return worldNormalSum /= this->getVertexCount();
@@ -47,7 +49,7 @@ public:
     {
         Vector3D centroid;
 
-        for (const VertexOut &vertex : this->vertices())
+        for (const VertexOut &vertex : this->getVertices())
             centroid += vertex.worldPosition;
 
         return centroid /= this->getVertexCount();

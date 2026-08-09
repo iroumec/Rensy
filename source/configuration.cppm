@@ -163,13 +163,13 @@ const GouraudLightingModel GOURAUD_LIGHTING(LIGHT_POSITION);
 const PhongLightingModel PHONG_LIGHTING(LIGHT_POSITION);
 
 // SELECT ONE:
-export const LightingModel *LIGHTING_MODEL = nullptr;
+// export const LightingModel *LIGHTING_MODEL = nullptr;
 // export const LightingModel *LIGHTING_MODEL = &DEPTH_SHADING;
 // export const LightingModel *LIGHTING_MODEL = &BORDER_SHADING;
 //  export const LightingModel *SHADLIGHTING_MODELING = &CENTER_SHADING;
-// export const LightingModel *LIGHTING_MODEL = &FLAT_LIGHTING;
+export const LightingModel *LIGHTING_MODEL = &FLAT_LIGHTING;
 // export const LightingModel *SHADILIGHTING_MODELNG = &GOURAUD_SHADING;
-// export const LightingModel *LIGHTING_MODEL = &PHONG_SHADING;
+// export const LightingModel *LIGHTING_MODEL = &PHONG_LIGHTING;
 
 // ============================================================================
 // DRAWING PATTERN

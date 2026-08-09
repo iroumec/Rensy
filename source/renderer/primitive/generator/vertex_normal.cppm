@@ -37,7 +37,7 @@ public:
         std::vector<std::unique_ptr<Primitive>> generated;
 
         for (const auto &primitive : primitives)
-            for (const VertexOut &vertex : primitive->vertices())
+            for (const VertexOut &vertex : primitive->getVertices())
             {
                 // See resources/documentation/drawings/normalDrawing.
                 VertexOut start = vertex;

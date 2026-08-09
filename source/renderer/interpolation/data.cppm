@@ -1,6 +1,7 @@
 module;
 
 #include <vector>
+#include <cassert>
 
 export module renderer:interpolation.data;
 
@@ -8,6 +9,7 @@ export module renderer:interpolation.data;
 // Imports
 // ============================================================================
 
+import :logging.logger;
 import :structure.vertex_out;
 
 // ============================================================================
@@ -58,14 +60,31 @@ export struct InterpolationData
         return minInfluence;
     }
 
-    VertexOut getInterpolatedVertex() const
+    VertexOut getInterpolatedVertex(const Logger &logger) const
     {
         VertexOut vertex;
 
+        logger.trace(
+            "INTERPOLATOR: Vertex before interpolation: {}",
+            vertex.toString());
+
         for (const AttributeInfluence &influence : this->influences)
         {
-            vertex += influence.getPonderatedVertex();
+            assert(std::isfinite(influence.weight));
+            assert(std::isfinite(influence.vertex.lightIntensity));
+
+            VertexOut ponderated = influence.getPonderatedVertex();
+
+            assert(std::isfinite(ponderated.lightIntensity));
+
+            vertex += ponderated;
+
+            assert(std::isfinite(vertex.lightIntensity));
         }
+
+        logger.trace(
+            "INTERPOLATOR: Vertex after interpolation: {}",
+            vertex.toString());
 
         return vertex;
     }

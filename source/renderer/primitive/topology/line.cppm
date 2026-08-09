@@ -1,5 +1,7 @@
 module;
 
+#include <span>
+#include <array>
 #include <vector>
 #include <string>
 
@@ -26,20 +28,27 @@ class RasterizationContext;
 
 export class Line : public PrimitiveTopology
 {
-    VertexOut vertexOne;
-    VertexOut vertexTwo;
+    std::array<VertexOut, 2> vertices;
 
 public:
     Line(const VertexOut &vertexOne, const VertexOut &vertexTwo)
-        : vertexOne{vertexOne}, vertexTwo{vertexTwo} {}
+        : vertices{vertexOne, vertexTwo} {}
 
-    constexpr VertexOut getVertexOne() const { return this->vertexOne; }
-    constexpr VertexOut getVertexTwo() const { return this->vertexTwo; }
-    constexpr VertexOut &getVertexOne() { return this->vertexOne; }
-    constexpr VertexOut &getVertexTwo() { return this->vertexTwo; }
+    constexpr VertexOut getVertexOne() const { return this->vertices[0]; }
+    constexpr VertexOut getVertexTwo() const { return this->vertices[1]; }
+    constexpr VertexOut &getVertexOne() { return this->vertices[0]; }
+    constexpr VertexOut &getVertexTwo() { return this->vertices[1]; }
 
-    std::vector<VertexOut> vertices() const override;
-    unsigned getVertexCount() const override { return 1; }
+    std::span<VertexOut> getVertices() override
+    {
+        return this->vertices;
+    }
+    std::span<const VertexOut> getVertices() const override
+    {
+        return this->vertices;
+    }
+
+    unsigned getVertexCount() const override { return this->vertices.size(); }
 
     Vector3D getRepresentativeWorldNormal() const override;
 

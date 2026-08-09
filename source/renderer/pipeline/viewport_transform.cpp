@@ -1,7 +1,6 @@
 module;
 
 #include <vector>
-#include <memory>
 
 module renderer;
 
@@ -19,20 +18,26 @@ import :pipeline.viewport_transform;
 // Declarations and Implementations
 // ============================================================================
 
-void ViewportTransformPhase::processPrimitives(
-    std::vector<std::unique_ptr<Primitive>> &primitives) const
+void ViewportTransformPhase::processPrimitive(
+    Primitive &primitive) const
 {
     // #pragma omp parallel for
-    for (auto &primitive : primitives)
-        for (VertexOut &vertex : primitive->vertices())
-        {
-            vertex.screenPosition =
-                this->viewportTransform.apply(vertex.ndcPosition);
+    for (VertexOut &vertex : primitive.getVertices())
+    {
+        this->logger.trace(
+            "Before viewport: NDC = {}, clip = {}.",
+            vertex.ndcPosition.toString(),
+            vertex.clipPosition.toString());
 
-            this->logger.trace(
-                "Vertex's screen position after viewport transform: {}",
-                vertex.screenPosition.toString());
-        }
+        vertex.screenPosition =
+            this->viewportTransform.apply(vertex.ndcPosition);
+
+        this->logger.trace(
+            "After viewport: NDC = {}, clip = {}, screen = {}",
+            vertex.ndcPosition.toString(),
+            vertex.clipPosition.toString(),
+            vertex.screenPosition.toString());
+    }
 }
 
 // ============================================================================

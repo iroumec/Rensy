@@ -1,5 +1,7 @@
 module;
 
+#include <span>
+#include <array>
 #include <vector>
 #include <string>
 
@@ -26,16 +28,24 @@ class RasterizationContext;
 
 export class Point : public PrimitiveTopology
 {
-    VertexOut vertex;
+    std::array<VertexOut, 1> vertices;
 
 public:
-    Point(const VertexOut &vertex) : vertex{vertex} {}
+    Point(const VertexOut &vertex) : vertices{vertex} {}
 
-    constexpr VertexOut getVertex() const { return this->vertex; }
-    constexpr VertexOut &getVertex() { return this->vertex; }
+    constexpr VertexOut getVertex() const { return this->vertices[0]; }
+    constexpr VertexOut &getVertex() { return this->vertices[0]; }
 
-    std::vector<VertexOut> vertices() const override;
-    unsigned getVertexCount() const override { return 2; }
+    std::span<VertexOut> getVertices() override
+    {
+        return this->vertices;
+    }
+    std::span<const VertexOut> getVertices() const override
+    {
+        return this->vertices;
+    }
+
+    unsigned getVertexCount() const override { return this->vertices.size(); }
 
     Vector3D getRepresentativeWorldNormal() const override;
 

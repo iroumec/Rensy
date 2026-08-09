@@ -11,6 +11,7 @@ export module renderer:pipeline.shader.geometry;
 
 import :transform.mvp;
 import :transform.view;
+import :logging.logger;
 import :transform.model;
 import :colour.generator;
 import :lighting.model.base;
@@ -36,14 +37,17 @@ import :primitive.generator.base;
 // - Geometry expansion: informal term for primitive amplification.
 export class GeometryShader
 {
+    const Logger &logger;
     const PrimitiveGenerator *primitiveGenerator;
     const LightingModel *lightingModel;
 
 public:
     GeometryShader(
+        const Logger &logger,
         const PrimitiveGenerator *primitiveGenerator = nullptr,
         const LightingModel *lightingModel = nullptr)
-        : primitiveGenerator{primitiveGenerator}, lightingModel{lightingModel} {}
+        : logger{logger}, primitiveGenerator{primitiveGenerator},
+          lightingModel{lightingModel} {}
 
     void processPrimitives(
         std::vector<std::unique_ptr<Primitive>> &primitives) const;

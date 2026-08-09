@@ -18,16 +18,11 @@ import :primitive.topology.triangle;
 // Implementations
 // ============================================================================
 
-std::vector<VertexOut> Triangle::vertices() const
-{
-    return {vertexOne, vertexTwo, vertexThree};
-}
-
 Vector3D Triangle::getRepresentativeWorldNormal() const
 {
-    Vector3D a = this->vertexOne.worldPosition;
-    Vector3D b = this->vertexTwo.worldPosition;
-    Vector3D c = this->vertexThree.worldPosition;
+    Vector3D a = this->getVertexOne().worldPosition;
+    Vector3D b = this->getVertexTwo().worldPosition;
+    Vector3D c = this->getVertexThree().worldPosition;
 
     // Normal vector calculation.
     Vector3D ab = b - a;
@@ -49,9 +44,9 @@ std::string Triangle::toString() const
         "Vertex 1:\n{}\n"
         "Vertex 2:\n{}\n"
         "Vertex 3:\n{}",
-        vertexOne.toString(),
-        vertexTwo.toString(),
-        vertexThree.toString());
+        getVertexOne().toString(),
+        getVertexTwo().toString(),
+        getVertexThree().toString());
 }
 
 // ============================================================================

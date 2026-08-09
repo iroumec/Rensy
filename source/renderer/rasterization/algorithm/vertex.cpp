@@ -29,7 +29,7 @@ VertexAlgorithm::
 {
     std::vector<PreFragment> prefragments;
 
-    for (const VertexOut &vertex : primitive.vertices())
+    for (const VertexOut &vertex : primitive.getVertices())
     {
         Vector2D screenPosition = vertex.screenPosition;
         PreFragment prefragment(

@@ -1,45 +1,37 @@
 module;
 
-#include <vector>
-#include <memory>
-#include <stdexcept>
-
 export module renderer:pipeline.perspective_divide;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :structure.vertex_out;
-import :math.vector.vector_3d;
-import :math.vector.vector_4d;
 import :primitive.topology.base;
+
+// ============================================================================
+// Forward Declarations
+// ============================================================================
+
+class Logger;
+class Vector3D;
+class Vector4D;
 
 // ============================================================================
 // Declarations and Implementations
 // ============================================================================
 
-constexpr Vector3D getNDC(const Vector4D &vector)
+export class PerspectiveDivider
 {
-    const double w = vector.w();
+    const Logger &logger;
 
-    if (w == 0.0)
-        throw std::runtime_error("Perspective divide by zero");
+    Vector3D getNDC(const Vector4D &vector) const;
 
-    return Vector3D{
-        vector.x() / w,
-        vector.y() / w,
-        vector.z() / w};
-}
+public:
+    PerspectiveDivider(const Logger &logger)
+        : logger{logger} {}
 
-export constexpr void applyPerspectiveDivide(
-    std::vector<std::unique_ptr<Primitive>> &primitives)
-{
-    // #pragma omp parallel for
-    for (auto &primitive : primitives)
-        for (VertexOut &vertex : primitive->vertices())
-            vertex.ndcPosition = getNDC(vertex.clipPosition);
-}
+    void applyPerspectiveDivision(Primitive &primitive) const;
+};
 
 // ============================================================================
 // EOF

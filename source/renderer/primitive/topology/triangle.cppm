@@ -1,5 +1,7 @@
 module;
 
+#include <span>
+#include <array>
 #include <vector>
 #include <string>
 
@@ -26,28 +28,32 @@ class RasterizationContext;
 
 export class Triangle : public PrimitiveTopology
 {
-    VertexOut vertexOne;
-    VertexOut vertexTwo;
-    VertexOut vertexThree;
+    std::array<VertexOut, 3> vertices;
 
 public:
     Triangle(
         const VertexOut &vertexOne,
         const VertexOut &vertexTwo,
         const VertexOut &vertexThree)
-        : vertexOne{vertexOne},
-          vertexTwo{vertexTwo},
-          vertexThree{vertexThree} {}
+        : vertices{vertexOne, vertexTwo, vertexThree} {}
 
-    constexpr VertexOut getVertexOne() const { return this->vertexOne; }
-    constexpr VertexOut getVertexTwo() const { return this->vertexTwo; }
-    constexpr VertexOut getVertexThree() const { return this->vertexThree; }
-    constexpr VertexOut &getVertexOne() { return this->vertexOne; }
-    constexpr VertexOut &getVertexTwo() { return this->vertexTwo; }
-    constexpr VertexOut &getVertexThree() { return this->vertexThree; }
+    constexpr VertexOut getVertexOne() const { return this->vertices[0]; }
+    constexpr VertexOut getVertexTwo() const { return this->vertices[1]; }
+    constexpr VertexOut getVertexThree() const { return this->vertices[2]; }
+    constexpr VertexOut &getVertexOne() { return this->vertices[0]; }
+    constexpr VertexOut &getVertexTwo() { return this->vertices[1]; }
+    constexpr VertexOut &getVertexThree() { return this->vertices[2]; }
 
-    std::vector<VertexOut> vertices() const override;
-    unsigned getVertexCount() const override { return 3; }
+    std::span<VertexOut> getVertices() override
+    {
+        return this->vertices;
+    }
+    std::span<const VertexOut> getVertices() const override
+    {
+        return this->vertices;
+    }
+
+    unsigned getVertexCount() const override { return this->vertices.size(); }
 
     Vector3D getRepresentativeWorldNormal() const override;
 

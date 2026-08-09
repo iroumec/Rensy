@@ -1,8 +1,5 @@
 module;
 
-#include <vector>
-#include <memory>
-
 export module renderer:pipeline.viewport_transform;
 
 // ============================================================================
@@ -34,8 +31,7 @@ public:
         const Logger &logger)
         : viewportTransform(screenWidth, screenHeight), logger{logger} {}
 
-    void processPrimitives(
-        std::vector<std::unique_ptr<Primitive>> &primitives) const;
+    void processPrimitive(Primitive &primitive) const;
 };
 
 // ============================================================================
