@@ -37,12 +37,14 @@ public:
 
     Vector3D getAverageWorldNormal() const
     {
-        Vector3D worldNormalSum;
+        const auto vertices = this->getVertices();
 
-        for (const VertexOut &vertex : this->getVertices())
-            worldNormalSum += vertex.worldNormal;
+        Vector3D worldNormal{};
 
-        return worldNormalSum /= this->getVertexCount();
+        for (const auto &vertex : vertices)
+            worldNormal += vertex.worldNormal;
+
+        return worldNormal / static_cast<double>(vertices.size());
     }
 
     Vector3D getCentroid() const

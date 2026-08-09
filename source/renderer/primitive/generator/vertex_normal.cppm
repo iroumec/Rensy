@@ -3,6 +3,7 @@ module;
 #include <vector>
 #include <memory>
 #include <iterator>
+#include <iostream>
 
 export module renderer:primitive.generator.normal.vertex;
 
@@ -40,11 +41,16 @@ public:
             for (const VertexOut &vertex : primitive->getVertices())
             {
                 // See resources/documentation/drawings/normalDrawing.
+                const Vector3D startPosition = vertex.worldPosition;
+                const Vector3D normal = vertex.worldNormal.normalize();
+                const Vector3D endPosition =
+                    startPosition + normal * normalDistance;
+
                 VertexOut start = vertex;
                 VertexOut end = vertex;
 
-                end.worldPosition =
-                    start.worldPosition + start.worldNormal.normalize() * normalDistance;
+                start.worldPosition = startPosition;
+                end.worldPosition = endPosition;
 
                 start.colour.set(normalColour);
                 end.colour.set(normalColour);

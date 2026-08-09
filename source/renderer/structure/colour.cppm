@@ -121,7 +121,7 @@ export struct Colour
             << ", B: "
             << static_cast<int>(colour.b)
             << ", A: "
-            << static_cast<int>(colour.a) << '\n';
+            << static_cast<int>(colour.a);
 
         return out;
     }

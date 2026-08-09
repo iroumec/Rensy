@@ -14,6 +14,8 @@ module renderer;
 
 import :math.bresenham;
 import :primitive.topology;
+import :interpolation.data;
+import :structure.vertex_out;
 import :structure.prefragment;
 import :rasterization.algorithm.wireframe;
 
@@ -26,18 +28,22 @@ std::vector<PreFragment> WireframeAlgorithm::rasterize(
     unsigned screenWidth,
     unsigned screenHeight) const
 {
-    Vector2D a = primitive.getVertexOne().screenPosition;
-    Vector2D b = primitive.getVertexTwo().screenPosition;
+    VertexOut a = primitive.getVertexOne();
+    VertexOut b = primitive.getVertexTwo();
 
     std::vector<Vector2D> vectors;
 
-    drawLine(a, b, vectors);
+    drawLine(a.screenPosition, b.screenPosition, vectors);
 
     std::vector<PreFragment> prefragments;
 
     for (Vector2D vector : vectors)
     {
-        PreFragment prefragment(vector.x(), vector.y());
+        InterpolationData interpolationData{};
+        interpolationData.addInfluence(AttributeInfluence(a, 0.5)); // TODO: use t then. Bresenham output.
+        interpolationData.addInfluence(AttributeInfluence(b, 0.5));
+
+        PreFragment prefragment(vector.x(), vector.y(), interpolationData);
         prefragments.push_back(prefragment);
     }
 

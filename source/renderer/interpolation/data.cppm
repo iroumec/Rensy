@@ -24,6 +24,9 @@ export struct AttributeInfluence
     const VertexOut vertex;
     double weight;
 
+    AttributeInfluence(const VertexOut &vertex, double weight)
+        : vertex{vertex}, weight{weight} {}
+
     VertexOut getPonderatedVertex() const
     {
         return this->vertex * this->weight;
@@ -33,6 +36,11 @@ export struct AttributeInfluence
 export struct InterpolationData
 {
     std::vector<AttributeInfluence> influences;
+
+    void addInfluence(AttributeInfluence newInfluence)
+    {
+        this->influences.push_back(newInfluence);
+    }
 
     auto begin() const { return influences.begin(); }
     auto end() const { return influences.end(); }
