@@ -4,20 +4,14 @@ A customizable OBJ model renderer.
 
 ## Showcase
 
-Wireframe rendering:
-![Wireframe Rendering](resources/interesting_outputs/01.png)
-
-Bounding box rendering with random colour generation and fog:
 ![Framebuffer Rendering](resources/interesting_outputs/14.png)
 
-Depth buffer rendering:
 ![ZBuffer Rendering](resources/interesting_outputs/11.png)
 
-Flat shading rendering with perspective:
 ![Flat Shading Rendering](resources/interesting_outputs/20.png)
 
-Gouraud shading rendering with perspective:
 ![Gouraud Shading Rendering](resources/interesting_outputs/21.png)
 
-Phong shading rendering with perspective:
 ![Phong Shading Rendering](resources/interesting_outputs/22.png)
+
+![Wireframe Shading Rendering](resources/interesting_outputs/24.png)
