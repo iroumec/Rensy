@@ -26,11 +26,10 @@ void GeometryShader::processPrimitives(
 
     if (this->lightingModel)
     {
-        this->logger.trace(
-            "GEOMETRY SHADER: Lighting model found and processing primitive.");
-
         for (auto &primitive : primitives)
+        {
             this->lightingModel->processPrimitive(*primitive);
+        }
     }
 }
 

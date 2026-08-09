@@ -1,6 +1,9 @@
 module;
 
+#include <cmath>
+#include <limits>
 #include <vector>
+#include <cstdlib>
 #include <cassert>
 
 export module renderer:interpolation.data;
@@ -64,27 +67,42 @@ export struct InterpolationData
     {
         VertexOut vertex;
 
-        logger.trace(
-            "INTERPOLATOR: Vertex before interpolation: {}",
-            vertex.toString());
-
         for (const AttributeInfluence &influence : this->influences)
         {
-            assert(std::isfinite(influence.weight));
-            assert(std::isfinite(influence.vertex.lightIntensity));
+            if (!std::isfinite(influence.weight)) // Take this to a metod with a condition.
+            {
+                logger.error("Invalid weight: {}", influence.weight);
+                std::abort();
+            }
+
+            if (!std::isfinite(influence.vertex.lightIntensity))
+            {
+                logger.error(
+                    "Invalid input lightIntensity: {}",
+                    influence.vertex.lightIntensity);
+                std::abort();
+            }
 
             VertexOut ponderated = influence.getPonderatedVertex();
 
-            assert(std::isfinite(ponderated.lightIntensity));
+            if (!std::isfinite(ponderated.lightIntensity))
+            {
+                logger.error(
+                    "Invalid ponderated lightIntensity: {}",
+                    ponderated.lightIntensity);
+                std::abort();
+            }
 
             vertex += ponderated;
 
-            assert(std::isfinite(vertex.lightIntensity));
+            if (!std::isfinite(vertex.lightIntensity))
+            {
+                logger.error(
+                    "Invalid accumulated lightIntensity: {}",
+                    vertex.lightIntensity);
+                std::abort();
+            }
         }
-
-        logger.trace(
-            "INTERPOLATOR: Vertex after interpolation: {}",
-            vertex.toString());
 
         return vertex;
     }

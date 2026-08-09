@@ -35,7 +35,7 @@ public:
     virtual std::span<const VertexOut> getVertices() const = 0;
     virtual Vector3D getRepresentativeWorldNormal() const = 0;
 
-    virtual Vector3D getAverageWorldNormal() const
+    Vector3D getAverageWorldNormal() const
     {
         Vector3D worldNormalSum;
 
@@ -47,12 +47,14 @@ public:
 
     Vector3D getCentroid() const
     {
-        Vector3D centroid;
+        const auto vertices = this->getVertices();
 
-        for (const VertexOut &vertex : this->getVertices())
+        Vector3D centroid{};
+
+        for (const auto &vertex : vertices)
             centroid += vertex.worldPosition;
 
-        return centroid /= this->getVertexCount();
+        return centroid / static_cast<double>(vertices.size());
     }
 
     virtual std::vector<PreFragment> rasterizeWith(
