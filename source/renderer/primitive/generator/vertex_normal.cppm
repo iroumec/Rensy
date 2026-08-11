@@ -41,16 +41,19 @@ public:
             for (const VertexOut &vertex : primitive->getVertices())
             {
                 // See resources/documentation/drawings/normalDrawing.
-                const Vector3D startPosition = vertex.worldPosition;
-                const Vector3D normal = vertex.worldNormal.normalize();
+                const Vector3D startPosition = vertex.viewPosition;
+                const Vector3D normal = vertex.viewNormal.normalize();
                 const Vector3D endPosition =
                     startPosition + normal * normalDistance;
 
                 VertexOut start = vertex;
                 VertexOut end = vertex;
 
-                start.worldPosition = startPosition;
-                end.worldPosition = endPosition;
+                start.viewPosition = startPosition;
+                end.viewPosition = endPosition;
+
+                // std::cout << "start view position" << start.viewPosition << '\n';
+                // std::cout << "end view position" << end.viewPosition << '\n';
 
                 start.colour.set(normalColour);
                 end.colour.set(normalColour);
@@ -67,8 +70,10 @@ public:
 
         primitives.insert(
             primitives.end(),
-            std::make_move_iterator(generated.begin()),
-            std::make_move_iterator(generated.end()));
+            std::make_move_iterator(
+                generated.begin()),
+            std::make_move_iterator(
+                generated.end()));
     }
 };
 

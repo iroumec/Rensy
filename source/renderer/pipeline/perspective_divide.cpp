@@ -22,11 +22,12 @@ import :pipeline.perspective_divide;
 void PerspectiveDivider::applyPerspectiveDivision(
     Primitive &primitive) const
 {
+
     for (VertexOut &vertex : primitive.getVertices())
     {
         vertex.ndcPosition = getNDC(vertex.clipPosition);
 
-        this->logger.trace(
+        this->logger.traceEvery<1000>(
             "Vertex's NDC position obtained: {},\nfrom clip position {}.",
             vertex.ndcPosition.toString(), vertex.clipPosition.toString());
     }

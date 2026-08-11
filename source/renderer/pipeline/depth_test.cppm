@@ -14,6 +14,7 @@ export module renderer:pipeline.depth_test;
 // Imports
 // ============================================================================
 
+import :logging.logger;
 import :output.image.tga;
 import :structure.fragment;
 
@@ -25,12 +26,13 @@ class DepthBuffer
 {
     const unsigned width;
     const unsigned height;
+    const Logger &logger;
     std::vector<double> buffer;
 
 public:
     // The buffer is initialized with the biggest value.
-    DepthBuffer(unsigned width, unsigned height)
-        : width{width}, height{height},
+    DepthBuffer(unsigned width, unsigned height, const Logger &logger)
+        : width{width}, height{height}, logger{logger},
           buffer(width * height, -std::numeric_limits<double>::infinity()) {}
 
     void setDepth(unsigned int x, unsigned int y, double depth)
@@ -58,7 +60,8 @@ public:
         std::vector<Fragment> processedFragments;
 
         for (Fragment fragment : fragments)
-            if (this->testAndSet(fragment.xScreen, fragment.yScreen, fragment.depth))
+            if (this->testAndSet(
+                    fragment.xScreen, fragment.yScreen, fragment.depth))
                 processedFragments.push_back(fragment);
 
         return processedFragments;
@@ -66,6 +69,10 @@ public:
 
     bool testAndSet(unsigned x, unsigned y, double depth)
     {
+        this->logger.traceEvery<10000>(
+            "DEPTH TEST: x: {}, y: {}, depth: {}",
+            x, y, depth);
+
         assert(x >= 0 && x < this->width);
         assert(y >= 0 && y < this->height);
 

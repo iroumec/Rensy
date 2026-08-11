@@ -46,7 +46,7 @@ std::vector<std::unique_ptr<Primitive>> PrimitiveAssembler::assemblyPrimitives(
             vertices[faces[index + 1]],
             vertices[faces[index + 2]]);
 
-        this->logger.trace(
+        this->logger.traceEvery<1000>(
             "\nTriangle {} composed of indices in range: [{}, {}]\n{}\n",
             i, index, index + 2, primitives[i]->toString());
     }

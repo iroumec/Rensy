@@ -29,13 +29,19 @@ Fragment Interpolator::interpolate(const PreFragment &prefragment)
     fragment.worldPosition = interpolatedVertex.worldPosition;
     fragment.normal = interpolatedVertex.worldNormal;
 
-    this->logger.trace(
-        "INTERPOLATOR: Ligh intensity before interpolation: {}",
-        fragment.lightIntensity);
+    const bool trace = logger.shouldTraceEvery<100000>();
+
+    if (trace)
+        this->logger.trace(
+            "INTERPOLATOR: Ligh intensity before interpolation: {}",
+            fragment.lightIntensity);
+
     fragment.lightIntensity = interpolatedVertex.lightIntensity;
-    this->logger.trace(
-        "INTERPOLATOR: Ligh intensity after interpolation: {}",
-        fragment.lightIntensity);
+
+    if (trace)
+        this->logger.trace(
+            "INTERPOLATOR: Ligh intensity after interpolation: {}",
+            fragment.lightIntensity);
 
     fragment.colour.set(
         colourCalculator.calculateColour(prefragment.interpolationData));

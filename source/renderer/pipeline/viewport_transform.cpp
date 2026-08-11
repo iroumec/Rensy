@@ -24,19 +24,23 @@ void ViewportTransformPhase::processPrimitive(
     // #pragma omp parallel for
     for (VertexOut &vertex : primitive.getVertices())
     {
-        this->logger.trace(
-            "Before viewport: NDC = {}, clip = {}.",
-            vertex.ndcPosition.toString(),
-            vertex.clipPosition.toString());
+        const bool trace = logger.shouldTraceEvery<10000>();
+
+        if (trace)
+            this->logger.trace(
+                "Before viewport: NDC = {}, clip = {}.",
+                vertex.ndcPosition.toString(),
+                vertex.clipPosition.toString());
 
         vertex.screenPosition =
             this->viewportTransform.apply(vertex.ndcPosition);
 
-        this->logger.trace(
-            "After viewport: NDC = {}, clip = {}, screen = {}",
-            vertex.ndcPosition.toString(),
-            vertex.clipPosition.toString(),
-            vertex.screenPosition.toString());
+        if (trace)
+            this->logger.trace(
+                "After viewport: NDC = {}, clip = {}, screen = {}",
+                vertex.ndcPosition.toString(),
+                vertex.clipPosition.toString(),
+                vertex.screenPosition.toString());
     }
 }
 

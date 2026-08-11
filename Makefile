@@ -27,6 +27,9 @@ compile:
 run: compile
 	@$(EXEC) $(FILES) 
 
+run-face:
+	@$(MAKE) run FILES="resources/obj/african_head/african_head.obj"
+
 timed-run: compile ## The program is executed using all optimizations (-O3) and then executed, measuring its runtime.
 	@time $(EXEC) $(FILES)
 

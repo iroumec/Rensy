@@ -10,6 +10,7 @@ module renderer;
 // ============================================================================
 
 import :logging.logger;
+import :structure.vertex_out;
 import :math.vector.vector_3d;
 import :pipeline.face_culling;
 import :primitive.topology.base;
@@ -45,6 +46,38 @@ bool FaceCuller::isVisible(const Primitive &primitive)
 
     return dot > 0;
 }
+
+/*
+
+// In this algorithm, the face is discarded if all vertices have
+// a normal whose dot product with the camera is <= 0.
+bool FaceCuller::isVisible(const Primitive &primitive)
+{
+    bool isVisible = false;
+
+    auto vertices = primitive.getVertices();
+    auto it = vertices.begin();
+
+    while (it != vertices.end() && !isVisible)
+    {
+        const VertexOut &vertex = *it;
+
+        // View space, so the camera is always in (0, 0, 0).
+        Vector3D viewDirection =
+            (-vertex.viewPosition).normalize();
+
+        double dot = vertex.viewNormal.dot(viewDirection);
+
+        logger.trace("Dot test result: {}", dot);
+
+        isVisible = dot > 0;
+
+        ++it;
+    }
+
+    return isVisible;
+}
+*/
 
 // ============================================================================
 // EOF

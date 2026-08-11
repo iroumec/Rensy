@@ -54,8 +54,7 @@ RenderingOutputData Renderer::
 
     VertexShader vertexShader(
         inputData.modelTransform, inputData.viewTransform,
-        inputData.projectionTransform, inputData.colourGenerator,
-        logger, inputData.lightingModel);
+        inputData.colourGenerator, logger, inputData.lightingModel);
 
     std::vector<VertexOut> processedVertices =
         vertexShader.processVertices(vbo.vertices);
@@ -76,7 +75,8 @@ RenderingOutputData Renderer::
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
     GeometryShader geometryShader(
-        logger, inputData.primitiveGenerator, inputData.lightingModel);
+        logger, inputData.projectionTransform,
+        inputData.primitiveGenerator, inputData.lightingModel);
     geometryShader.processPrimitives(primitives);
 
     logger.debug(
@@ -89,8 +89,8 @@ RenderingOutputData Renderer::
 
     FaceCuller faceCuller(logger);
 
-    std::erase_if(primitives, [&](const auto &primitive)
-                  { return !faceCuller.isVisible(*primitive); });
+    // std::erase_if(primitives, [&](const auto &primitive)
+    //               { return !faceCuller.isVisible(*primitive); });
 
     logger.debug("\n> Primitives after face culling: {}", primitives.size());
 
@@ -176,7 +176,7 @@ RenderingOutputData Renderer::
     // DEPTH TEST
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    DepthBuffer zBuffer(inputData.screenWidth, inputData.screenHeight);
+    DepthBuffer zBuffer(inputData.screenWidth, inputData.screenHeight, logger);
     std::vector<Fragment> processedFragments = zBuffer.process(fragments);
 
     logger.debug(

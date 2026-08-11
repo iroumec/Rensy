@@ -144,12 +144,12 @@ export const ColourCalculator &COLOUR_CALCULATOR = GRADIENT_COLOUR_CALCULATOR;
 // ============================================================================
 
 // DO NOT CHANGE!
-const FaceNormalPrimitiveGenerator FACE_NORMAL_PRIMITIVE_GENERATOR(8, red);
-const VertexNormalPrimitiveGenerator VERTEX_NORMAL_PRIMITIVE_GENERATOR(8, red);
+const FaceNormalPrimitiveGenerator FACE_NORMAL_PRIMITIVE_GENERATOR(1, red);
+const VertexNormalPrimitiveGenerator VERTEX_NORMAL_PRIMITIVE_GENERATOR(1, red);
 
 // SELECT ONE:
-export const PrimitiveGenerator *PRIMITIVE_GENERATOR = nullptr;
-// export const PrimitiveGenerator *PRIMITIVE_GENERATOR = &VERTEX_NORMAL_PRIMITIVE_GENERATOR;
+// export const PrimitiveGenerator *PRIMITIVE_GENERATOR = nullptr;
+export const PrimitiveGenerator *PRIMITIVE_GENERATOR = &VERTEX_NORMAL_PRIMITIVE_GENERATOR;
 // export const PrimitiveGenerator *PRIMITIVE_GENERATOR = &FACE_NORMAL_PRIMITIVE_GENERATOR;
 
 // ============================================================================

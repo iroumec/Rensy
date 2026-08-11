@@ -18,6 +18,7 @@ import :lighting.model.base;
 import :structure.vertex_in;
 import :structure.vertex_out;
 import :transform.projection;
+import :transform.projection;
 import :primitive.generator.base;
 
 // ============================================================================
@@ -38,16 +39,18 @@ import :primitive.generator.base;
 export class GeometryShader
 {
     const Logger &logger;
+    const ProjectionTransform &projectionTransform;
     const PrimitiveGenerator *primitiveGenerator;
     const LightingModel *lightingModel;
 
 public:
     GeometryShader(
         const Logger &logger,
+        const ProjectionTransform &projectionTransform,
         const PrimitiveGenerator *primitiveGenerator = nullptr,
         const LightingModel *lightingModel = nullptr)
-        : logger{logger}, primitiveGenerator{primitiveGenerator},
-          lightingModel{lightingModel} {}
+        : logger{logger}, projectionTransform{projectionTransform},
+          primitiveGenerator{primitiveGenerator}, lightingModel{lightingModel} {}
 
     void processPrimitives(
         std::vector<std::unique_ptr<Primitive>> &primitives) const;

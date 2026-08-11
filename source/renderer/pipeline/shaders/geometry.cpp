@@ -24,6 +24,17 @@ void GeometryShader::processPrimitives(
     if (this->primitiveGenerator)
         this->primitiveGenerator->processPrimitives(primitives);
 
+    for (auto &primitive : primitives)
+        for (VertexOut &vertex : primitive->getVertices())
+        {
+            vertex.clipPosition =
+                this->projectionTransform.apply(vertex.viewPosition);
+
+            this->logger.traceEvery<1000>(
+                "Vertex clip position: {}",
+                vertex.clipPosition.toString());
+        }
+
     if (this->lightingModel)
     {
         for (auto &primitive : primitives)

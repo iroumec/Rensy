@@ -30,7 +30,7 @@ Vector2D::operator Vector3D() const
 
 std::ostream &operator<<(std::ostream &out, const Vector2D &v)
 {
-    return out << v.x() << ' ' << v.y() << ' ';
+    return out << '[' << v.x() << ", " << v.y() << ']';
 }
 
 // ============================================================================

@@ -8,7 +8,6 @@ module renderer;
 // Imports
 // ============================================================================
 
-import :transform.mvp;
 import :transform.view;
 import :logging.logger;
 import :transform.model;
@@ -19,7 +18,7 @@ import :transform.projection;
 import :pipeline.shader.vertex;
 
 // ============================================================================
-// Declarations and Implementations
+// Implementations
 // ============================================================================
 
 std::vector<VertexOut> VertexShader::processVertices(
@@ -29,11 +28,6 @@ std::vector<VertexOut> VertexShader::processVertices(
 
     std::vector<VertexOut> processedVertices(numberOfVertices);
 
-    MVPTransform mvpTransform = MVPTransform(
-        this->modelTransform,
-        this->viewTransform,
-        this->projectionTransform);
-
     // #pragma omp parallel for
     for (unsigned i = 0; i < numberOfVertices; ++i)
     {
@@ -42,8 +36,6 @@ std::vector<VertexOut> VertexShader::processVertices(
             this->modelTransform.apply(vertices[i].localPosition);
         vertexOut.viewPosition =
             this->viewTransform.apply(vertexOut.worldPosition);
-        vertexOut.clipPosition =
-            mvpTransform.apply(vertices[i].localPosition);
 
         vertexOut.colour.set(this->colourGenerator());
 
@@ -55,15 +47,10 @@ std::vector<VertexOut> VertexShader::processVertices(
         if (this->lightingModel)
             this->lightingModel->processVertex(vertexOut);
 
-        this->logger.trace(
-            "Vertex {} world position: {}",
-            i, vertexOut.worldPosition.toString());
-        this->logger.trace(
-            "Vertex {} view position: {}",
-            i, vertexOut.viewPosition.toString());
-        this->logger.trace(
-            "Vertex {} clip position: {}",
-            i, vertexOut.clipPosition.toString());
+        this->logger.traceEvery<100>(
+            "Vertex {} -> World position: {}, view position {}",
+            i, vertexOut.worldPosition.toString(),
+            vertexOut.viewPosition.toString());
 
         processedVertices[i] = vertexOut;
     }

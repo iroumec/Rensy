@@ -134,6 +134,40 @@ public:
             std::forward<Args>(args)...);
     }
 
+    template <std::size_t N>
+    bool shouldTraceEvery() const
+    {
+        static_assert(N > 0);
+
+        if (!enabled(LogLevel::Trace))
+            return false;
+
+        static std::size_t counter = 0;
+
+        return counter++ % N == 0;
+    }
+
+    template <std::size_t N, typename... Args>
+    void traceEvery(
+        std::format_string<Args...> format,
+        Args &&...args) const
+    {
+        static_assert(N > 0);
+
+        if (!enabled(LogLevel::Trace))
+            return;
+
+        static std::size_t counter = 0;
+
+        if (counter++ % N != 0)
+            return;
+
+        log(
+            LogLevel::Trace,
+            format,
+            std::forward<Args>(args)...);
+    }
+
     template <typename... Args>
     void trace(
         std::format_string<Args...> format,

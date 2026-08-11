@@ -16,17 +16,16 @@ import :colour.generator;
 import :lighting.model.base;
 import :structure.vertex_in;
 import :structure.vertex_out;
-import :transform.projection;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
+// Clip position and projection transform is postponed to geometry shader.
 export class VertexShader
 {
     const ModelTransform &modelTransform;
     const ViewTransform &viewTransform;
-    const ProjectionTransform &projectionTransform;
     const ColourGenerator &colourGenerator;
     const Logger &logger;
     const LightingModel *lightingModel;
@@ -35,12 +34,10 @@ public:
     VertexShader(
         const ModelTransform &modelTransform,
         const ViewTransform &viewTransform,
-        const ProjectionTransform &projectionTransform,
         const ColourGenerator &colourGenerator,
         const Logger &logger,
         const LightingModel *lightingModel = nullptr)
         : modelTransform{modelTransform}, viewTransform{viewTransform},
-          projectionTransform{projectionTransform},
           colourGenerator{colourGenerator}, logger{logger},
           lightingModel{lightingModel} {}
 
