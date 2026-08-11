@@ -3,6 +3,7 @@ module;
 #include <span>
 #include <vector>
 #include <string>
+#include <memory>
 
 export module renderer:primitive.topology.base;
 
@@ -17,6 +18,7 @@ import :math.vector.vector_3d;
 // Forward Declarations
 // ============================================================================
 
+class ClipVolume;
 struct PreFragment;
 class RasterizationContext;
 
@@ -24,11 +26,11 @@ class RasterizationContext;
 // Declarations
 // ============================================================================
 
-export class PrimitiveTopology
+export class Primitive
 {
 
 public:
-    virtual ~PrimitiveTopology() = default;
+    virtual ~Primitive() = default;
 
     virtual unsigned getVertexCount() const = 0;
     virtual std::span<VertexOut> getVertices() = 0;
@@ -87,10 +89,11 @@ public:
     virtual std::vector<PreFragment> rasterizeWith(
         const RasterizationContext &context) const = 0;
 
+    virtual std::vector<std::unique_ptr<Primitive>>
+    clip(const ClipVolume &volume) const = 0;
+
     virtual std::string toString() const = 0;
 };
-
-export using Primitive = PrimitiveTopology;
 
 // ============================================================================
 // EOF

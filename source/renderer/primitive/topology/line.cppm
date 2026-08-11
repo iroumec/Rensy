@@ -4,6 +4,7 @@ module;
 #include <array>
 #include <vector>
 #include <string>
+#include <memory>
 
 export module renderer:primitive.topology.line;
 
@@ -26,7 +27,7 @@ class RasterizationContext;
 // Declarations
 // ============================================================================
 
-export class Line : public PrimitiveTopology
+export class Line : public Primitive
 {
     std::array<VertexOut, 2> vertices;
 
@@ -55,6 +56,9 @@ public:
 
     std::vector<PreFragment> rasterizeWith(
         const RasterizationContext &context) const override;
+
+    std::vector<std::unique_ptr<Primitive>>
+    clip(const ClipVolume &volume) const override;
 
     std::string toString() const override;
 };

@@ -27,6 +27,15 @@ compile:
 run: compile
 	@$(EXEC) $(FILES) 
 
+run-boggie:
+	@$(MAKE) run FILES="resources/obj/boggie/body.obj"
+
+run-stone:
+	@$(MAKE) run FILES="resources/obj/giant_stone/Stone.obj"
+
+run-diablo:
+	@$(MAKE) run FILES="resources/obj/diablo3_pose/diablo3_pose.obj"
+
 run-face:
 	@$(MAKE) run FILES="resources/obj/african_head/african_head.obj"
 
@@ -49,3 +58,9 @@ debug:
 		-ex "bt" \
 		-ex "quit" \
 		$(EXEC)
+
+delete-logs:
+	@rm *.log
+
+delete-logs-recursive:
+	@find . -type f -name "*.log" -delete

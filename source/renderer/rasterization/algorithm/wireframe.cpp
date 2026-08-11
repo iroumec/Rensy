@@ -74,21 +74,26 @@ std::vector<PreFragment> WireframeAlgorithm::
 {
     std::vector<PreFragment> prefragments;
 
-    Vector2D a = primitive.getVertexOne().screenPosition;
-    Vector2D b = primitive.getVertexTwo().screenPosition;
-    Vector2D c = primitive.getVertexThree().screenPosition;
+    VertexOut a = primitive.getVertexOne();
+    VertexOut b = primitive.getVertexTwo();
+    VertexOut c = primitive.getVertexThree();
 
     std::vector<Vector2D> vectors;
 
     // This order is important for circular colour generators.
-    drawLine(a, b, vectors);
-    drawLine(c, a, vectors);
-    drawLine(b, c, vectors);
+    drawLine(a.screenPosition, b.screenPosition, vectors);
+    drawLine(c.screenPosition, a.screenPosition, vectors);
+    drawLine(b.screenPosition, c.screenPosition, vectors);
 
     for (Vector2D vector : vectors)
     {
-        // PreFragment prefragment(vector.x(), vector.y());
-        prefragments.push_back(PreFragment(vector.x(), vector.y()));
+        InterpolationData interpolationData{};
+        interpolationData.addInfluence(AttributeInfluence(a, 0.3));
+        interpolationData.addInfluence(AttributeInfluence(b, 0.3));
+        interpolationData.addInfluence(AttributeInfluence(c, 0.3));
+
+        PreFragment prefragment(vector.x(), vector.y(), interpolationData);
+        prefragments.push_back(prefragment);
     }
 
     return prefragments;

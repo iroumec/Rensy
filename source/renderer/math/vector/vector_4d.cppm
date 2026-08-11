@@ -46,7 +46,7 @@ public:
 
     Vector4D operator*(double value) const;
 
-    double dotProduct(const Vector4D &other) const;
+    double dot(const Vector4D &other) const;
 
     operator Vector3D() const;
 

@@ -52,9 +52,6 @@ public:
                 start.viewPosition = startPosition;
                 end.viewPosition = endPosition;
 
-                // std::cout << "start view position" << start.viewPosition << '\n';
-                // std::cout << "end view position" << end.viewPosition << '\n';
-
                 start.colour.set(normalColour);
                 end.colour.set(normalColour);
 

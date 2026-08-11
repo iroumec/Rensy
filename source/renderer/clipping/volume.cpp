@@ -1,31 +1,35 @@
 module;
 
-#include <vector>
-#include <memory>
+#include <array>
 
-export module renderer:pipeline.clipping;
+module renderer;
 
 // ============================================================================
 // Imports
 // ============================================================================
 
-import :logging.logger;
-import :primitive.topology.base;
+import :clipping.volume;
+import :structure.vertex_out;
 
 // ============================================================================
 // Declarations
 // ============================================================================
 
-export class Clipper
+const std::array<ClipPlane, 6> &ClipVolume::getPlanes() const
 {
-    const Logger &logger;
+    return this->planes;
+}
 
-public:
-    Clipper(const Logger &logger) : logger{logger} {}
+bool ClipVolume::inside(const VertexOut &vertex) const
+{
+    for (const ClipPlane &plane : this->planes)
+    {
+        if (!plane.inside(vertex.clipPosition))
+            return false;
+    }
 
-    void applyClipping(
-        std::vector<std::unique_ptr<Primitive>> &primitives) const;
-};
+    return true;
+}
 
 // ============================================================================
 // EOF

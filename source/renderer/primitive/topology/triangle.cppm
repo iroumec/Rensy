@@ -4,6 +4,7 @@ module;
 #include <array>
 #include <vector>
 #include <string>
+#include <memory>
 
 export module renderer:primitive.topology.triangle;
 
@@ -26,9 +27,14 @@ class RasterizationContext;
 // Declarations
 // ============================================================================
 
-export class Triangle : public PrimitiveTopology
+export class Triangle : public Primitive
 {
     std::array<VertexOut, 3> vertices;
+
+private:
+    VertexOut intersection(
+        const VertexOut &a, const VertexOut &b,
+        double da, double db) const;
 
 public:
     Triangle(
@@ -60,6 +66,9 @@ public:
 
     std::vector<PreFragment> rasterizeWith(
         const RasterizationContext &context) const override;
+
+    std::vector<std::unique_ptr<Primitive>>
+    clip(const ClipVolume &volume) const override;
 
     std::string toString() const override;
 };

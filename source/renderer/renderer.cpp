@@ -98,7 +98,10 @@ RenderingOutputData Renderer::
     // CLIPPING
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    // std::vector<Triangle> primitives = applyClipping(primitives);
+    Clipper clipper(logger);
+    clipper.applyClipping(primitives);
+
+    logger.debug("\n> Primitives after clipping: {}", primitives.size());
 
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     // PERSPECTIVE DIVIDE

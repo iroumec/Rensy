@@ -144,13 +144,13 @@ export const ColourCalculator &COLOUR_CALCULATOR = GRADIENT_COLOUR_CALCULATOR;
 // ============================================================================
 
 // DO NOT CHANGE!
-const FaceNormalPrimitiveGenerator FACE_NORMAL_PRIMITIVE_GENERATOR(1, red);
-const VertexNormalPrimitiveGenerator VERTEX_NORMAL_PRIMITIVE_GENERATOR(1, red);
+const FaceNormalPrimitiveGenerator FACE_NORMAL_PRIMITIVE_GENERATOR(0., red);
+const VertexNormalPrimitiveGenerator VERTEX_NORMAL_PRIMITIVE_GENERATOR(0., red);
 
 // SELECT ONE:
 // export const PrimitiveGenerator *PRIMITIVE_GENERATOR = nullptr;
 export const PrimitiveGenerator *PRIMITIVE_GENERATOR = &VERTEX_NORMAL_PRIMITIVE_GENERATOR;
-// export const PrimitiveGenerator *PRIMITIVE_GENERATOR = &FACE_NORMAL_PRIMITIVE_GENERATOR;
+//  export const PrimitiveGenerator *PRIMITIVE_GENERATOR = &FACE_NORMAL_PRIMITIVE_GENERATOR;
 
 // ============================================================================
 // LIGHTING
@@ -215,9 +215,9 @@ export const LineRasterizer &LINE_RASTERIZER = WIREFRAME_ALGORITHM;
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 // SELECTE ONE:
-// const TriangleRasterizer &TRIANGLE_RASTERIZER = VERTEX_ALGORITHM;
-// const TriangleRasterizer &TRIANGLE_RASTERIZER = WIREFRAME_ALGORITHM;
-export const TriangleRasterizer &TRIANGLE_RASTERIZER = BOUNDING_BOX_ALGORITHM;
+// export const TriangleRasterizer &TRIANGLE_RASTERIZER = VERTEX_ALGORITHM;
+export const TriangleRasterizer &TRIANGLE_RASTERIZER = WIREFRAME_ALGORITHM;
+// export const TriangleRasterizer &TRIANGLE_RASTERIZER = BOUNDING_BOX_ALGORITHM;
 
 // ============================================================================
 // FILTERS

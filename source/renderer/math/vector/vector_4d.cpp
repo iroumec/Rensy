@@ -37,7 +37,7 @@ Vector4D Vector4D::operator*(double value) const
         this->w() * value);
 }
 
-double Vector4D::dotProduct(const Vector4D &other) const
+double Vector4D::dot(const Vector4D &other) const
 {
     return this->x() * other.x() +
            this->y() * other.y() +
